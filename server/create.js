@@ -3,19 +3,8 @@ const {
   Client
 } = require('pg')
 
+const pool = require("./dbsetting.js")
 
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'student',
-  password: 'postgres',
-  port: 5432,
-});
-
-const connectionString = 'postgresql://postgres:postgres@localhost:5432/student'
-const client = new Client({
-  connectionString: connectionString,
-})
 
 function create_student(req, res) {
 

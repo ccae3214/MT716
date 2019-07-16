@@ -39,11 +39,13 @@
     "react-scrollbar": "^0.5.4",
     "reactstrap": "^7.1.0",
     "serve": "^11.0.0",
-    "xlsx": "^0.14.3",
+    "xlsx": "^0.14.3"
+
+  },
+  "devDependencies": {
     "nodemon": "^1.18.10",
     "react-scripts": "^2.1.8"
   },
-
   "scripts": {
     "start": "npm-run-all --parallel server:start client:start",
     "client:start": "react-scripts start",
@@ -51,9 +53,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "electron-start": "electron ."
+    "electron-start": "electron .",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "main": "./src/main.js",
+  "homepage": "https://matchtrend.herokuapp.com/index.html",
   "proxy": "http://localhost:5000",
   "browserslist": [
     ">0.2%",

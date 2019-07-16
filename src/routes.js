@@ -38,7 +38,7 @@ const handleAuthentication = ({ location }) => {
 
 export const makeMainRoutes = () => (
   <Container>
-    <Router history={history}>
+    <Router exact path="/" history={history}>
       <div>
         <Route path="/" render={props => <App auth={auth}{...props} />} />
         <Route path="/IndexPage" render={props => <IndexPage auth={auth}{...props} />} />
