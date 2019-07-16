@@ -54,7 +54,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "electron-start": "electron .",
-    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "main": "./src/main.js",
   "homepage": "https://matchtrend.herokuapp.com/index.html",
