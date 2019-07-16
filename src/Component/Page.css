@@ -1,0 +1,140 @@
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+#grade {
+  border-color: '#69b6e8';
+  border-style: 'rounded';
+  border-radius: 8px;
+}
+
+#rightbtn {
+
+  position: fixed;
+  /*固定在網頁上不隨卷軸移動，若要隨卷軸移動用absolute*/
+
+  top: 50%;
+  /*設置垂直位置*/
+
+  right: 1%;
+  /*設置水平位置，依所放的內容多寡需要自行手動調整*/
+
+  background: #ffffff;
+  /*背景顏色*/
+
+  padding: 10px 20px;
+
+  border-radius: 10px;
+  /*圓角*/
+
+  -moz-border-radius: 10px;
+
+  -webkit-border-radius: 10px;
+
+  color: blue;
+}
+
+#leftbtn {
+
+  position: fixed;
+  /*固定在網頁上不隨卷軸移動，若要隨卷軸移動用absolute*/
+
+  top: 50%;
+  /*設置垂直位置*/
+
+  left: 1%;
+  /*設置水平位置，依所放的內容多寡需要自行手動調整*/
+
+  background: #ffffff;
+  /*背景顏色*/
+
+  padding: 10px 20px;
+
+  border-radius: 10px;
+  /*圓角*/
+
+  -moz-border-radius: 10px;
+
+  -webkit-border-radius: 10px;
+
+  color: blue;
+}
+
+#input {
+  border: none;
+  border-bottom: 2px solid blue;
+  text-transform: uppercase;
+}
+
+#input[value=''] {
+  border: none;
+  border-bottom: 2px solid red;
+  text-transform: uppercase;
+}
+
+#input2 {
+  border: none, ;
+  border: 2px solid #6DBBFE;
+  text-transform: uppercase;
+}
+
+#input2[value=''] {
+  border: none, ;
+  border: 2px solid #DC3545;
+  text-transform: uppercase;
+}
+
+#capitalize {
+  text-transform: capitalize;
+}
+
+#topsticky {
+  position: -webkit-sticky;
+  /* Safari */
+  position: 'fiexd';
+  top: 0;
+  padding: 5px;
+  background-color: #cae8ca;
+  border: 2px solid #4CAF50;
+}
+
+.NavLink {
+  color: '#337AB7',
+}

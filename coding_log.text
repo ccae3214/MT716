@@ -1,0 +1,106 @@
+ |--public
+    |--server
+    |--src  |--component|--managePage
+                         --createStudent.js
+                         --manageStudent.js
+                        |--statisticPage
+                        --indexPage.js
+                        --LoginPage,js
+網頁程式宗旨：簡單流暢的操作，明白有效的介面，正確無誤的資料，整合利用的連接
+變數宣告 iAmVar
+資料宣告 i_am_data
+who focus on :
+ALLEN:job order and all 
+HANA :biodata and processing 
+JETHER : encrollment 
+VAL: visa and poea 
+ROWENA([HOWENSE]):Financial Statistics
+RYAN:encoding and programming
+MARY:house keeping%cooking
+ROWENA(RAPOS):teaching and assement
+api(model get)(table,)
+
+
+1/21:{
+    新增快速建立學生功能到菜單上，功能待優化
+    系統重新架構，預計依照功能分配成單一資料夾
+}
+1/22:{
+     流程分割:
+    OEC(POEA)
+    1.PEOS
+    2.PDOS OWWA的出國講習,
+    3.ACCREDITATION(台灣合准函送給POEA核准 ＰＲＡ代工)
+    4.OWWA的出國講習
+    5.OEC
+    at least 10people to aone batch 
+    VISA(TECO)
+    1.NBI
+    2.PSA(NSO)
+    3.LOCAL(MARRIEGED)
+    4.BIRTHCERTIFICATE
+    5.PSA確認(1~4為了cav所以要先做)
+    6.LOCAL
+    7.FORM137(高中畢業證明)
+    8.UMID
+    9.VOTER
+    10.MED/C
+    11.PPT
+    12.CAV(訓練證明)
+    13.ATTESTATION
+    14.VISA
+cav提醒功能：提前在要cav完成的日期扣掉辦理的時間，就提醒要收集完成全部的必須文件
+ex 1/22要拿到就要在1/22-13-2（sunday)=1/7就要拿到全部文件送給tesda
+   
+    行程規劃for 學生
+}
+1/23{
+    了解流程，學習routing問題
+}
+1/24{
+    debugging
+     routering pass porps 問題還在待解決
+     晚上沒網路時亂試試就解決route pass props摟,yehe!!!!!!!!!!!!!!!!!!!!!,來寫取資料的api嘍~~~
+     *學生processing想要做成中間大按鈕顯示學生的文件這時候該辦什麼，畫面左邊是processing列表一字排開，完成標題旁邊要有個打勾
+}
+1/25{
+    明天該做：
+    先做學生頁面取資料
+}
+1/28{
+     oec 政府程序電子化
+     態度決定別人的質疑
+     縮圖thumbnail images & 一般圖img
+     證件到期日警告，
+     medica 1month
+     台灣病人申請監護工 巴氏量表,cav 
+     有小孩兩個出生以上,老人可申請家庭幫傭80歲以上,domesty nc2
+     學生總稱＝ TMA+jobtype+name
+     新增資料表joborder
+}
+   
+2/18{修改api 學生頁面}
+2/19{睡覺}
+2/20{createStudent,addstudentapi has bug in mutipul }
+2/21{fullcalendar 可用於學生行程規劃}
+2/25{幹畫面跟資料必須重做}
+2/26(優化navbar,)
+2/27{重修api之資料串接,自訂css修改,學生頁面的切換學生功能，
+在學號裡加link失敗oronclick之類的觸發函式去切換學生param.id以上兩種方試驗後都沒成功}
+2/28{權限控制學習}
+3/1,2{ui設計}
+3/4,5,6(createstudent deleted  用快速新增和修改取代此功能，/debugging the api,/UpdateStudent,/updatestudent_api, )
+3/7,8,9(fucking api setState resolustion  compelet updateStudent biodata_page)UpdateStudent server rendering 應該要再找不到該學生時轉至錯誤頁面
+3/11(processing search by tma pra 給台菲仲介看進度 )
+3/15(studentpage 只剩新增刪除)
+3/18(processing cash out before bying visa lending out afer bying visa),
+3/19~30{重整studentpage(css,api...),}
+4/1(考慮重整api,身份認證)
+4/2,3{程式流程重新定義（以常用流程稱呼）checkin,schedule,airticket,back_out}
+4/18(documentation,trainning_grade,payment ui api db)
+4/23-27(各頁面組成：document,payment,taining,processing,ui再修改
+)
+6/13{
+    status type 
+      status: ["not_yet_checkin", "ckeck_in", "check_out", "deployed", "finished_contract"],
+}
