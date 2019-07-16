@@ -53,7 +53,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "electron-start": "electron .",
+    "electron-start": "electron ."
   },
   "main": "./src/main.js",
   "homepage": "https://matchtrend.herokuapp.com/index.html",
