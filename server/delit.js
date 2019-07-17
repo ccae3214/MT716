@@ -4,13 +4,8 @@ const {
 } = require('pg')
 
 
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'student',
-  password: 'postgres',
-  port: 5432,
-});
+const pool = require("./dbsetting.js")
+
 
 const connectionString = 'postgresql://postgres:postgres@localhost:5432/student'
 const client = new Client({
