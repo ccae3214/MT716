@@ -45,13 +45,15 @@
   },
 
   "scripts": {
-    "start": "npm-run-all --parallel server:start client:start",
+    "dev": "npm-run-all --parallel server:start client:start",
+    "start": "serve -s build",
     "client:start": "react-scripts start",
-    "server:start": "node ./server/server.js",
+    "server:start": "nodemon ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "electron-start": "electron ."
+    "electron-start": "electron .",
+    "heroku-postbuild": "npm run build"
   },
   "main": "./src/main.js",
   "homepage": "https://matchtrend.herokuapp.com/",
