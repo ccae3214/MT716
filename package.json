@@ -53,7 +53,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "electron-start": "electron .",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm run build "
+    "heroku-postbuild": " npm start "
   },
   "main": "./src/main.js",
   "homepage": ".",
