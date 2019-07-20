@@ -17,12 +17,12 @@ function create_student(req, res) {
 
   /*quickCreateStudent is use when new person ask for MT trainning*/
 
-  const query = "INSERT INTO student (give_name,mid_name,last_name ,encoding_date,status) VALUES ($1,$2,$3,$4,$5)  RETURNING REFERENCE_NO,GIVE_NAME,MID_NAME,LAST_NAME,ENCODING_DATE,STATUS;"
+  const query = "INSERT INTO student (reference_no,give_name,mid_name,last_name ,encoding_date,status) VALUES ($1,$2,$3,$4,$5,$6)  RETURNING REFERENCE_NO,GIVE_NAME,MID_NAME,LAST_NAME,ENCODING_DATE,STATUS;"
   const body = req.body
   const now = new Date().toLocaleDateString()
   const status = 'not_yet_check_in'
   const values = [
-    body.give_name, body.mid_name, body.last_name, now, status
+    body.reference_no, body.give_name, body.mid_name, body.last_name, now, status
   ]
 
   pool.connect((err, db, done) => {

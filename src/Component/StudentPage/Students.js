@@ -146,6 +146,7 @@ export default class Students extends Component {
             <UncontrolledCollapse toggler="#toggler">
               <Card>
                 <CardBody>
+                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'reference_no'} name="reference_no" onChange={this.handleChangeName} value={this.state.name.reference_no} /></Col>
                   <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Last_name'} name="last_name" onChange={this.handleChangeName} value={this.state.name.last_name} /></Col>
                   <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Mid_name'} name="mid_name" onChange={this.handleChangeName} value={this.state.name.mid_name} /></Col>
                   <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Give_name'} name="give_name" onChange={this.handleChangeName} value={this.state.name.give_name} /></Col>

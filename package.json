@@ -48,7 +48,7 @@
     "dev": "serve -s build",
     "start": "npm-run-all --parallel server:start client:start",
     "client:start": "react-scripts start",
-    "server:start": "node ./server/server.js",
+    "server:start": "nodemon ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
