@@ -4,9 +4,16 @@ const {
 } = require('pg')
 
 
-const pool = require("./dbsetting.js")
+const pool = new Pool({
+    user: 'qbfbtixbnjvvam',
+    host: 'ec2-174-129-229-106.compute-1.amazonaws.com',
+    database: 'de2q9t5u56fqop',
+    password: 'd66fe1c2ebed7bd550e323086bf5760ff61d91b38c151d859692a7d50a2902ca',
+    port: 5432,
+    ssl: true
+});
 
-const connectionString = 'postgresql://postgres:postgres@localhost:5432/student'
+const connectionString = 'postgres://qbfbtixbnjvvam:d66fe1c2ebed7bd550e323086bf5760ff61d91b38c151d859692a7d50a2902ca@ec2-174-129-229-106.compute-1.amazonaws.com:5432/de2q9t5u56fqop'
 const client = new Client({
     connectionString: connectionString,
 })

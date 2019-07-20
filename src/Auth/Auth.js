@@ -30,7 +30,7 @@ export default class Auth {
     api.get_user(user).then(res => {
       if (res !== null) {
         this.userProfile = res
-        localStorage.setItem('userProfile', JSON.stringify(res));
+        sessionStorage.setItem('userProfile', JSON.stringify(res));
         api.get_jwt(user).then(res => { this.handleAuthentication(res) }).catch(err => { })
       }
       else {
@@ -41,7 +41,7 @@ export default class Auth {
 
   getprofile() {
 
-    return localStorage.getItem('userProfile')
+    return sessionStorage.getItem('userProfile')
 
   }
 
@@ -61,9 +61,9 @@ export default class Auth {
       authResult.expiresIn * 10000 + new Date().getTime()
     );
 
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
+    sessionStorage.setItem('access_token', authResult.accessToken);
+    sessionStorage.setItem('id_token', authResult.idToken);
+    sessionStorage.setItem('expires_at', expiresAt);
 
     // schedule a token renewal
     // this.scheduleRenewal();
@@ -73,7 +73,7 @@ export default class Auth {
   }
 
   getAccessToken() {
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = sessionStorage.getItem('access_token');
     if (!accessToken) {
       throw new Error('No access token found');
     }
@@ -82,11 +82,11 @@ export default class Auth {
 
   logout() {
     // Clear access token and ID token from local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-    localStorage.removeItem('scopes');
-    localStorage.removeItem('userProfile');
+    sessionStorage.removeItem('access_token');
+    sessionStorage.removeItem('id_token');
+    sessionStorage.removeItem('expires_at');
+    sessionStorage.removeItem('scopes');
+    sessionStorage.removeItem('userProfile');
     this.userProfile = null;
     clearTimeout(this.tokenRenewalTimeout);
     // navigate to the home route
@@ -96,14 +96,14 @@ export default class Auth {
   isAuthenticated() {
     // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
   }
   isboss() {
     // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    let authlevel = JSON.parse(localStorage.getItem('userProfile')).auth;
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
+    let authlevel = JSON.parse(sessionStorage.getItem('userProfile')).auth;
     return new Date().getTime() < expiresAt && authlevel > 2;
   }
   renewToken(user) {
@@ -112,7 +112,7 @@ export default class Auth {
   }
 
   scheduleRenewal() {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    const expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
     const delay = expiresAt - Date.now();
     if (delay > 0) {
       this.tokenRenewalTimeout = setTimeout(() => {

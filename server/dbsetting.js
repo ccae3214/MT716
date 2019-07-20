@@ -10,6 +10,7 @@ const pool = new Pool({
     database: 'de2q9t5u56fqop',
     password: 'd66fe1c2ebed7bd550e323086bf5760ff61d91b38c151d859692a7d50a2902ca',
     port: 5432,
+    ssl: true
 });
 
 module.export = { pool }
