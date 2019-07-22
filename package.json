@@ -45,9 +45,8 @@
     "xlsx": "^0.14.3"
   },
   "scripts": {
-    "dev": "react-scripts build && serve -s build",
-    "start": "node  ./server/server.js",
-    "heroku-postbuild": " npm install && npm install -- only=dev --no-shrinkwrap && npm run build",
+    "dev": " serve -s build",
+    "start": "node ./server/server.js",
     "client:start": "react-scripts start",
     "server:start": "nodemon ./server/server.js",
     "build": "react-scripts build",

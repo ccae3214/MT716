@@ -9,7 +9,7 @@ const bodyParser = require('body-parser')
 const helmet = require('helmet');
 const imagesUpload = require('images-upload-middleware')
 
-const router = require('./routes/index')
+const index = require('./routes/index')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
@@ -23,10 +23,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true,
 }))
-app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'build')))
-app.use('/api', router)
 
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.resolve(__dirname, 'build')));
+app.use('/api', index)
+app.use('/', index);
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../build', '/index.html'))
 })
