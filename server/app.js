@@ -28,8 +28,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.resolve(__dirname, 'build')));
 app.use('/api', index)
-app.use('/', index);
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../build', '/index.html'))
 })
 
