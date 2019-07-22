@@ -46,7 +46,8 @@
   },
   "scripts": {
     "dev": "react-scripts build && serve -s build",
-    "start": "npm-run-all --parallel server:start client:start",
+    "start": "node  ./server/server.js",
+    "heroku-postbuild": " npm install && npm install -- only=dev --no-shrinkwrap && npm run build",
     "client:start": "react-scripts start",
     "server:start": "nodemon ./server/server.js",
     "build": "react-scripts build",
