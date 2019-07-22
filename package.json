@@ -45,7 +45,7 @@
     "xlsx": "^0.14.3"
   },
   "scripts": {
-    "dev": "serve -s build",
+    "dev": "react-scripts build && serve -s build",
     "start": "npm-run-all --parallel server:start client:start",
     "client:start": "react-scripts start",
     "server:start": "nodemon ./server/server.js",
@@ -55,8 +55,8 @@
     "electron-start": "electron ."
   },
   "main": "./src/main.js",
-  "homepage": "https://matchtrend.herokuapp.com",
-  "proxy": "https://localhost:5000",
+  "homepage": "http://matchtrend.herokuapp.com",
+  "proxy": "http://localhost:5000/",
   "browserslist": [
     ">0.2%",
     "not dead",

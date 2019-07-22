@@ -1,4 +1,4 @@
-const baseAPI = '/api'
+const baseAPI = '/api';
 
 const Service = {
 

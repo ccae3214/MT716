@@ -104,3 +104,5 @@ ex 1/22要拿到就要在1/22-13-2（sunday)=1/7就要拿到全部文件送給te
     status type 
       status: ["not_yet_checkin", "ckeck_in", "check_out", "deployed", "finished_contract"],
 }
+7/22 {pods 頁面 show pdos and tma and empolyer name after 1week do pdos}
+廠工不用owwa pdos 合約正本來在做就好

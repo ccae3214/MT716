@@ -14,6 +14,7 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
+
 /**
  * Create http server.
  */
@@ -27,7 +28,7 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-console.log('server listening on port 5000')
+console.log('server listening on port 5555' + process.env.PORT)
 /**
  * Normalize a port into a number, string, or false.
  */
