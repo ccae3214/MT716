@@ -25,11 +25,11 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.static(path.resolve(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../build')));
 app.use('/api', index)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', '/index.html'))
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'))
+
 })
 
 // catch 404 and forward to error handler

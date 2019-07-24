@@ -54,8 +54,8 @@
     "electron-start": "electron ."
   },
   "main": "./src/main.js",
-  "homepage": "http://matchtrend.herokuapp.com",
-  "proxy": "http://localhost:3001/",
+  "homepage": "http://matchtrend.herokuapp.com/",
+  "proxy": "https://localhost:3001",
   "browserslist": [
     ">0.2%",
     "not dead",
