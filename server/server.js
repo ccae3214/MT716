@@ -28,7 +28,7 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-console.log('server listening on port 3001' + process.env.PORT)
+console.log('server listening on port 3001')
 /**
  * Normalize a port into a number, string, or false.
  */

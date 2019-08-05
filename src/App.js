@@ -14,7 +14,8 @@ class App extends Component {
       collapsed: false,
       response: "",
       err: "",
-      profile: this.props.auth.userProfile
+      profile: this.props.auth.userProfile,
+      empolyer: ""
     }
   }
 
@@ -49,7 +50,7 @@ class App extends Component {
 
 
   goTo(route) {
-    this.props.history.replace(`/${route}`)
+    this.props.history.push(`/${route}`)
   }
 
   login() {
@@ -89,8 +90,16 @@ class App extends Component {
           <NavbarBrand><NavLink onClick={this.goTo.bind(this, 'indexPage')}>Match Trend </NavLink></NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} />
           <Collapse isOpen={this.state.collapsed} navbar >
+            <Nav className="ml-auto" navbar >
+              <NavItem >
+                <NavLink onClick={this.goTo.bind(this, 'NoEmpolyerBIOdata')} style={navlink}>NoEmpolyerBIOdata</NavLink>
+              </NavItem>
+            </Nav>
             {this.props.auth.isAuthenticated() ?
               <Nav className="ml-auto" navbar >
+                <NavItem >
+                  <NavLink onClick={this.goTo.bind(this, 'Empolyers')} style={navlink}>Empolyers</NavLink>
+                </NavItem>
                 <NavItem >
                   <NavLink onClick={this.goTo.bind(this, 'Students')} style={navlink}>Students</NavLink>
                 </NavItem>
@@ -108,6 +117,7 @@ class App extends Component {
                   <NavLink onClick={this.goTo.bind(this, 'IntTest')} style={navlink}>Intelligence TEST</NavLink>
                 </NavItem>
               </Nav>
+
               : null}
           </Collapse>
           <Nav navbar>
@@ -121,14 +131,14 @@ class App extends Component {
             {this.props.auth.isAuthenticated() ?
               <NavItem >
 
-                <NavLink onClick={this.logout.bind(this)} style={logout}>log_out </NavLink>
+                <NavLink onClick={this.logout.bind(this)} style={logout}>登出log_out </NavLink>
               </NavItem>
               :
               this.state.collapsed ?
                 null
                 :
                 <NavItem style={login}>
-                  <NavLink onClick={this.goTo.bind(this, 'LOG_IN')} style={login}>LOG_IN</NavLink>
+                  <NavLink onClick={this.goTo.bind(this, 'LOG_IN')} style={login}>登入LOG_IN</NavLink>
                 </NavItem>
             }
           </Nav>

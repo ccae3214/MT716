@@ -11,6 +11,10 @@ import Auth from './Auth/Auth'
 import history from './history'
 import HomePage from './Component/HomePage'
 
+import Empolyers from './Component/EmpolyerPage/Empolyers'
+
+import StudentPageToEmpolyer from './Component/StudentPage/StudentPageToEmpolyer'
+
 import Students from './Component/StudentPage/Students'
 import StudentPage from './Component/StudentPage/StudentPage'
 import DocumentPage from './Component/ProcessingPage/DocumentPage'
@@ -46,6 +50,11 @@ export const makeMainRoutes = () => (
         <Route path="/Log_in" render={props => <LoginPage auth={auth}{...props} />} />
         <Route path="/Undev" render={props => <Undev auth={auth}{...props} />} />
 
+        <Route path="/Empolyers" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+          : <Empolyers auth={auth}{...props} />} />
+
+        <Route path="/NoEmpolyerBIOdata" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+          : <StudentPageToEmpolyer auth={auth}{...props} />} />
 
         <Route path="/UserPage" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
           : <UserPage auth={auth}{...props} />} />

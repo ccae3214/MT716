@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Button, Card, CardBody, CardTitle, Col, Table, Row, Input, InputGroup, UncontrolledCollapse } from 'reactstrap'
+import { Alert, Button, Card, CardBody, CardTitle, Col, Table, Row, Input, InputGroup, Spinner, UncontrolledCollapse } from 'reactstrap'
 import api from './api'
 import { Link } from 'react-router-dom'
 /*searchStudent page mutisearch didn't  done  only show all data and neet to sort the result and mark show new create in result */
@@ -14,6 +14,7 @@ export default class Students extends Component {
       status: ["ALL", "NOT_YET_CHECKIN", "CKECK_IN", "CHECK_OUT", "DEPLOYED", "FINISHED_CONTRACT"],
       name: {
         reference_no: '',
+        job_type: '',
         give_name: '',
         mid_name: '',
         last_name: '',
@@ -28,6 +29,7 @@ export default class Students extends Component {
       },
       response: '',
       err: ''
+
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleChangeName = this.handleChangeName.bind(this);
@@ -147,6 +149,7 @@ export default class Students extends Component {
               <Card>
                 <CardBody>
                   <Col sm="12" md={{ size: 3 }}> <Input placeholder={'reference_no'} name="reference_no" onChange={this.handleChangeName} value={this.state.name.reference_no} /></Col>
+                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'type'} name="job_type" onChange={this.handleChangeName} value={this.state.name.job_type} /></Col>
                   <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Last_name'} name="last_name" onChange={this.handleChangeName} value={this.state.name.last_name} /></Col>
                   <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Mid_name'} name="mid_name" onChange={this.handleChangeName} value={this.state.name.mid_name} /></Col>
                   <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Give_name'} name="give_name" onChange={this.handleChangeName} value={this.state.name.give_name} /></Col>
@@ -241,7 +244,8 @@ export default class Students extends Component {
         {/*學生搜尋結果*/}
         <Row>
           <Col sm="12" md={{ size: 10, offset: 1 }}>
-            <Table hover size="sm" bordered responsive>
+            {!this.state.students[0] ? <div><Spinner type="grow" color="primary" /></div> : null}
+            <Table size="sm" responsive>
               <thead>
                 <tr>
                   <th>編號reference_no</th>
@@ -253,19 +257,22 @@ export default class Students extends Component {
               </thead>
 
               <tbody>
-                {this.state.students.map(student => {
-                  return (
-                    <tr>
-                      <th scope="row" size="1"><Link id='capitalize' to={{ pathname: 'StudentPage/' + student.reference_no }}>{student.jobtype}-{student.reference_no},     {student.last_name} _{student.mid_name}   _{student.give_name}</Link></th>
-                      <td>
-                        <Button outline size='sm' color='info' onClick={this.goto.bind(this, 'StudentPage/' + student.reference_no)} >BIODATA</Button>{" "}
-                      </td>
-                      <td>{student.height}</td>
-                      <td>{student.weight}</td>
-                      <td>{student.age}</td>
-                    </tr>
-                  )
-                })}
+
+                {
+                  this.state.students.map(student => {
+                    return (
+                      <tr>
+                        <th scope="row" size="1"><Link id='capitalize' to={{ pathname: 'StudentPage/' + student.reference_no }}>{student.jobtype}-{student.reference_no},     {student.last_name} _{student.mid_name}   _{student.give_name}</Link></th>
+                        <td style={{ right: '10px' }}>
+                          <Button outline size='sm' color='info' onClick={this.goto.bind(this, 'StudentPage/' + student.reference_no)} >BIODATA</Button>{" "}
+                        </td>
+                        <td>{student.height}</td>
+                        <td>{student.weight}</td>
+                        <td>{student.age}</td>
+                      </tr>
+                    )
+                  })
+                }
               </tbody>
             </Table>
           </Col>

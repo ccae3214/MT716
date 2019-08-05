@@ -42,7 +42,9 @@ router.post('/get_payment', (req, res) => {
 router.post('/get_student', (req, res) => {
   get.get_student(req, res);
 });
-
+router.post('/get_tma_empolyers', (req, res) => {
+  get.get_tma_empolyers(req, res);
+});
 router.post('/get_local_employment', (req, res) => {
   get.get_local_employment(req, res);
 });
@@ -80,6 +82,9 @@ router.post('/create_local_employment', (req, res) => {
 });
 router.post('/student_checkin', (req, res) => {
   create.student_checkin(req, res);
+});
+router.post('/create_empolyer', (req, res) => {
+  create.create_empolyer(req, res);
 });
 
 //update service

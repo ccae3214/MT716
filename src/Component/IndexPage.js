@@ -49,7 +49,6 @@ export default class LoginPage extends Component {
       <div style={index}>
 
         <Jumbotron>
-
           <h1 className="display-3"> (MTS) </h1>
           <p className="lead">A MANAGEMENT WEBSITE FOR  MATCHTREND</p>
           <hr className="my-2" />

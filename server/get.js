@@ -316,6 +316,29 @@ function get_processings(req, res) {
   connet(query);
 
 }
+function get_tma_empolyers(req, res) {
+  function connet(query, values) {
+    pool.connect((err, db, done) => {
+      if (err) {
+        return console.log(err.stack);
+      } else {
+        db.query(query, values, (err, table) => {
+          done();
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log('tma_empolyers geted');
+            return res.json(table.rows[0]);
+          }
+        })
+      }
+    })
+  }
+  const tma = req.body.tma
+  const query = "SELECT * FROM public.empolyer WHERE tma= $1 ;  "
+  const value = [tma]
+  connet(query, value);
+}
 module.exports = {
   get_students,
   get_processings,
@@ -333,4 +356,5 @@ module.exports = {
   get_processing,
   get_payment,
 
+  get_tma_empolyers,
 };

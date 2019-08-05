@@ -40,7 +40,6 @@ function create_student(req, res) {
       })
     }
   })
-
 }
 function create_children_detail(req, res) {
   function connet(query, values) {
@@ -195,6 +194,33 @@ function student_checkin(req, res) {
   ]
 
 }
+
+function create_empolyer(req, res) {
+
+  /*create_empolyer is use when new person ask for MT booking student*/
+
+  const query = "INSERT INTO empolyer ( c_name,e_name,jobtype,tma,departure_date,joborder,approve_contract,worker) VALUES ($1,$2,$3,$4,$5,$6) WHERE tma= $7 RETURNING e_no;"
+  const body = req.body
+  const values = [
+    body.c_name, body.e_name, body.jobtype, body.departure_date, body.joborder, body.approve_contract, body.tma
+  ]
+
+  pool.connect((err, db, done) => {
+    if (err) {
+      return console.log(err);
+    } else {
+      db.query(query, values, (err, table) => {
+        if (err) {
+          done();
+          return res.json("新增失敗()" + err);
+        } else {
+          console.log('empolyer created ', table.rows[0]);
+          return res.json(table.rows[0]);
+        }
+      })
+    }
+  })
+}
 module.exports = {
   create_student,
   create_children_detail,
@@ -204,4 +230,6 @@ module.exports = {
   create_education_background,
 
   student_checkin,
+
+  create_empolyer,
 };
