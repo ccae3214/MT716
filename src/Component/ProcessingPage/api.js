@@ -90,6 +90,24 @@ const Service = {
         });
     });
   },
+  student_checkin2(student_checkin2) {
+    return new Promise((resolve, reject) => {
+      fetch(`${baseAPI}/student_checkin`, {
+        method: 'POST',
+        body: JSON.stringify(student_checkin2),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(response => response.json())
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   get_payment(get_payment) {
     return new Promise((resolve, reject) => {
       fetch(`${baseAPI}/get_payment`, {
@@ -110,7 +128,23 @@ const Service = {
   },
 
   /*update data */
-
+  match(match) {
+    return new Promise((resolve, reject) => {
+      fetch(`${baseAPI}/match`, {
+        method: 'POST',
+        body: JSON.stringify(match),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(json => resolve(json))
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   /*delit data */
   delit_student(delit_student) {
     return new Promise((resolve, reject) => {

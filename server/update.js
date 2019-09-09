@@ -235,8 +235,95 @@ function update_local_employment(req, res) {
   connet(query, value);
 }
 
+function update_empolyer(req, res) {
+  function connet(query, values) {
+    pool.connect((err, db, done) => {
+      if (err) {
+        return console.log(err.stack);
+      } else {
+        db.query(query, values, (err, table) => {
+          done();
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log(body.reference_no + ':student updateed', table.rows);
+            return res.json(table.rows[0]);
+          }
+        })
+      }
+    })
+  }
+  const body = req.body
+  const query = "UPDATE public.empolyer SET c_name=$3,jobtype=$4,departure_date=$5,joborder=$6,approve_contract=$7 WHERE e_no= $1 AND tma=$2 RETURNING *;  "
+  const value =
+    [body.e_no,
+    body.tma,
+    body.c_name,
+    body.jobtype,
+    body.departure_date,
+    body.joborder,
+    body.approve_contract
+    ]
+  connet(query, value);
+}
+function empolyer_book(req, res) {
+  function connet(query, values) {
+    pool.connect((err, db, done) => {
+      if (err) {
+        return console.log(err.stack);
+      } else {
+        db.query(query, values, (err, table) => {
+          done();
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log(body.reference_no + ':student updateed', table.rows);
+            return res.json(table.rows[0]);
+          }
+        })
+      }
+    })
+  }
+  const body = req.body
+  const query = "UPDATE public.empolyer SET worker=$3 WHERE e_no= $1 AND tma=$2 RETURNING *;  "
+  const value =
+    [
+      body.e_no,
+      body.tma,
+      body.worker,
 
+    ]
+  connet(query, value);
+}
+function match(req, res) {
+  function connet(query, values) {
+    pool.connect((err, db, done) => {
+      if (err) {
+        return console.log(err.stack);
+      } else {
+        db.query(query, values, (err, table) => {
+          done();
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log(body.reference_no + ':student updateed', table.rows);
+            return res.json(table.rows[0]);
+          }
+        })
+      }
+    })
+  }
+  const body = req.body
+  const query = "UPDATE public.empolyer SET worker=$3 WHERE e_no= $1 AND tma=$2 RETURNING *;  "
+  const value =
+    [
+      body.e_no,
+      body.tma,
+      body.worker,
 
+    ]
+  connet(query, value);
+}
 
 module.exports = {
 
@@ -247,4 +334,7 @@ module.exports = {
   update_education_background,
   update_children_detail,
 
+  update_empolyer,
+  empolyer_book,
+  match
 };

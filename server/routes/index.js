@@ -42,9 +42,6 @@ router.post('/get_payment', (req, res) => {
 router.post('/get_student', (req, res) => {
   get.get_student(req, res);
 });
-router.post('/get_tma_empolyers', (req, res) => {
-  get.get_tma_empolyers(req, res);
-});
 router.post('/get_local_employment', (req, res) => {
   get.get_local_employment(req, res);
 });
@@ -59,6 +56,10 @@ router.post('/get_education_background', (req, res) => {
 });
 router.post('/get_children_detail', (req, res) => {
   get.get_children_detail(req, res);
+});
+
+router.post('/get_tma_empolyers', (req, res) => {
+  get.get_tma_empolyers(req, res);
 });
 
 //create service
@@ -82,6 +83,9 @@ router.post('/create_local_employment', (req, res) => {
 });
 router.post('/student_checkin', (req, res) => {
   create.student_checkin(req, res);
+});
+router.post('/student_checkin2', (req, res) => {
+  create.student_checkin2(req, res);
 });
 router.post('/create_empolyer', (req, res) => {
   create.create_empolyer(req, res);
@@ -107,6 +111,16 @@ router.post('/update_local_employment', (req, res) => {
   update.update_local_employment(req, res);
 });
 
+router.post('/update_empolyer', (req, res) => {
+  update.update_empolyer(req, res);
+});
+router.post('/empolyer_book', (req, res) => {
+  update.empolyer_book(req, res);
+});
+router.post('/match', (req, res) => {
+  update.match(req, res);
+});
+
 //delit(delete) service
 router.post('/delit_student', (req, res) => {
   delit.delit_student(req, res);
@@ -125,6 +139,10 @@ router.post('/delit_family_background', (req, res) => {
 });
 router.post('/delit_local_employment', (req, res) => {
   delit.delit_local_employment(req, res);
+});
+
+router.post('/delit_empolyer', (req, res) => {
+  delit.delit_empolyer(req, res);
 });
 
 

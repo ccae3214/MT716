@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import { Jumbotron } from 'reactstrap'
 import { isBoolean } from 'util';
+import Iframe from 'react-iframe'
+
 /* this page is customsize indexＰage for show information to viewer ex:customer/manager/web designer */
 export default class LoginPage extends Component {
   constructor(props) {
     super(props)
+
+
+
 
     this.state = {
       date: new Date().toLocaleDateString(),
@@ -46,14 +51,18 @@ export default class LoginPage extends Component {
     }
 
     return (
-      <div style={index}>
+      <div >
 
-        <Jumbotron>
-          <h1 className="display-3"> (MTS) </h1>
-          <p className="lead">A MANAGEMENT WEBSITE FOR  MATCHTREND</p>
+        <Jumbotron fluid>
+          <h1 className="display-3"> WELCOME </h1>
+          <hr className="my-2" />
+          <hr className="my-2" />
+          <p className="lead">MATCHTREND TRAINNING & ASSESSMENT CENTER</p>
+          <hr className="my-2" />
           <hr className="my-2" />
         </Jumbotron>
-
+        <h1>HERE WE ARE.</h1>
+        <Iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.3390826391515!2d121.00146461483348!3d14.636683439779487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b74509509373%3A0x8f90c0140664e47e!2sMatch+Trend+training+and+assessment+center!5e0!3m2!1sfil!2sph!4v1566435916439!5m2!1sfil!2sph" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></Iframe>
       </div>
     )
   }

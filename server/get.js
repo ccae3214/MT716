@@ -327,15 +327,14 @@ function get_tma_empolyers(req, res) {
           if (err) {
             console.log(err.stack);
           } else {
-            console.log('tma_empolyers geted');
-            return res.json(table.rows[0]);
+            return res.json(table.rows);
           }
         })
       }
     })
   }
-  const tma = req.body.tma
-  const query = "SELECT * FROM public.empolyer WHERE tma= $1 ;  "
+  const tma = req.body.company_name
+  const query = "SELECT * FROM public.empolyer WHERE tma= $1 ORDER BY tma ASC;  "
   const value = [tma]
   connet(query, value);
 }

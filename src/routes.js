@@ -13,7 +13,7 @@ import HomePage from './Component/HomePage'
 
 import Empolyers from './Component/EmpolyerPage/Empolyers'
 
-import StudentPageToEmpolyer from './Component/StudentPage/StudentPageToEmpolyer'
+import NoEmpolyerBIOdata from './Component/StudentPage/NoEmpolyerBIOdata'
 
 import Students from './Component/StudentPage/Students'
 import StudentPage from './Component/StudentPage/StudentPage'
@@ -53,13 +53,13 @@ export const makeMainRoutes = () => (
         <Route path="/Empolyers" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
           : <Empolyers auth={auth}{...props} />} />
 
-        <Route path="/NoEmpolyerBIOdata" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
-          : <StudentPageToEmpolyer auth={auth}{...props} />} />
+        <Route path="/NoEmpolyerBIOdata" render={props =>
+          <NoEmpolyerBIOdata auth={auth}{...props} />} />
 
         <Route path="/UserPage" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
           : <UserPage auth={auth}{...props} />} />
 
-        <Route path="/Students" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/Students" render={props => !auth.isAuthenticated() ? !auth.ismt() ? <Redirect to="/HomePage" /> : <Redirect to="/HomePage" />
           : <Students auth={auth}{...props} />} />
 
         <Route path="/StudentPage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />

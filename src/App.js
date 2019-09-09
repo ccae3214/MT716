@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import { Nav, NavLink, NavbarBrand, NavbarToggler, NavItem, Collapse, Navbar } from 'reactstrap'
+import { Button, SVGIcon } from 'react-md'
 /*this is  navbar controller  */
 import api from './api'
 class App extends Component {
@@ -86,16 +87,16 @@ class App extends Component {
     }
     return (
       <div>
-        <Navbar expand='md' color="light" fixed="top" style={navbar}>
-          <NavbarBrand><NavLink onClick={this.goTo.bind(this, 'indexPage')}>Match Trend </NavLink></NavbarBrand>
+        <Navbar color="light" light expand="md">
+          <NavbarBrand ><NavLink onClick={this.goTo.bind(this, 'indexPage')}>Match Trend </NavLink></NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} />
-          <Collapse isOpen={this.state.collapsed} navbar >
+          <Collapse isOpen={this.state.collapsed} navbar>
             <Nav className="ml-auto" navbar >
               <NavItem >
-                <NavLink onClick={this.goTo.bind(this, 'NoEmpolyerBIOdata')} style={navlink}>NoEmpolyerBIOdata</NavLink>
+                <NavLink><a href='https://1drv.ms/f/s!Aka-YIHxDxfFvyAWbXA5tDyCxgJc' target="_blank" style={navlink}>無雇主工人資料ondrive連結</a></NavLink>
               </NavItem>
             </Nav>
-            {this.props.auth.isAuthenticated() ?
+            {this.props.auth.isAuthenticated() ? this.props.auth.ismt() ?
               <Nav className="ml-auto" navbar >
                 <NavItem >
                   <NavLink onClick={this.goTo.bind(this, 'Empolyers')} style={navlink}>Empolyers</NavLink>
@@ -118,7 +119,7 @@ class App extends Component {
                 </NavItem>
               </Nav>
 
-              : null}
+              : null : null}
           </Collapse>
           <Nav navbar>
             {this.props.auth.isAuthenticated() ?

@@ -37,7 +37,7 @@ function delit_student(req, res) {
     })
   }
   const body = req.body
-  const query = "DELETE FROM public.student WHERE reference_no = $1  RETURNING REFERENCE_NO;  "
+  const query = "DELETE FROM public.student WHERE reference_no = $1  RETURNING REFERENCE_NO,JOBTYPE;  "
   const value =
     [
       body.reference_no,
@@ -179,7 +179,33 @@ function delit_children_detail(req, res) {
     ]
   connet(query, value);
 }
-
+function delit_empolyer(req, res) {
+  function connet(query, values) {
+    pool.connect((err, db, done) => {
+      if (err) {
+        return console.log(err.stack);
+      } else {
+        db.query(query, values, (err, table) => {
+          done();
+          if (err) {
+            console.log(err.stack);
+          } else {
+            console.log(body.e_no + ' empolyer delited', table.rowCount);
+            return res.json(table);
+          }
+        })
+      }
+    })
+  }
+  const body = req.body
+  const query = "DELETE FROM public.empolyer WHERE e_no = $1 AND tma = $2 ;  "
+  const value =
+    [
+      body.e_no,
+      body.tma
+    ]
+  connet(query, value);
+}
 module.exports = {
   delit_student,
   delit_local_employment,
@@ -188,4 +214,5 @@ module.exports = {
   delit_education_background,
   delit_children_detail,
 
+  delit_empolyer,
 };

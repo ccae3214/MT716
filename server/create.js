@@ -17,12 +17,12 @@ function create_student(req, res) {
 
   /*quickCreateStudent is use when new person ask for MT trainning*/
 
-  const query = "INSERT INTO student (reference_no,give_name,mid_name,last_name ,encoding_date,status) VALUES ($1,$2,$3,$4,$5,$6)  RETURNING REFERENCE_NO,GIVE_NAME,MID_NAME,LAST_NAME,ENCODING_DATE,STATUS;"
+  const query = "INSERT INTO student (reference_no,jobtype,give_name,mid_name,last_name ,encoding_date,status) VALUES ($1,$2,$3,$4,$5,$6,$7)  RETURNING REFERENCE_NO,JOBTYPE,GIVE_NAME,MID_NAME,LAST_NAME,ENCODING_DATE,STATUS;"
   const body = req.body
   const now = new Date().toLocaleDateString()
   const status = 'not_yet_check_in'
   const values = [
-    body.reference_no, body.give_name, body.mid_name, body.last_name, now, status
+    body.reference_no, body.jobtype, body.give_name, body.mid_name, body.last_name, now, status
   ]
 
   pool.connect((err, db, done) => {
@@ -186,23 +186,48 @@ function student_checkin(req, res) {
       })
     }
   })
+
   const query = "INSERT INTO processing (reference_no,checkin_date) VALUES ($1,$2)  RETURNING reference_no,checkin_date;"
   const body = req.body
-  console.log(body);
   const values = [
     body.reference_no, body.checkin_date
   ]
 
 }
 
+function student_checkin2(req, res) {
+
+  pool.connect((err, db, done) => {
+    if (err) {
+      return console.log(err);
+    } else {
+      db.query(query2, values, (err, table) => {
+        if (err) {
+          done();
+          return res.json("新增失敗()" + err);
+        } else {
+          return res.json(table.rows[0]);
+        }
+      })
+
+    }
+  })
+
+  const query2 = "UPDATE public.student SET status='check_in' WHERE reference_no= $1   "
+  const body = req.body
+  const values = [
+    body.reference_no, body.checkin_date
+  ]
+
+}
 function create_empolyer(req, res) {
 
   /*create_empolyer is use when new person ask for MT booking student*/
 
-  const query = "INSERT INTO empolyer ( c_name,e_name,jobtype,tma,departure_date,joborder,approve_contract,worker) VALUES ($1,$2,$3,$4,$5,$6) WHERE tma= $7 RETURNING e_no;"
+  const query = "INSERT INTO empolyer ( c_name,e_name,jobtype,tma,departure_date,job_order,approved_contract) VALUES ($1,$2,$3,$4,$5,$6,$7)  RETURNING e_no;"
   const body = req.body
   const values = [
-    body.c_name, body.e_name, body.jobtype, body.departure_date, body.joborder, body.approve_contract, body.tma
+    body.c_name, body.e_name, body.jobtype, body.tma, body.departure_date, body.joborder, body.approve_contract
   ]
 
   pool.connect((err, db, done) => {
@@ -212,6 +237,7 @@ function create_empolyer(req, res) {
       db.query(query, values, (err, table) => {
         if (err) {
           done();
+          console.log('empolyer 新增失敗 ', err);
           return res.json("新增失敗()" + err);
         } else {
           console.log('empolyer created ', table.rows[0]);
@@ -230,6 +256,7 @@ module.exports = {
   create_education_background,
 
   student_checkin,
+  student_checkin2,
 
   create_empolyer,
 };

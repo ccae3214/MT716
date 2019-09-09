@@ -99,12 +99,19 @@ export default class Auth {
     let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
   }
-  isboss() {
+  ismt() {
     // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
-    let authlevel = JSON.parse(sessionStorage.getItem('userProfile')).auth;
-    return new Date().getTime() < expiresAt && authlevel > 2;
+    let authmt = JSON.parse(sessionStorage.getItem('userProfile')).company_name;
+
+    return new Date().getTime() < expiresAt && authmt == 'mt';
+  }
+  isboss() {
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
+    let auth = JSON.parse(sessionStorage.getItem('userProfile')).auth;
+
+    return new Date().getTime() < expiresAt && auth > 2;
   }
   renewToken(user) {
     api.get_jwt(user).then(res => { this.handleAuthentication(res) }).catch(err => { })

@@ -19,19 +19,25 @@ export default class IntTest extends Component {
     if (this.state.on) {
       clearInterval(this.timer);
       console.log("stop")
+      this.setState({ on: false })
+
     } else {
       //計時器
-      console.log("start")
-      this.timer = setInterval(() => {
-        this.setState({ time: ++this.state.time })
-      }, 1000)
-      this.timer2 = setTimeout(() => {
+      if (this.state.time !== 30) {
+        console.log("start")
+        this.timer = setInterval(() => {
+          if (this.state.time < 30)
+            this.setState({ time: ++this.state.time })
+          else {
+            this.setState({ on: false })
+          }
+        }, 1000)
+      }
+      else {
         clearInterval(this.timer);
         this.setState({ on: !this.state.on })
-      }, 30000)
+      }
     }
-    //時間開關
-    this.setState({ on: !this.state.on })
   }
 
   stopTimer() {

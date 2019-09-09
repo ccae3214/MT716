@@ -21,6 +21,11 @@ export default class ProcessingPage extends Component {
       checkin: [],
       ckeckinone: {},
       activeTab: '1',
+      match: {
+        student: '',
+        empolyer: '',
+        date: new Date().toLocaleDateString()
+      }
     }
     this.toggle = this.toggle.bind(this);
     this.onhandelChange = this.onhandelChange.bind(this);
@@ -47,9 +52,21 @@ export default class ProcessingPage extends Component {
           api.get_ckeckin_students().then(res => { this.setState({ checkin_result: res }) }).catch(err => { this.setState({ err_students: err }) }),
         )
         .catch(err => { alert(err) })
+      api.student_checkin2(checkin)
+        .then(res =>
+          api.get_not_ckeckin_students().then(res => { this.setState({ not_checkin_result: res }) }).catch(err => { this.setState({ err_students: err }) }),
+          api.get_ckeckin_students().then(res => { this.setState({ checkin_result: res }) }).catch(err => { this.setState({ err_students: err }) }),
+        )
+        .catch(err => { alert(err) })
     })
   }
+  match() {
+    api.match(this.state.match).then(res => { this.setState({ match: res }) }).catch(err => { this.setState({ matcherr: err }) })
+  }
+  handlematchonchange(event) {
 
+
+  }
   onhandelChange(event) {
     const { value, id } = event.target
     const check = {

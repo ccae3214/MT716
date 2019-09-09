@@ -9,55 +9,64 @@ export default class Students extends Component {
 
     this.state = {
       date: new Date().toLocaleDateString(),
-      notifys: [],
       jobtypeSelected: ["ALL", "CTF", "CGF", "SWF", "FF", "CTM", "CGM", "SWM", "FM"],
-      status: ["ALL", "NOT_YET_CHECKIN", "CKECK_IN", "CHECK_OUT", "DEPLOYED", "FINISHED_CONTRACT"],
-      name: {
+      status: ["ALL", "not_yet_check_in", "ckeck_in", "check_out", "deployed", "finished_contract"],
+      createstudent: {
         reference_no: '',
-        job_type: '',
+        jobtype: '',
         give_name: '',
         mid_name: '',
         last_name: '',
       },
-      students: [],
-      searchresult: [],
-      selectedjobtype: '',
-      selectedName: ' ',
-      selectstudent: '',
       delit_student: {
         reference_no: ''
       },
+      students: [],
+      searchresult: [],
+
+      selectedjobtype: '',
+      selectedstatus: '',
+      selectedname: ' ',
+      selectedheighttype: ' ',
+      selectedheight: ' ',
+      selectedweighttype: ' ',
+      selectedweight: ' ',
+
+      selectstudent: '',
       response: '',
       err: ''
 
     };
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeCreateStudent = this.handleChangeCreateStudent.bind(this);
     this.handleChangeDelitStudent = this.handleChangeDelitStudent.bind(this);
 
   }
   componentDidMount() {
     this.setState({
-      name: {
+      createstudent: {
         reference_no: '',
+        jobtype: '',
         give_name: '',
         mid_name: '',
         last_name: '',
       }
     })
     api.get_students().then(response => { this.setState({ students: response }) }).catch(err => { this.setState({ err_students: err }) });
+    //searchresult dont delit it 
+    api.get_students().then(response => { this.setState({ searchresult: response }) }).catch(err => { this.setState({ err_students: err }) });
 
   }
   componentWillMount() {
-    api.get_students().then(response => { this.setState({ searchresult: response }) }).catch(err => { this.setState({ err_students: err }) });
+    api.get_students().then(response => { this.setState({ students: response }) }).catch(err => { this.setState({ err_students: err }) });
 
   }
 
   createstudent() {
-    api.create_student(this.state.name).then(res => {
-      alert('reference_no:' + (res.reference_no) + '\n' + res.give_name + '_' + res.mid_name + '_' + res.last_name + '\n' + 'create successed')
-      api.get_students().then(response => { this.setState({ searchresult: response }) }).catch(err => { this.setState({ err_students: err }) });
-      this.setState({ name: { reference_no: '', give_name: '', mid_name: '', last_name: '', } });
+    api.create_student(this.state.createstudent).then(res => {
+      alert((res.jobtype) + '-' + (res.reference_no) + '\n' + res.give_name + '_' + res.mid_name + '_' + res.last_name + '\n' + 'create successed')
+      api.get_students().then(response => { this.setState({ students: response }) }).catch(err => { this.setState({ err_students: err }) });
+      this.setState({ createstudent: { reference_no: '', jobtype: '', give_name: '', mid_name: '', last_name: '', } });
       api.create_family_background(res).then((ress) => {
       }).catch((err) => {
         this.setState({ err: err })
@@ -69,17 +78,17 @@ export default class Students extends Component {
   }
   deletestudent() {
     api.delit_student(this.state.delit_student).then(res => {
-      alert('reference_no:' + (res.reference_no) + '\n' + 'delete successed')
-      api.get_students().then(response => { this.setState({ searchresult: response }) }).catch(err => { this.setState({ err_students: err }) });
+      alert((res.jobtype) + '-' + (res.reference_no) + '\n' + 'delete successed')
+      api.get_students().then(response => { this.setState({ students: response }) }).catch(err => { this.setState({ err_students: err }) });
     }).catch(err => { this.setState({ err_delit_student: err }) });
   }
   goto(route) {
     this.props.history.push(`/${route}`)
   }
-  handleChangeName(event) {
-    const name = this.state.name
-    name[event.target.name] = event.target.value
-    this.setState({ name })
+  handleChangeCreateStudent(event) {
+    const createstudent = this.state.createstudent
+    createstudent[event.target.name] = event.target.value
+    this.setState({ createstudent })
   }
   handleChangeDelitStudent(event) {
     const delit_student = this.state.delit_student
@@ -91,7 +100,7 @@ export default class Students extends Component {
     const searchresult = this.state.searchresult
     var students = searchresult
 
-    ///jobtypesearch類別搜索done
+    ///jobtypes類別搜索done
     var selectedjobtype = this.state.selectedjobtype
     if (event.target.name === 'jobtype') {
       selectedjobtype = event.target.value
@@ -100,6 +109,23 @@ export default class Students extends Component {
       if (selectedjobtype !== 'ALL') {
         newsearchresult = students.filter(student => {
           return (student.jobtype === selectedjobtype)
+        })
+        this.setState({ students: newsearchresult })
+      }
+      else {
+        this.setState({ students: searchresult })
+      }
+    }
+    ///
+    ///status類別搜索done
+    var selectedstatus = this.state.selectedstatus
+    if (event.target.name === 'status') {
+      selectedstatus = event.target.value
+      this.setState({ selectedstatus: selectedstatus })
+      var newsearchresult = []
+      if (selectedstatus !== 'ALL') {
+        newsearchresult = students.filter(student => {
+          return (student.status === selectedstatus)
         })
         this.setState({ students: newsearchresult })
       }
@@ -148,11 +174,16 @@ export default class Students extends Component {
             <UncontrolledCollapse toggler="#toggler">
               <Card>
                 <CardBody>
-                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'reference_no'} name="reference_no" onChange={this.handleChangeName} value={this.state.name.reference_no} /></Col>
-                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'type'} name="job_type" onChange={this.handleChangeName} value={this.state.name.job_type} /></Col>
-                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Last_name'} name="last_name" onChange={this.handleChangeName} value={this.state.name.last_name} /></Col>
-                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Mid_name'} name="mid_name" onChange={this.handleChangeName} value={this.state.name.mid_name} /></Col>
-                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Give_name'} name="give_name" onChange={this.handleChangeName} value={this.state.name.give_name} /></Col>
+                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'CTF'} type="select" name="jobtype" onChange={this.handleChangeCreateStudent} value={this.state.createstudent.jobtype} > {this.state.jobtypeSelected.map(Selected => {
+                    return (
+                      <option value={Selected}>{Selected}</option>
+                    )
+                  })}</Input></Col>
+                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'reference_no'} name="reference_no" onChange={this.handleChangeCreateStudent} value={this.state.createstudent.reference_no} /></Col>
+
+                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Last_name'} name="last_name" onChange={this.handleChangeCreateStudent} value={this.state.createstudent.last_name} /></Col>
+                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Mid_name'} name="mid_name" onChange={this.handleChangeCreateStudent} value={this.state.createstudent.mid_name} /></Col>
+                  <Col sm="12" md={{ size: 3 }}> <Input placeholder={'Give_name'} name="give_name" onChange={this.handleChangeCreateStudent} value={this.state.createstudent.give_name} /></Col>
                   <Col sm="12" md={{ size: 3 }}><Button outline color="primary" block size='sm' onClick={this.createstudent.bind(this)}>CREATE</Button></Col>
                 </CardBody>
               </Card>
@@ -165,7 +196,7 @@ export default class Students extends Component {
                   <Col sm="12" md={{ size: 6 }}>
                     <Input type="select" placeholder={'reference_no'} name="reference_no" onChange={this.handleChangeDelitStudent} value={this.state.delit_student.reference_no} >
                       <option value={0}>{'please select'}</option>
-                      {this.state.searchresult.map(student => {
+                      {this.state.students.map(student => {
                         return (
                           <option value={student.reference_no}>{student.reference_no}</option>
                         )
@@ -226,6 +257,12 @@ export default class Students extends Component {
               <Card>
                 <p>height</p>
                 <CardBody>
+                  <InputGroup>
+                    <Input type="select" name="status" onChange={this.handleSearch}>
+                      <option value='>'>{'>'}</option>
+                      <option value='<'>{'<'}</option>
+                    </Input>
+                  </InputGroup>
                   <Input name='height' onChange={this.handleSearch} />
                 </CardBody>
               </Card>
@@ -234,6 +271,12 @@ export default class Students extends Component {
               <Card>
                 <p >weight</p>
                 <CardBody>
+                  <InputGroup>
+                    <Input type="select" name="status" onChange={this.handleSearch}>
+                      <option value='>'>{'>'}</option>
+                      <option value='<'>{'<'}</option>
+                    </Input>
+                  </InputGroup>
                   <Input name='height' onChange={this.handleSearch} />
                 </CardBody>
               </Card>
@@ -244,14 +287,13 @@ export default class Students extends Component {
         {/*學生搜尋結果*/}
         <Row>
           <Col sm="12" md={{ size: 10, offset: 1 }}>
-            {!this.state.students[0] ? <div><Spinner type="grow" color="primary" /></div> : null}
+            {!this.state.students ? <div><Spinner type="grow" color="primary" /></div> : null}
             <Table size="sm" responsive>
               <thead>
                 <tr>
                   <th>編號reference_no</th>
-                  <th>資料data</th>
-                  <th>身高height</th>
-                  <th>體重weight</th>
+                  <th>身高/體重height/weight</th>
+                  <th>狀態status</th>
                   <th>年紀age</th>
                 </tr>
               </thead>
@@ -263,11 +305,8 @@ export default class Students extends Component {
                     return (
                       <tr>
                         <th scope="row" size="1"><Link id='capitalize' to={{ pathname: 'StudentPage/' + student.reference_no }}>{student.jobtype}-{student.reference_no},     {student.last_name} _{student.mid_name}   _{student.give_name}</Link></th>
-                        <td style={{ right: '10px' }}>
-                          <Button outline size='sm' color='info' onClick={this.goto.bind(this, 'StudentPage/' + student.reference_no)} >BIODATA</Button>{" "}
-                        </td>
-                        <td>{student.height}</td>
-                        <td>{student.weight}</td>
+                        <td>{student.height}/{student.weight}</td>
+                        <td>{student.status}</td>
                         <td>{student.age}</td>
                       </tr>
                     )
