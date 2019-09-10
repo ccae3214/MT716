@@ -59,19 +59,20 @@ export const makeMainRoutes = () => (
         <Route path="/UserPage" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
           : <UserPage auth={auth}{...props} />} />
 
-        <Route path="/Students" render={props => !auth.isAuthenticated() ? !auth.ismt() ? <Redirect to="/HomePage" /> : <Redirect to="/HomePage" />
+        <Route path="/Students" render={props => !auth.canUseStudent() ? <Redirect to="/HomePage" />
+
           : <Students auth={auth}{...props} />} />
 
-        <Route path="/StudentPage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/StudentPage/:id" render={props => !auth.canUseStudent() ? <Redirect to="/HomePage" />
           : <StudentPage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/DocumentPage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/DocumentPage/:id" render={props => !auth.canUseProcessing() ? <Redirect to="/HomePage" />
           : <DocumentPage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/TrainingGradePage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/TrainingGradePage/:id" render={props => !auth.canUseTraining() ? <Redirect to="/HomePage" />
           : <TrainingGradePage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/PaymentPage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/PaymentPage/:id" render={props => !auth.canUseAccounting() ? <Redirect to="/HomePage" />
           : <PaymentPage auth={auth}{...props} id={props.match.params.id} />} />
 
-        <Route path="/Processing" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/Processing" render={props => !auth.canUseProcessing() ? <Redirect to="/HomePage" />
           : <Processing auth={auth}{...props} />} />
 
         <Route path="/SchedulePage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
@@ -81,10 +82,10 @@ export const makeMainRoutes = () => (
         <Route path="/AirTicketPage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
           : <AirTicketPage auth={auth}{...props} id={props.match.params.id} />} />
 
-        <Route path="/Training" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/Training" render={props => !auth.canUseTraining() ? <Redirect to="/HomePage" />
           : <Training auth={auth}{...props} />} />
 
-        <Route path="/Payment" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/Payment" render={props => !auth.canUseAccounting() ? <Redirect to="/HomePage" />
           : <Payment auth={auth}{...props} />} />
 
         <Route path="/IntTest" render={props => <IntTest auth={auth}{...props} />} />

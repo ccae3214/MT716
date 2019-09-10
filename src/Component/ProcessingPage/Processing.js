@@ -48,14 +48,12 @@ export default class ProcessingPage extends Component {
         this.setState({ ckeckinone: checkin })
       api.student_checkin(checkin)
         .then(res =>
-          api.get_not_ckeckin_students().then(res => { this.setState({ not_checkin_result: res }) }).catch(err => { this.setState({ err_students: err }) }),
           api.get_ckeckin_students().then(res => { this.setState({ checkin_result: res }) }).catch(err => { this.setState({ err_students: err }) }),
         )
         .catch(err => { alert(err) })
       api.student_checkin2(checkin)
         .then(res =>
           api.get_not_ckeckin_students().then(res => { this.setState({ not_checkin_result: res }) }).catch(err => { this.setState({ err_students: err }) }),
-          api.get_ckeckin_students().then(res => { this.setState({ checkin_result: res }) }).catch(err => { this.setState({ err_students: err }) }),
         )
         .catch(err => { alert(err) })
     })

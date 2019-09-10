@@ -115,6 +115,9 @@ export default class IntTest extends Component {
         </Table>
 
         <Button color='danger' onClick={this.startTimer} >{this.state.on ? 'stop' : 'start'}</Button>
+        {' '}
+        <Button color='primary' onClick={() => { window.print() }} >{'列印print'}</Button>
+
         <p>成績(個/30秒):<input value={this.state.selectnumber} /></p>
         <p>測驗人:<input /></p>
         <p>監考人:<input /></p>

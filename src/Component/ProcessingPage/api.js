@@ -92,7 +92,7 @@ const Service = {
   },
   student_checkin2(student_checkin2) {
     return new Promise((resolve, reject) => {
-      fetch(`${baseAPI}/student_checkin`, {
+      fetch(`${baseAPI}/student_checkin2`, {
         method: 'POST',
         body: JSON.stringify(student_checkin2),
         headers: {

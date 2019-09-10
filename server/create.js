@@ -213,10 +213,10 @@ function student_checkin2(req, res) {
     }
   })
 
-  const query2 = "UPDATE public.student SET status='check_in' WHERE reference_no= $1   "
+  const query2 = "UPDATE public.student SET status=$1  WHERE reference_no= $2   "
   const body = req.body
   const values = [
-    body.reference_no, body.checkin_date
+    'check_in', body.reference_no
   ]
 
 }

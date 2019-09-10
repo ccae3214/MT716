@@ -96,11 +96,15 @@ class App extends Component {
                 <NavLink><a href='https://1drv.ms/f/s!Aka-YIHxDxfFvyAWbXA5tDyCxgJc' target="_blank" style={navlink}>無雇主工人資料ondrive連結</a></NavLink>
               </NavItem>
             </Nav>
-            {this.props.auth.isAuthenticated() ? this.props.auth.ismt() ?
+            {this.props.auth.isAuthenticated() ? this.props.auth.istma() ?
               <Nav className="ml-auto" navbar >
                 <NavItem >
                   <NavLink onClick={this.goTo.bind(this, 'Empolyers')} style={navlink}>Empolyers</NavLink>
                 </NavItem>
+              </Nav>
+              : null : null}
+            {this.props.auth.isAuthenticated() ? this.props.auth.ismt() ?
+              <Nav className="ml-auto" navbar >
                 <NavItem >
                   <NavLink onClick={this.goTo.bind(this, 'Students')} style={navlink}>Students</NavLink>
                 </NavItem>
@@ -118,7 +122,6 @@ class App extends Component {
                   <NavLink onClick={this.goTo.bind(this, 'IntTest')} style={navlink}>Intelligence TEST</NavLink>
                 </NavItem>
               </Nav>
-
               : null : null}
           </Collapse>
           <Nav navbar>

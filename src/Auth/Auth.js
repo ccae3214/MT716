@@ -107,11 +107,61 @@ export default class Auth {
 
     return new Date().getTime() < expiresAt && authmt == 'mt';
   }
-  isboss() {
+  istma() {
+    // Check whether the current time is past the
+    // access token's expiry time
     let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
-    let auth = JSON.parse(sessionStorage.getItem('userProfile')).auth;
+    let position = JSON.parse(sessionStorage.getItem('userProfile')).position;
 
-    return new Date().getTime() < expiresAt && auth > 2;
+    return new Date().getTime() < expiresAt && position == 'CEO' || position == 'boss';
+  }
+  isboss() {
+    // Check whether the current time is past the
+    // access token's expiry time
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
+    let position = JSON.parse(sessionStorage.getItem('userProfile')).position;
+
+    return new Date().getTime() < expiresAt && position == 'boss';
+  }
+  canUseEmpolyer() {
+    // Check whether the current time is past the
+    // access token's expiry time
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
+    let position = JSON.parse(sessionStorage.getItem('userProfile')).position;
+
+    return (new Date().getTime() < expiresAt) && position == 'ceo' || position == 'boss';
+  }
+  canUseStudent() {
+    // Check whether the current time is past the
+    // access token's expiry time
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
+    let position = JSON.parse(sessionStorage.getItem('userProfile')).position;
+
+    return (new Date().getTime() < expiresAt) && position == 'enrollment' || position == 'boss';
+  }
+  canUseProcessing() {
+    // Check whether the current time is past the
+    // access token's expiry time
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
+    let position = JSON.parse(sessionStorage.getItem('userProfile')).position;
+
+    return (new Date().getTime() < expiresAt) && position == 'processing' || position == 'boss';
+  }
+  canUseTraining() {
+    // Check whether the current time is past the
+    // access token's expiry time
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
+    let position = JSON.parse(sessionStorage.getItem('userProfile')).position;
+
+    return (new Date().getTime() < expiresAt) && position == 'training' || position == 'teacher' || position == 'boss';
+  }
+  canUseAccounting() {
+    // Check whether the current time is past the
+    // access token's expiry time
+    let expiresAt = JSON.parse(sessionStorage.getItem('expires_at'));
+    let position = JSON.parse(sessionStorage.getItem('userProfile')).position;
+
+    return (new Date().getTime() < expiresAt) && position == 'accounting' || position == 'boss';
   }
   renewToken(user) {
     api.get_jwt(user).then(res => { this.handleAuthentication(res) }).catch(err => { })
@@ -127,8 +177,5 @@ export default class Auth {
       }, delay);
     }
   }
-
-
-
 
 }

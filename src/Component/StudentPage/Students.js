@@ -10,7 +10,7 @@ export default class Students extends Component {
     this.state = {
       date: new Date().toLocaleDateString(),
       jobtypeSelected: ["ALL", "CTF", "CGF", "SWF", "FF", "CTM", "CGM", "SWM", "FM"],
-      status: ["ALL", "not_yet_check_in", "ckeck_in", "check_out", "deployed", "finished_contract"],
+      status: ["ALL", "not_yet_check_in", "check_in", "check_out", "deployed", "finished_contract"],
       createstudent: {
         reference_no: '',
         jobtype: '',
@@ -59,6 +59,7 @@ export default class Students extends Component {
   }
   componentWillMount() {
     api.get_students().then(response => { this.setState({ students: response }) }).catch(err => { this.setState({ err_students: err }) });
+    api.get_students().then(response => { this.setState({ searchresult: response }) }).catch(err => { this.setState({ err_students: err }) });
 
   }
 
