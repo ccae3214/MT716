@@ -9,34 +9,34 @@ export default class IntTest extends Component {
       selectnumber: 0,
       time: 0,
       start: 0,
-      on: false
+      on: 'stop'
     }
     this.startTimer = this.startTimer.bind(this)
     this.stopTimer = this.stopTimer.bind(this)
     this.resetTimer = this.resetTimer.bind(this)
   }
-  startTimer(event) {
-    if (this.state.on) {
-      clearInterval(this.timer);
-      console.log("stop")
-      this.setState({ on: false })
 
-    } else {
+  startTimer(event) {
+    if (this.state.on == 'restart') {
+      window.location.reload()
+    } else if (this.state.on == 'stop') {
       //計時器
-      if (this.state.time !== 30) {
+      if (this.state.time !== 10) {
         console.log("start")
         this.timer = setInterval(() => {
-          if (this.state.time < 30)
+          if (this.state.time < 10) {
             this.setState({ time: ++this.state.time })
-          else {
-            this.setState({ on: false })
+            this.setState({ on: 'start' })
+          }
+          else if (this.state.time >= 10) {
+            this.setState({ on: 'restart' })
           }
         }, 1000)
       }
-      else {
-        clearInterval(this.timer);
-        this.setState({ on: !this.state.on })
-      }
+    }
+    else if (this.state.on == 'start') {
+      clearInterval(this.timer);
+      this.setState({ on: 'stop' })
     }
   }
 
@@ -57,15 +57,13 @@ export default class IntTest extends Component {
       'border': '2px solid #721C24',
       'text-align': 'center',
     }
-    if (this.state.selectnumber == event.target.id && this.state.on) {
+    if (this.state.selectnumber == event.target.id && this.state.on == 'start') {
       event.target.style = { btn2 }
       const selectnumber = this.state.selectnumber + 1
       this.setState({ selectnumber })
     }
   }
-  handlestartbtn() {
 
-  }
   render() {
     const btn = {
       width: '100%',
@@ -106,7 +104,7 @@ export default class IntTest extends Component {
           </tbody>
         </Table>
 
-        <Button color='danger' onClick={this.startTimer} >{this.state.on ? 'stop' : 'start'}</Button>
+        <Button color='danger' onClick={this.startTimer} >{this.state.on == 'stop' ? 'start' : this.state.on == 'restart' ? 'restart' : 'stop'}</Button>
         {' '}
         <Button color='primary' onClick={() => { window.print() }} >{'列印print'}</Button>
 
