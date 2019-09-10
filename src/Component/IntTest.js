@@ -87,15 +87,7 @@ export default class IntTest extends Component {
         <h3>time: {this.state.time}s</h3>
         <Table bordered>
           <thead>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
+
           </thead>
           <tbody>
             {this.state.intnumber.map((number) => {
