@@ -44,7 +44,7 @@ export default class Training extends Component {
     return (
       <div className="text-center">
         <Alert color="primary" className="text-center">
-          <h5> 管理學生頁面StudentManagePage</h5>
+          <h5> 訓練頁面TrainingPage</h5>
         </Alert>
         {/*學生搜尋結果*/}
         <Row>

@@ -10,7 +10,7 @@ export default class LoginPage extends Component {
       notifys: [],
       show: false,
       notify: {},
-      user: { name: "weng", password: "weng" }
+      user: { name: "", password: "" }
     }
 
   }
