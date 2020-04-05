@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "acorn": "^6.1.0",
+    "acorn": "^6.4.1",
     "auth0-js": "^8.8.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^3.3.7",
