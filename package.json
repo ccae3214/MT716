@@ -26,7 +26,7 @@
     "images-upload-middleware": "^1.1.1",
     "jquery": "^3.3.1",
     "moment": "^2.24.0",
-    "mongodb": "^2.2.31",
+    "mongodb": "^3.1.13",
     "mongoose": "^4.11.5",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.10",
