@@ -45,7 +45,7 @@
     "react-scrollbar": "^0.5.4",
     "reactstrap": "^7.1.0",
     "serve": "^11.0.0",
-    "xlsx": "^0.14.3"
+    "xlsx": "^0.17.0"
   },
   "scripts": {
     "start": "npm-run-all --parallel server:start client:start",
