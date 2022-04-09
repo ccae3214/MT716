@@ -25,7 +25,7 @@
     "helmet": "^3.19.0",
     "images-upload-middleware": "^1.1.1",
     "jquery": "^3.3.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.5",
     "morgan": "^1.9.1",
