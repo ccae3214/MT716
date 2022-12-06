@@ -5,7 +5,7 @@
   "dependencies": {
     "acorn": "^6.1.0",
     "auth0-js": "^8.8.0",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.1",
     "bootstrap": "^3.3.7",
     "bulma": "^0.5.0",
     "connect-static-file": "^1.2.0",
@@ -18,7 +18,7 @@
     "electron": "^4.0.5",
     "eslint-config-airbnb": "^15.1.0",
     "exceljs": "^1.8.0",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "express-fileupload": "^1.1.5",
     "fs": "0.0.1-security",
     "fullcalendar": "^3.10.0",
