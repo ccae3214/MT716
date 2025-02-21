@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Button, Table, Badge, Col, Row, Container, CustomInput, Form, FormGroup, Label, Input, InputGroup, TabContent, TabPane, Nav, NavLink, NavItem, InputGroupAddon, } from 'reactstrap'
+import { Alert, Button, Table, Badge, Col, Row, Container, Form, FormGroup, Label, Input, InputGroup, TabContent, TabPane, Nav, NavLink, NavItem, InputGroupAddon, } from 'reactstrap'
 import api from './api'
 import classnames from 'classnames';
 export default class StudentPage extends Component {
@@ -633,17 +633,7 @@ export default class StudentPage extends Component {
                   </Col>
                   <Col xs="4">
                     <Label for="exampleCustomSelect">工作類型JOBTYPE</Label>
-                    <CustomInput type="select" name="jobtype" onChange={this.handleChange} value={this.state.student.jobtype}>
-                      <option value=""></option>
-                      <option value="CTF">(CTF)女看護工CareTakerFemale</option>
-                      <option value="CTM">(CTM)男看護工CareTakerMale</option>
-                      <option value="CGF">(CGF)女幫傭CareGiverFemale</option>
-                      <option value="CGM">(CGM)男幫傭CareGiverMale</option>
-                      <option value="SWF">(SWF)女技術工SkillWorkerFemale</option>
-                      <option value="SWM">(SWM)男技術工SkillWorkerMale</option>
-                      <option value="FF">(FF)女漁夫FisherFemale</option>
-                      <option value="FM">(FM)男漁夫FisherMale</option>
-                    </CustomInput>
+                    
                   </Col>
 
                   <Col xs="3" >
@@ -662,12 +652,7 @@ export default class StudentPage extends Component {
 
                 {// picture
                 }
-                <FormGroup >
-                  <Col xs="12">
-                    <Label for="exampleCustomFileBrowser"> 照片picture</Label>
-                    <CustomInput type="file" id="exampleCustomFileBrowser" name="picture" label="Yo, pick a file!" value={this.state.student.picture} />
-                  </Col>
-                </FormGroup>
+               
 
 
                 {// NAME
@@ -832,7 +817,7 @@ export default class StudentPage extends Component {
                   <thead style={thead}>
                     <tr>
                       <th>#</th>
-                      <th>名子<br />(NAME))</th>
+                      <th>名子<br />(NAME)</th>
                       <th> 性別<br />(GENDER)</th>
                       <th>年齡<br />(AGE) </th>
                     </tr>
@@ -842,9 +827,9 @@ export default class StudentPage extends Component {
                       return (
                         <tr>
                           <th scope="row">{child.number}</th>
-                          <td sm="12" md="4"><Input bsSize="sm" id='input2' name="child_name" id={child.number} onChange={this.handleChangeChildrenDetail} value={child.child_name} /></td>
-                          <td sm="12" md="4"><Input bsSize="sm" id='input2' name="child_gender" id={child.number} onChange={this.handleChangeChildrenDetail} value={child.child_gender} /></td>
-                          <td sm="12" md="4"><Input bsSize="sm" id='input2' name="child_age" id={child.number} onChange={this.handleChangeChildrenDetail} value={child.child_age} /></td>
+                          <td sm="12" md="4"><Input bsSize="sm"  name="child_name" id={child.number} onChange={this.handleChangeChildrenDetail} value={child.child_name} /></td>
+                          <td sm="12" md="4"><Input bsSize="sm"  name="child_gender" id={child.number} onChange={this.handleChangeChildrenDetail} value={child.child_gender} /></td>
+                          <td sm="12" md="4"><Input bsSize="sm"  name="child_age" id={child.number} onChange={this.handleChangeChildrenDetail} value={child.child_age} /></td>
                         </tr>
                       )
                     })}
@@ -853,7 +838,7 @@ export default class StudentPage extends Component {
               </Form>
               <Button color='primary' name='children_detail' onClick={this.create}>+</Button>
               {'     '}
-              <Button color='primary' name='children_detail' name='children_detail' onClick={this.delit}>-</Button>
+              <Button color='primary'  name='children_detail' onClick={this.delit}>-</Button>
               <Button id='rightbtn' size="xs" color="danger" name='children_detail' onClick={this.update} >修改UPDATE </Button>
               <Button id='leftbtn' size="xs" color="success" name='children_detail' onClick={this.reload} >重整reload</Button>
             </Container>
@@ -954,17 +939,17 @@ export default class StudentPage extends Component {
                         <tr>
                           <th scope="row">{education_background.number}</th>
                           <td sm="2" md="2" className="text-center">
-                            <Input bsSize="sm" id='input2' type="select" name="attainment" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.attainment} >
+                            <Input bsSize="sm"  type="select" name="attainment" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.attainment} >
                               <option value=""></option>
                               <option value="1">primary/elemantary</option>
                               <option value="2">secandary/high school</option>
                               <option value="3">terfiary/college_university</option>
                             </Input> </td>
-                          <td sm="2" sm="2" md="2"><Input bsSize="sm" id='input2' name="name_of_school" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.name_of_school} /></td>
-                          <td sm="2" md="2"><Input bsSize="sm" id='input2' name="location" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.location} /></td>
-                          <td sm="2" md="2"><Input bsSize="sm" id='input2' name="major" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.major} /></td>
-                          <td sm="2" md="2"><Input bsSize="sm" id='input2' type="date" name="from_date" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.from_date} /></td>
-                          <td sm="2" md="2"><Input bsSize="sm" id='input2' type="date" name="to_date" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.to_date} /></td>
+                          <td sm="2" md="2"><Input bsSize="sm"  name="name_of_school" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.name_of_school} /></td>
+                          <td sm="2" md="2"><Input bsSize="sm"  name="location" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.location} /></td>
+                          <td sm="2" md="2"><Input bsSize="sm"  name="major" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.major} /></td>
+                          <td sm="2" md="2"><Input bsSize="sm"  type="date" name="from_date" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.from_date} /></td>
+                          <td sm="2" md="2"><Input bsSize="sm"  type="date" name="to_date" id={education_background.number} onChange={this.handleChangeEducationBackground} value={education_background.to_date} /></td>
                         </tr>
                       )
                     })}
@@ -1003,11 +988,11 @@ export default class StudentPage extends Component {
                       return (
                         <tr>
                           <th scope="row">{experience_working_abroad.number}</th>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' name="name_of_employer" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.name_of_employer} /></td>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' name="country_city" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.country_city} /></td>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' name="description" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.description} /></td>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' type="date" name="from_date" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.from_date} /></td>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' type="date" name="to_date" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.to_date} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  name="name_of_employer" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.name_of_employer} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  name="country_city" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.country_city} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  name="description" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.description} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  type="date" name="from_date" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.from_date} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  type="date" name="to_date" id={experience_working_abroad.number} onChange={this.handleChangeExperienceWorkingAbroad} value={experience_working_abroad.to_date} /></td>
                         </tr>
                       )
                     })}
@@ -1048,11 +1033,11 @@ export default class StudentPage extends Component {
                       return (
                         <tr>
                           <th >{local_employment.number}</th>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' name="name_of_employer" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.name_of_employer} /></td>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' name="country_city" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.country_city} /></td>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' name="description" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.description} /></td>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' type="date" name="from_date" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.from_date} /></td>
-                          <td sm="12" md="2"><Input bsSize="sm" id='input2' type="date" name="to_date" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.to_date} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  name="name_of_employer" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.name_of_employer} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  name="country_city" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.country_city} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  name="description" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.description} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  type="date" name="from_date" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.from_date} /></td>
+                          <td sm="12" md="2"><Input bsSize="sm"  type="date" name="to_date" id={local_employment.number} onChange={this.handleChangeLocalEmployment} value={local_employment.to_date} /></td>
                         </tr>
                       )
                     })}

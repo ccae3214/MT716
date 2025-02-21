@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button,Jumbotron } from 'reactstrap'
+import { Button } from 'reactstrap'
 
 
 export default class Undev extends Component {
@@ -21,7 +21,7 @@ export default class Undev extends Component {
     return (
       <div className="text-center">
       <div>
-      <Jumbotron>
+      
         <h1 className="display-3">暫不開放</h1>
         <p className="lead">該網頁功能尚不齊全</p>
         <hr className="my-2" />
@@ -29,7 +29,7 @@ export default class Undev extends Component {
         <p className="lead">
           <Button color="primary" onClick={this.goTo.bind(this, 'IndexPage')}>回到首頁</Button>
         </p>
-      </Jumbotron>
+      
     </div>
       </div>
     )

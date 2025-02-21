@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Button, Card, CardBody, CardTitle, Col, Table, Row, Input, InputGroup, Spinner, UncontrolledCollapse } from 'reactstrap'
+import { Alert, Button, Card, CardBody, CardTitle, Col, Table, Row, Input, InputGroup, Spinner,Collapse, UncontrolledCollapse } from 'reactstrap'
 import api from './api'
 import { Link } from 'react-router-dom'
 /*searchStudent page mutisearch didn't  done  only show all data and neet to sort the result and mark show new create in result */

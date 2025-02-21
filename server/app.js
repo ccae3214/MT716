@@ -14,8 +14,25 @@ const index = require('./routes/index')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
-app.use(helmet());
-app.use(cors());
+app.use(
+  helmet.contentSecurityPolicy({
+      directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "https://stackpath.bootstrapcdn.com"],
+          styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com", "'unsafe-inline'"],
+          imgSrc: ["'self'", "data:", "https://stackpath.bootstrapcdn.com"],
+          fontSrc: ["'self'", "https://stackpath.bootstrapcdn.com"],
+          connectSrc: ["'self'"],
+      },
+  })
+);
+app.use(
+  cors({
+      origin: 'http://localhost:3000', // 允許來自 http://localhost:3000 的請求
+      methods: ['GET', 'POST'], // 允許的 HTTP 方法
+      credentials: true, // 允許攜帶憑證（如 cookies）
+  })
+);
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'))

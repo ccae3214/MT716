@@ -1,5 +1,6 @@
 import React from 'react'
-import { Redirect, Route, Router, HashRouter } from 'react-router-dom'
+import { Navigate, Route, Router, HashRouter,BrowserRouter,HistoryRouter  } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { Container } from 'reactstrap';
 import App from './App'
 import IndexPage from './Component/IndexPage'
@@ -8,7 +9,6 @@ import UserPage from './Component/UserPage/UserPage'
 
 import Undev from './Component/Undev'
 import Auth from './Auth/Auth'
-import history from './history'
 import HomePage from './Component/HomePage'
 
 import Empolyers from './Component/EmpolyerPage/Empolyers'
@@ -42,7 +42,7 @@ const handleAuthentication = ({ location }) => {
 
 export const makeMainRoutes = () => (
   <Container>
-    <Router basename="/" history={history}>
+    <BrowserRouter basename="/">
       <div>
         <Route path="/" render={props => <App auth={auth}{...props} />} />
         <Route path="/IndexPage" render={props => <IndexPage auth={auth}{...props} />} />
@@ -50,46 +50,46 @@ export const makeMainRoutes = () => (
         <Route path="/Log_in" render={props => <LoginPage auth={auth}{...props} />} />
         <Route path="/Undev" render={props => <Undev auth={auth}{...props} />} />
 
-        <Route path="/Empolyers" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/Empolyers" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
           : <Empolyers auth={auth}{...props} />} />
 
         <Route path="/NoEmpolyerBIOdata" render={props =>
           <NoEmpolyerBIOdata auth={auth}{...props} />} />
 
-        <Route path="/UserPage" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/UserPage" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
           : <UserPage auth={auth}{...props} />} />
 
-        <Route path="/Students" render={props => !auth.canUseStudent() ? <Redirect to="/HomePage" />
+        <Route path="/Students" render={props => !auth.canUseStudent() ? <Navigate to="/HomePage" />
 
           : <Students auth={auth}{...props} />} />
 
-        <Route path="/StudentPage/:id" render={props => !auth.canUseStudent() ? <Redirect to="/HomePage" />
+        <Route path="/StudentPage/:id" render={props => !auth.canUseStudent() ? <Navigate to="/HomePage" />
           : <StudentPage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/DocumentPage/:id" render={props => !auth.canUseProcessing() ? <Redirect to="/HomePage" />
+        <Route path="/DocumentPage/:id" render={props => !auth.canUseProcessing() ? <Navigate to="/HomePage" />
           : <DocumentPage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/TrainingGradePage/:id" render={props => !auth.canUseTraining() ? <Redirect to="/HomePage" />
+        <Route path="/TrainingGradePage/:id" render={props => !auth.canUseTraining() ? <Navigate to="/HomePage" />
           : <TrainingGradePage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/PaymentPage/:id" render={props => !auth.canUseAccounting() ? <Redirect to="/HomePage" />
+        <Route path="/PaymentPage/:id" render={props => !auth.canUseAccounting() ? <Navigate to="/HomePage" />
           : <PaymentPage auth={auth}{...props} id={props.match.params.id} />} />
 
-        <Route path="/Processing" render={props => !auth.canUseProcessing() ? <Redirect to="/HomePage" />
+        <Route path="/Processing" render={props => !auth.canUseProcessing() ? <Navigate to="/HomePage" />
           : <Processing auth={auth}{...props} />} />
 
-        <Route path="/SchedulePage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/SchedulePage/:id" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
           : <SchedulePage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/BackOutPage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/BackOutPage/:id" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
           : <BackOutPage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/AirTicketPage/:id" render={props => !auth.isAuthenticated() ? <Redirect to="/HomePage" />
+        <Route path="/AirTicketPage/:id" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
           : <AirTicketPage auth={auth}{...props} id={props.match.params.id} />} />
 
-        <Route path="/Training" render={props => !auth.canUseTraining() ? <Redirect to="/HomePage" />
+        <Route path="/Training" render={props => !auth.canUseTraining() ? <Navigate to="/HomePage" />
           : <Training auth={auth}{...props} />} />
 
-        <Route path="/Payment" render={props => !auth.canUseAccounting() ? <Redirect to="/HomePage" />
+        <Route path="/Payment" render={props => !auth.canUseAccounting() ? <Navigate to="/HomePage" />
           : <Payment auth={auth}{...props} />} />
 
         <Route path="/IntTest" render={props => <IntTest auth={auth}{...props} />} />
       </div>
-    </Router>
+    </BrowserRouter>
   </Container>
 );

@@ -1,12 +1,13 @@
-import history from '../history'
+import { useNavigate } from 'react-router-dom'
 import api from './api'
+
 export default class Auth {
+  
   accessToken;
   idToken;
   expiresAt;
   userProfile;
   tokenRenewalTimeout;
-
   componentDidMount() {
     this.timerID = setInterval(
       () => this.renewToken(),
@@ -17,15 +18,14 @@ export default class Auth {
     clearInterval(this.timerID);
   }
   constructor() {
+    
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
-
     this.scheduleRenewal();
   }
-
   login(user) {
     api.get_user(user).then(res => {
       if (res !== null) {
@@ -46,8 +46,9 @@ export default class Auth {
   }
 
   handleAuthentication(authResult) {
+
     this.setSession(authResult);
-    history.replace('/IndexPage');
+    useNavigate('/IndexPage',replace);
   }
   getAccessToken() {
     return this.accessToken;
@@ -90,7 +91,7 @@ export default class Auth {
     this.userProfile = null;
     clearTimeout(this.tokenRenewalTimeout);
     // navigate to the home route
-    history.replace('/HomePage');
+    useNavigate('/HomePage',replace);
   }
 
   isAuthenticated() {
