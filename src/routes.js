@@ -1,21 +1,22 @@
 import React from 'react'
-import { Navigate, Route, Router, HashRouter,BrowserRouter,HistoryRouter  } from 'react-router'
+import { Navigate, Route,Routes,BrowserRouter,useParams,Outlet  } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import { Container } from 'reactstrap';
-import App from './App'
+import Navbarapp from './navbarapp'
 import IndexPage from './Component/IndexPage'
 import LoginPage from './Component/LoginPage'
+
 import UserPage from './Component/UserPage/UserPage'
 
 import Undev from './Component/Undev'
-import Auth from './Auth/Auth'
 import HomePage from './Component/HomePage'
 
-import Empolyers from './Component/EmpolyerPage/Empolyers'
 
 import NoEmpolyerBIOdata from './Component/StudentPage/NoEmpolyerBIOdata'
 
 import Students from './Component/StudentPage/Students'
+import Biodata from './Component/BiodataPage/Biodata'
+
 import StudentPage from './Component/StudentPage/StudentPage'
 import DocumentPage from './Component/ProcessingPage/DocumentPage'
 import TrainingGradePage from './Component/StudentPage/TrainingGradePage'
@@ -23,7 +24,6 @@ import PaymentPage from './Component/PaymentPage/PaymentPage'
 
 import Processing from './Component/ProcessingPage/Processing'
 import SchedulePage from './Component/ProcessingPage/SchedulePage'
-import AirTicketPage from './Component/ProcessingPage/AirTicketPage'
 import BackOutPage from './Component/ProcessingPage/BackOutPage'
 
 import Training from './Component/TrainingPage/Training'
@@ -31,65 +31,40 @@ import Training from './Component/TrainingPage/Training'
 import Payment from './Component/PaymentPage/Payment'
 
 import IntTest from './Component/IntTest'
+import { useAuth0 } from "@auth0/auth0-react";
 
-const auth = new Auth();
-
-const handleAuthentication = ({ location }) => {
-  if (/access_token|id_token|error/.test(location.hash)) {
-    auth.handleAuthentication();
-  }
+function NavbarWrapper() {
+  const navigate = useNavigate();
+  const auth0 = useAuth0();
+  return <Navbarapp navigate={navigate} auth0={auth0} />;
 }
 
 export const makeMainRoutes = () => (
   <Container>
     <BrowserRouter basename="/">
-      <div>
-        <Route path="/" render={props => <App auth={auth}{...props} />} />
-        <Route path="/IndexPage" render={props => <IndexPage auth={auth}{...props} />} />
-        <Route path="/HomePage" render={props => <HomePage {...props} />} />
-        <Route path="/Log_in" render={props => <LoginPage auth={auth}{...props} />} />
-        <Route path="/Undev" render={props => <Undev auth={auth}{...props} />} />
+    <Routes >
+        <Route path="/"  element={<NavbarWrapper/>}>
+        <Route index path="/IndexPage" element={<IndexPage/>}/>
+        <Route path="/HomePage" element={<HomePage/>}/>
+        <Route path="/Biodata" element={<Biodata/>}/>
 
-        <Route path="/Empolyers" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
-          : <Empolyers auth={auth}{...props} />} />
-
-        <Route path="/NoEmpolyerBIOdata" render={props =>
-          <NoEmpolyerBIOdata auth={auth}{...props} />} />
-
-        <Route path="/UserPage" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
-          : <UserPage auth={auth}{...props} />} />
-
-        <Route path="/Students" render={props => !auth.canUseStudent() ? <Navigate to="/HomePage" />
-
-          : <Students auth={auth}{...props} />} />
-
-        <Route path="/StudentPage/:id" render={props => !auth.canUseStudent() ? <Navigate to="/HomePage" />
-          : <StudentPage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/DocumentPage/:id" render={props => !auth.canUseProcessing() ? <Navigate to="/HomePage" />
-          : <DocumentPage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/TrainingGradePage/:id" render={props => !auth.canUseTraining() ? <Navigate to="/HomePage" />
-          : <TrainingGradePage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/PaymentPage/:id" render={props => !auth.canUseAccounting() ? <Navigate to="/HomePage" />
-          : <PaymentPage auth={auth}{...props} id={props.match.params.id} />} />
-
-        <Route path="/Processing" render={props => !auth.canUseProcessing() ? <Navigate to="/HomePage" />
-          : <Processing auth={auth}{...props} />} />
-
-        <Route path="/SchedulePage/:id" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
-          : <SchedulePage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/BackOutPage/:id" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
-          : <BackOutPage auth={auth}{...props} id={props.match.params.id} />} />
-        <Route path="/AirTicketPage/:id" render={props => !auth.isAuthenticated() ? <Navigate to="/HomePage" />
-          : <AirTicketPage auth={auth}{...props} id={props.match.params.id} />} />
-
-        <Route path="/Training" render={props => !auth.canUseTraining() ? <Navigate to="/HomePage" />
-          : <Training auth={auth}{...props} />} />
-
-        <Route path="/Payment" render={props => !auth.canUseAccounting() ? <Navigate to="/HomePage" />
-          : <Payment auth={auth}{...props} />} />
-
-        <Route path="/IntTest" render={props => <IntTest auth={auth}{...props} />} />
-      </div>
+        <Route path="/Log_in" element={<LoginPage/>}/>
+        <Route path="/Undev" element={<Undev/>}/>
+        <Route path="/NoEmpolyerBIOdata" element={<NoEmpolyerBIOdata/>} />
+        <Route path="/UserPage" element={<UserPage/>}/>
+        <Route path="/Students" element={<Students/>}/>
+        <Route path="/StudentPage" element={<StudentPage/>}/>
+        <Route path="/DocumentPage" element={<DocumentPage/>}/>
+        <Route path="/TrainingGradePage" element={<TrainingGradePage/>} />
+        <Route path="/PaymentPage" element={<PaymentPage/>}/>
+        <Route path="/Processing" element={<Processing />}/>
+        <Route path="/SchedulePage" element={<SchedulePage/>}/>
+        <Route path="/BackOutPage" element={<BackOutPage/>}/>
+        <Route path="/Training" element={<Training/>}/>
+        <Route path="/Payment" element={<Payment/>}/>
+        <Route path="/IntTest" element={<IntTest/>}/>
+        </Route>
+    </Routes>
     </BrowserRouter>
   </Container>
 );

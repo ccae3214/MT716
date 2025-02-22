@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Form, Label, Input } from 'reactstrap'
-
+import { useAuth0 } from "@auth0/auth0-react";
 export default class LoginPage extends Component {
   constructor(props) {
     super(props)
@@ -52,7 +52,7 @@ export default class LoginPage extends Component {
         </Label>
           </div>
           <Button className="btn btn-lg btn-primary btn-block" onClick={this.login.bind(this)}>Log in</Button>
-          <p className="mt-5 mb-3 text-muted">&copy; 2019</p>
+          <p className="mt-5 mb-3 text-muted">&copy; 2025</p>
         </Form>
 
       </div >

@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-
 const path = require('path')
 const logger = require('morgan')
 const cors = require('cors');
@@ -26,13 +25,7 @@ app.use(
       },
   })
 );
-app.use(
-  cors({
-      origin: 'http://localhost:3000', // 允許來自 http://localhost:3000 的請求
-      methods: ['GET', 'POST'], // 允許的 HTTP 方法
-      credentials: true, // 允許攜帶憑證（如 cookies）
-  })
-);
+app.use(cors());
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'))

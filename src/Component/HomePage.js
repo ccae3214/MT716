@@ -36,7 +36,7 @@ export default class HomePage extends Component {
         return (
             <div className="text-center" >
                 <h5> YOU have no auth to use this HomePage</h5>
-                <h5> try login another account or comfirm MT IT</h5>
+                <h5> try login another account or comfirm with MT IT</h5>
             </div>
         )
     }
