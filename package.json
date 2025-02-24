@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@auth0/auth0-react": "^2.3.0",
-    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "@react-spring/web": "^9.7.5",
     "acorn": "^8.14.0",
     "auth0-js": "^9.28.0",
