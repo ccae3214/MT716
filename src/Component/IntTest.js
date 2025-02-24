@@ -1,121 +1,138 @@
-///智力測驗
-import React, { Component } from 'react'
-import { Button, Table, Input } from 'reactstrap'
+import React, { Component } from 'react';
+import { Button, Table, Input } from 'reactstrap';
+
 export default class IntTest extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      intnumber: listToMatrix(shuffleArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]), 7),
+      intnumber: listToMatrix(shuffleArray([...Array(49).keys()].map(i => i + 1)), 7), // 1-49 的陣列
       selectnumber: 0,
+      clickedButtons: new Set(),
       time: 0,
       start: 0,
-      on: 'stop'
-    }
-    this.startTimer = this.startTimer.bind(this)
-    this.stopTimer = this.stopTimer.bind(this)
-    this.resetTimer = this.resetTimer.bind(this)
+      on: 'stop',
+    };
+    this.startTimer = this.startTimer.bind(this);
+    this.handlebtn = this.handlebtn.bind(this);
   }
 
-  startTimer(event) {
-    if (this.state.on == 'restart') {
-      window.location.reload()
-    } else if (this.state.on == 'stop') {
-      //計時器
-      if (this.state.time !== 10) {
-        console.log("start")
+  startTimer() {
+    if (this.state.on === 'restart') {
+      console.log("restart");
+        // 重新洗牌並重置狀態
+        const newNumbers = listToMatrix(shuffleArray([...Array(49).keys()].map(i => i + 1)), 7);
+        this.setState({
+          intnumber: newNumbers,
+          selectnumber: 0,
+          clickedButtons: new Set(),
+          time: 0, // 可選：若希望計時從 0 開始
+          on: 'start',
+        });
+    } else if (this.state.on === 'stop') {
+      if (this.state.time !== 30) {
+        console.log("start");
+        // 重新洗牌並重置狀態
+        const newNumbers = listToMatrix(shuffleArray([...Array(49).keys()].map(i => i + 1)), 7);
+        this.setState({
+          intnumber: newNumbers,
+          selectnumber: 0,
+          clickedButtons: new Set(),
+          time: 0, // 可選：若希望計時從 0 開始
+          on: 'start',
+        });
         this.timer = setInterval(() => {
-          if (this.state.time < 10) {
-            this.setState({ time: ++this.state.time })
-            this.setState({ on: 'start' })
+          if (this.state.time < 30) {
+            this.setState({ time: this.state.time + 1 });
+          } else if (this.state.time >= 30) {
+            clearInterval(this.timer);
+            this.setState({ on: 'restart' });
           }
-          else if (this.state.time >= 10) {
-            this.setState({ on: 'restart' })
-          }
-        }, 1000)
+        }, 1000);
       }
-    }
-    else if (this.state.on == 'start') {
+    } else if (this.state.on === 'start') {
       clearInterval(this.timer);
-      this.setState({ on: 'stop' })
+      this.setState({ on: 'stop' });
     }
-  }
-
-  stopTimer() {
-    clearInterval(this.timer)
-    console.log("stop")
-  }
-  resetTimer() {
-    this.setState({ time: 0 })
-    console.log("reset")
   }
 
   handlebtn(event) {
-    const btn2 = {
-      width: '100%',
-      height: '100%',
-      border: 'none',
-      'border': '2px solid #721C24',
-      'text-align': 'center',
-    }
-    if (this.state.selectnumber == event.target.id && this.state.on == 'start') {
-      event.target.style = { btn2 }
-      const selectnumber = this.state.selectnumber + 1
-      this.setState({ selectnumber })
+    const clickedNum = parseInt(event.target.id, 10);
+    if (this.state.on === 'start' && clickedNum === this.state.selectnumber) {
+      this.setState(prevState => ({
+        selectnumber: prevState.selectnumber + 1,
+        clickedButtons: new Set(prevState.clickedButtons).add(clickedNum),
+      }));
     }
   }
 
   render() {
-    const btn = {
-      width: '100%',
-      height: '100%',
-      border: 'none',
-      'border': '2px solid #6DBBFE',
-      'text-align': 'center',
-    }
-    const btn2 = {
-      width: '100%',
-      height: '100%',
-      border: 'none',
-      'border': '2px solid #6DBBFE',
-      'text-align': 'center',
-    }
+    const buttonSize = `${Math.min(window.innerWidth / 10, 60)}px`; // 限制最大為60px
+
+    const defaultStyle = {
+      width: buttonSize,
+      height: buttonSize,
+      border: '2px solid #6DBBFE',
+      textAlign: 'center',
+      padding: 0,
+      fontSize: '1rem',
+      margin: '2px',
+    };
+    const clickedStyle = {
+      width: buttonSize,
+      height: buttonSize,
+      border: '2px solid #f06269',
+      textAlign: 'center',
+      padding: 0,
+      fontSize: '1rem',
+      margin: '2px',
+    };
 
     return (
-      <div>
+      <div style={{ padding: '10px' }}>
+        <h3>count 1to 49 ，re-count after stop </h3>
+        
         <h3>time: {this.state.time}s</h3>
-        <Table bordered>
-          <thead>
+        
+          
+            {this.state.intnumber.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map(num => (
+                  <td
+                    key={num}
+                    style={{
+                      padding: '0px',
+                      width: `${100 / 7}%`,
+                    }}
+                  >
+                    <Button
+                      style={this.state.clickedButtons.has(num - 1) ? clickedStyle : defaultStyle}
+                      color="primary"
+                      outline
+                      onClick={this.handlebtn}
+                      id={(num - 1).toString()}
+                    >
+                      {num}
+                    </Button>
+                  </td>
+                ))}
+              </tr>
+            ))}
+        
 
-          </thead>
-          <tbody>
-            {this.state.intnumber.map((number) => {
-              return (
-                <tr>
-                  {number.map(num => {
-                    return (
-                      <td>
-                        <Button style={btn} color='pirmary' onClick={this.handlebtn.bind(this)} id={num - 1}>{num}</Button>
-                      </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-          </tbody>
-        </Table>
-
-        <Button color='danger' onClick={this.startTimer} >{this.state.on == 'stop' ? 'start' : this.state.on == 'restart' ? 'restart' : 'stop'}</Button>
-        {' '}
-        <Button color='primary' onClick={() => { window.print() }} >{'列印print'}</Button>
-
-        <p>成績(個/30秒):<input value={this.state.selectnumber} /></p>
-        <p>測驗人:<input /></p>
-        <p>監考人:<input /></p>
-
+        <Button color="danger" onClick={this.startTimer}>
+          {this.state.on === 'stop' ? 'start' : this.state.on === 'restart' ? 'restart' : 'stop'}
+        </Button>{' '}
+        <Button color="primary" onClick={() => window.print()}>
+          print
+        </Button>{' '}
+        <p>grade(c/30s): <Input value={this.state.selectnumber} readOnly /></p>
+        <p>name: <Input /></p>
+        <p>admin: <Input /></p>
       </div>
-    )
+    );
   }
 }
+
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -123,17 +140,15 @@ function shuffleArray(array) {
   }
   return array;
 }
-function listToMatrix(list, elementsPerSubArray) {
-  var matrix = [], i, k;
 
-  for (i = 0, k = -1; i < list.length; i++) {
+function listToMatrix(list, elementsPerSubArray) {
+  const matrix = [];
+  for (let i = 0, k = -1; i < list.length; i++) {
     if (i % elementsPerSubArray === 0) {
       k++;
       matrix[k] = [];
     }
-
     matrix[k].push(list[i]);
   }
-
   return matrix;
 }

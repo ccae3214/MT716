@@ -45,7 +45,7 @@ class Navbarapp extends Component {
             <Nav className="ml-auto" navbar>
               <NavItem>
               <NavLink onClick={() => this.goTo('biodata')} style={navlink}>
-                BIODATA
+                Biodata
                 </NavLink>
               </NavItem>
             </Nav>
@@ -73,7 +73,7 @@ class Navbarapp extends Component {
               </NavItem>
               <NavItem>
                 <NavLink onClick={() => this.goTo('IntTest')} style={navlink}>
-                  Intelligence TEST
+                  IntTest
                 </NavLink>
               </NavItem>
             </Nav>
@@ -82,15 +82,15 @@ class Navbarapp extends Component {
           <Nav navbar>
             <NavItem>
               <NavLink onClick={() => this.goTo('UserPage')} style={navlink}>
-                {profile}
+                UserProfile
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink style={logout}>登出log_out</NavLink>
+              <NavLink style={logout}>Sign Out</NavLink>
             </NavItem>
             <NavItem style={login}>
               <NavLink onClick={() => this.goTo('Log_in')} style={login}>
-                登入LOG_IN
+              Sign In
               </NavLink>
             </NavItem>
           </Nav>
