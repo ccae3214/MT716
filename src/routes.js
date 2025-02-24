@@ -31,12 +31,10 @@ import Training from './Component/TrainingPage/Training'
 import Payment from './Component/PaymentPage/Payment'
 
 import IntTest from './Component/IntTest'
-import { useAuth0 } from "@auth0/auth0-react";
 
 function NavbarWrapper() {
   const navigate = useNavigate();
-  const auth0 = useAuth0();
-  return <Navbarapp navigate={navigate} auth0={auth0} />;
+  return <Navbarapp navigate={navigate}  />;
 }
 
 export const makeMainRoutes = () => (
