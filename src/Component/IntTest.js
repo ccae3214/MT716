@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Table, Input } from 'reactstrap';
+import { Button, Table, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export default class IntTest extends Component {
   constructor(props) {
@@ -11,11 +11,13 @@ export default class IntTest extends Component {
       time: 0,
       start: 0,
       on: 'stop',
+      modal:false, 
+      setModal:false
     };
     this.startTimer = this.startTimer.bind(this);
     this.handlebtn = this.handlebtn.bind(this);
   }
-
+  toggle = () => setModal(!modal);
   startTimer() {
     if (this.state.on === 'restart') {
       console.log("restart");
@@ -128,6 +130,27 @@ export default class IntTest extends Component {
         <p>grade(c/30s): <Input value={this.state.selectnumber} readOnly /></p>
         <p>name: <Input /></p>
         <p>admin: <Input /></p>
+
+        <Modal isOpen={modal} toggle={toggle} {...args}>
+        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggle}>
+            Do Something
+          </Button>{' '}
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
       </div>
     );
   }
