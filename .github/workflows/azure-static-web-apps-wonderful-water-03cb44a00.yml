@@ -23,13 +23,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.0'
+          node-version: '23.8'
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
 
       - name: Build Application
-        run: npm run build
+        run: npm run build --legacy-peer-deps
 
       - name: Deploy to Azure Static Web Apps
         id: builddeploy
