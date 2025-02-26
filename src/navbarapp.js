@@ -44,12 +44,12 @@ class Navbarapp extends Component {
           <Collapse isOpen={this.state.collapsed} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-              <NavLink onClick={() => this.goTo('biodata')} style={navlink}>
-                Biodata
+                <NavLink onClick={() => this.goTo('biodata')} style={navlink}>
+                  Biodata
                 </NavLink>
               </NavItem>
             </Nav>
-            
+
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink onClick={() => this.goTo('Students')} style={navlink}>
@@ -89,8 +89,8 @@ class Navbarapp extends Component {
               <NavLink style={logout}>Sign Out</NavLink>
             </NavItem>
             <NavItem style={login}>
-              <NavLink onClick={() => this.goTo('Log_in')} style={login}>
-              Sign In
+              <NavLink onClick={() => this.goTo('SigninPage')} style={login}>
+                Sign In
               </NavLink>
             </NavItem>
           </Nav>
@@ -98,7 +98,7 @@ class Navbarapp extends Component {
 
         {/* 子路由內容在這裡渲染 */}
         <div margin="auto" width="50%" overflow-x="hidden" overflow-y="hidden" position="absolute" top="25%" left="22%" text-align="center">
-        <Outlet />
+          <Outlet />
         </div>
       </div>
     );

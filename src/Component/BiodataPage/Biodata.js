@@ -99,7 +99,7 @@ class Biodata extends Component {
           <Col md={{ size: 8, offset: 2 }}>
             <Card>
               <CardBody>
-                <CardTitle tag="h2">建立你的履歷</CardTitle>
+                <CardTitle tag="h2">RESUME</CardTitle>
                 <Form onSubmit={this.handleSubmit}>
                   <FormGroup>
                     <Label for="name">姓名</Label>

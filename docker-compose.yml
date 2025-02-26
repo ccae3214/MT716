@@ -1,11 +1,10 @@
-version: '3.8'
 services:
   client:
     build:
       context: .
       dockerfile: Dockerfile.client
     ports:
-      - "3000:3000"
+      - "3000:3000"  # 本機 3000 映射到容器 3000
     volumes:
       - .:/app
       - /app/node_modules
@@ -19,14 +18,14 @@ services:
       context: .
       dockerfile: Dockerfile.server
     ports:
-      - "3001:3001"
+      - "3001:3001"  # 本機 3001 映射到容器 3001
     volumes:
       - .:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - AZURE_SQL_SERVER=mtserver.database.windows.net
-      - AZURE_SQL_DATABASE=MTSQLDB
-      - AZURE_SQL_USER=MT716
-      - AZURE_SQL_PASSWORD=mtadmin716!
+      - AZURE_SQL_SERVER=<your-azure-sql-server-name>.database.windows.net
+      - AZURE_SQL_DATABASE=<your-database-name>
+      - AZURE_SQL_USER=<your-username>
+      - AZURE_SQL_PASSWORD=<your-password>
       - AZURE_SQL_PORT=1433

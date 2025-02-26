@@ -50,7 +50,7 @@
 },
   "main": "./src/main.js",
   "host": "0.0.0.0",
-  "homepage": "http://localhost:3001",
+  "homepage": "http://localhost:3000",
   "proxy": "http://localhost:3001",
   "browserslist": [
     ">0.2%",

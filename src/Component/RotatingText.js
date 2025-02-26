@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
+import React from "react";
 import "./RotatingText.css";
 
 function cn(...classes) {
