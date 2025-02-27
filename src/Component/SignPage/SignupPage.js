@@ -11,9 +11,10 @@ export default function SignupPage() {
     pass_word: "", // 注意這裡的命名與後端一致
     contact_number: "",
     address: "",
-    identity: ""
+    user_identity: ""
+
   });
- 
+
   const saveToLocalStorage = useCallback(() => {
     localStorage.setItem('user', JSON.stringify(user));
   }, [user]);
@@ -22,7 +23,7 @@ export default function SignupPage() {
     const { name, value } = e.target;
     setUser(prev => ({ ...prev, [name]: value }));
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,7 +31,6 @@ export default function SignupPage() {
       const response = await axios.post('http://localhost:3001/api/create_user ', user);
       console.log('提交的資料:', user);
       console.log('後端回應:', response.data);
-
       // 清空表單
       setUser({
         name: "",
@@ -38,11 +38,13 @@ export default function SignupPage() {
         pass_word: "",
         contact_number: "",
         address: "",
-        identity: ""
+        user_identity: ""
       });
       alert('user signed up successfully');
       window.location.href = '/login';
     } catch (error) {
+      alert(user.user_identity);
+
       console.error('建立使用者時發生錯誤:', error);
       alert('建立使用者失敗');
     }
@@ -97,26 +99,29 @@ export default function SignupPage() {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="">identity</Label>
+                  <Label>user_identity</Label>
                   <Input
                     type="select"
-                    name="identity"
-                    id="identity"
-                    value={user.identity}
+                    name="user_identity"
+                    id="user_identity"
+                    value={user.user_identity}
                     onChange={handleChange}
-                    placeholder="identity"
+                    placeholder="user_identity"
                   >
                     <option>
-                      TMA(Taiwan manpower agency)
+                      choose user_identity
                     </option>
                     <option>
-                      PRA (Philippine recruitment agency)
+                      TMA
                     </option>
                     <option>
-                      employer
+                      PRA
                     </option>
                     <option>
-                      applicant
+                      EMPOLYER
+                    </option>
+                    <option>
+                      APPLICANT
                     </option>
                   </Input>
                 </FormGroup>

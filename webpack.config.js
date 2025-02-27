@@ -7,17 +7,24 @@ module.exports = (env, argv) => {
 
   return {
     mode: isProduction ? 'production' : 'development',
-    entry: './src/index.js', // 你的入口檔案
+    entry: './src/index.js',
     output: {
-      path: path.resolve(__dirname, 'build'), // 輸出目錄
-      filename: 'bundle.[contenthash].js', // 帶 hash 的檔案名
-      clean: true, // 清除舊檔案
+      path: path.resolve(__dirname, 'build'),
+      filename: 'bundle.[contenthash].js',
+      clean: true,
     },
     devServer: {
       port: 3000,
-      hot: true, // 啟用熱重載
-      open: true, // 自動打開瀏覽器
-      historyApiFallback: true, // 支援 React Router
+      hot: true,
+      open: true,
+      historyApiFallback: true,
+      proxy: [
+        {
+          context: ['/api'],
+          target: 'http://localhost:3001',
+          changeOrigin: true,
+        },
+      ],
     },
     module: {
       rules: [
@@ -43,21 +50,12 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './public/index.html', // 你的 HTML 模板
+        template: './public/index.html',
       }),
       ...(isProduction ? [new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })] : []),
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
-    },
-    devServer: {
-      port: 3000,
-      hot: true,
-      open: true,
-      historyApiFallback: true,
-      proxy: {
-        '/api': 'http://localhost:3001',
-      },
     },
   };
 };
