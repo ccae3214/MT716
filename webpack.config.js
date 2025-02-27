@@ -50,5 +50,14 @@ module.exports = (env, argv) => {
     resolve: {
       extensions: ['.js', '.jsx'],
     },
+    devServer: {
+      port: 3000,
+      hot: true,
+      open: true,
+      historyApiFallback: true,
+      proxy: {
+        '/api': 'http://localhost:3001',
+      },
+    },
   };
 };

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Form, Label, Input } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+import api from './api'
 
-export default function SigninPage() {
+function ApplicantSigninPage() {
   const [date] = useState(new Date().toLocaleDateString());
   const [notifys, setNotifys] = useState([]);
   const [show, setShow] = useState(false);
@@ -73,12 +74,13 @@ export default function SigninPage() {
             <Input type="checkbox" value="remember-me" /> Remember me
           </Label>
         </div>
-        <Button color='success' onClick={sign_in} outline>Log in</Button>
+        <Button color='success' onClick={sign_in}>Log in</Button>
         <p className="mt-5 mb-3 text-muted">not yet sign up?</p>
-        <Button color='danger' onClick={sign_up} outline>sign up</Button>
+        <Button color='danger' onClick={sign_up}>sign up</Button>
         <p className="mt-5 mb-3 text-muted">© 2025</p>
       </Form>
     </div>
   );
 }
 
+export default ApplicantSigninPage;

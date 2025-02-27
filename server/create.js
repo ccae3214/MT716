@@ -1,7 +1,11 @@
+import config from './env/environment.js';
+import sql from 'mssql';
+import bcrypt from 'bcryptjs';
 const {
   Pool,
   Client
 } = require('pg')
+
 
 const pool = new Pool({
   user: 'qbfbtixbnjvvam',
@@ -12,6 +16,29 @@ const pool = new Pool({
   ssl: true
 });
 
+async function create_user(req, res) {
+  try {
+    const { name, email, pass_word, contact_number, address, identity } = req.body;
+
+    // 加密密碼
+    const hashedPassword = await bcrypt.hash(pass_word, 10);
+
+    // 連接到 MS SQL 資料庫
+    sql.connect(config);
+
+    // 插入資料到 users 表
+    const request = new sql.Request();
+    await request.query(`
+      INSERT INTO users (name, email, password, contact_number, address, identity)
+      VALUES ('${name}', '${email}', '${hashedPassword}', '${contact_number}', '${address}', '${identity}')
+    `);
+
+    res.status(201).send('使用者已成功建立');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('建立使用者時發生錯誤');
+  }
+}
 
 function create_student(req, res) {
 
@@ -248,6 +275,7 @@ function create_empolyer(req, res) {
   })
 }
 module.exports = {
+  create_user,
   create_student,
   create_children_detail,
   create_local_employment,

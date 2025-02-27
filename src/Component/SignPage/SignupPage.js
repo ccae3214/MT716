@@ -1,92 +1,51 @@
 import React, { useState, useCallback } from 'react';
 import { Container, Row, Col, Card, CardBody, CardTitle, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios'
+import api from './api'
 
-const SignupPage = () => {
-  // 從 localStorage 載入初始資料，若無則使用預設值
-  const [biodata, setBiodata] = useState(() => {
-    return JSON.parse(localStorage.getItem('biodata')) || {
-      name: "",//名稱
-      email: "",//電子郵件
-      pass_word: "",//密碼
-      contact_number: "",//電話
-      address: "",//地址
-      identity: ""//身分
-    };
-  });
-  const [user] = useState({
+export default function SignupPage() {
+  const [user, setUser] = useState({
     name: "",
     email: "",
-    pass_word: "",
+    pass_word: "", // 注意這裡的命名與後端一致
     contact_number: "",
     address: "",
     identity: ""
-  })
+  });
+ 
   const saveToLocalStorage = useCallback(() => {
-    localStorage.setItem('biodata', JSON.stringify(biodata));
-  }, [biodata]);
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBiodata(prev => {
-      const newBiodata = { ...prev, [name]: value };
-      localStorage.setItem('biodata', JSON.stringify(newBiodata));
-      return newBiodata;
-    });
+    setUser(prev => ({ ...prev, [name]: value }));
   };
-
-  const handleEducationChange = (index, e) => {
-    const { name, value } = e.target;
-    setBiodata(prev => {
-      const education = [...prev.education];
-      education[index] = { ...education[index], [name]: value };
-      const newBiodata = { ...prev, education };
-      localStorage.setItem('biodata', JSON.stringify(newBiodata));
-      return newBiodata;
-    });
-  };
-
-  const handleExperienceChange = (index, e) => {
-    const { name, value } = e.target;
-    setBiodata(prev => {
-      const experience = [...prev.experience];
-      experience[index] = { ...experience[index], [name]: value };
-      const newBiodata = { ...prev, experience };
-      localStorage.setItem('biodata', JSON.stringify(newBiodata));
-      return newBiodata;
-    });
-  };
-
-  const addEducation = () => {
-    setBiodata(prev => {
-      const newBiodata = {
-        ...prev,
-        education: [...prev.education, { degree: "", school: "", year: "" }]
-      };
-      localStorage.setItem('biodata', JSON.stringify(newBiodata));
-      return newBiodata;
-    });
-  };
-
-  const addExperience = () => {
-    setBiodata(prev => {
-      const newBiodata = {
-        ...prev,
-        experience: [...prev.experience, { title: "", company: "", period: "", description: "" }]
-      };
-      localStorage.setItem('biodata', JSON.stringify(newBiodata));
-      return newBiodata;
-    });
-  };
-
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const submittedBiodata = {
-      ...biodata,
-      skills: biodata.skills.split(',').map(skill => skill.trim())
-    };
-    console.log('提交的履歷資料:', submittedBiodata);
-    // 可在此清除 localStorage，例如：localStorage.removeItem('biodata');
+    try {
+      // 發送 POST 請求到後端 API
+      const response = await axios.post('http://localhost:3001/api/create_user ', user);
+      console.log('提交的資料:', user);
+      console.log('後端回應:', response.data);
+
+      // 清空表單
+      setUser({
+        name: "",
+        email: "",
+        pass_word: "",
+        contact_number: "",
+        address: "",
+        identity: ""
+      });
+      alert('user signed up successfully');
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('建立使用者時發生錯誤:', error);
+      alert('建立使用者失敗');
+    }
   };
 
   return (
@@ -102,7 +61,7 @@ const SignupPage = () => {
                     type="text"
                     name="name"
                     id="name"
-                    value={biodata.name}
+                    value={user.name}
                     onChange={handleChange}
                     placeholder="name"
                   />
@@ -112,7 +71,7 @@ const SignupPage = () => {
                     type="email"
                     name="email"
                     id="email"
-                    value={biodata.email}
+                    value={user.email}
                     onChange={handleChange}
                     placeholder="email"
                   />
@@ -122,7 +81,7 @@ const SignupPage = () => {
                     type="text"
                     name="contact_number"
                     id="contact_number"
-                    value={biodata.contact_number}
+                    value={user.contact_number}
                     onChange={handleChange}
                     placeholder="contact_number"
                   />
@@ -132,7 +91,7 @@ const SignupPage = () => {
                     type="text"
                     name="address"
                     id="address"
-                    value={biodata.address}
+                    value={user.address}
                     onChange={handleChange}
                     placeholder="address"
                   />
@@ -143,7 +102,7 @@ const SignupPage = () => {
                     type="select"
                     name="identity"
                     id="identity"
-                    value={biodata.identity}
+                    value={user.identity}
                     onChange={handleChange}
                     placeholder="identity"
                   >
@@ -161,8 +120,8 @@ const SignupPage = () => {
                     </option>
                   </Input>
                 </FormGroup>
-                <Button color="success" type="submit" className="mt-3">
-                  提交履歷
+                <Button color="success" type="submit" className="mt-3" outline>
+                  submit
                 </Button>
               </Form>
             </CardBody>
@@ -173,4 +132,3 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;

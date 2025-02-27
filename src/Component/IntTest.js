@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Table, Input, Modal, ModalHeader, ModalBody, ModalFooter, Container, Row ,Col } from 'reactstrap';
 
 // 輔助函數保持不變
 function shuffleArray(array) {
@@ -118,44 +118,42 @@ function IntTest() {
 
   // 渲染
   return (
-    <div style={{ padding: '10px' }}>
-      <h3>count 1 to 49, re-count after stop</h3>
+    <div>
+      <h3>click 1 to 49 in 30s</h3>
       <h3>time: {time}s</h3>
-
-
-      {intnumber.map((row, rowIndex) => (
-        <tr key={rowIndex}>
-          {row.map(num => (
-            <td
-              key={num}
-              style={{
-                padding: '0px',
-                width: `${100 / 7}%`,
-              }}
-            >
-              <Button
-                style={clickedButtons.has(num - 1) ? clickedStyle : defaultStyle}
-                color="primary"
-                outline
-                onClick={handlebtn}
-                id={(num - 1).toString()}
+        {intnumber.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map(num => (
+              <td
+                key={num}
+                style={{
+                  padding: '0px',
+                  width: `${100 / 7}%`,
+                }}
               >
-                {num}
-              </Button>
-            </td>
-          ))}
-        </tr>
-      ))}
-
-      <Button color="danger" onClick={startTimer}>
-        {on === 'stop' ? 'start' : on === 'restart' ? 'restart' : 'stop'}
-      </Button>{' '}
-      <Button color="primary" onClick={() => window.print()}>
-        print
-      </Button>{' '}
-      <p>grade(c/30s): <Input value={selectnumber} readOnly /></p>
-      <p>name: <Input /></p>
-      <p>admin: <Input /></p>
+                <Button
+                  style={clickedButtons.has(num - 1) ? clickedStyle : defaultStyle}
+                  color="primary"
+                  outline
+                  onClick={handlebtn}
+                  id={(num - 1).toString()}
+                >
+                  {num}
+                </Button>
+              </td>
+            ))}
+          </tr>
+        ))}
+        <Button color="danger" onClick={startTimer}>
+          {on === 'stop' ? 'start' : on === 'restart' ? 'restart' : 'stop'}
+        </Button>{' '}
+        <Button color="primary" onClick={() => window.print()}>
+          print
+        </Button>{' '}
+        <p>grade(c/30s): <Input value={selectnumber} readOnly /></p>
+        <p>name: <Input /></p>
+        <p>admin: <Input /></p>
+      
 
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
