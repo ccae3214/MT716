@@ -34,7 +34,7 @@ export default class IndexPage extends Component {
   onLetterAnimationComplete={handleAnimationComplete}
 />
 <hr className="my-2" />
-
+<h1>
 <RotatingText
       texts={['TRAINNING!','ASSESSMENT!','MATCH JOB!']}
       staggerFrom={"last"}
@@ -42,10 +42,11 @@ export default class IndexPage extends Component {
       animate={{ y: 0 }}
       exit={{ y: "-120%" }}
       staggerDuration={0.025}
-      splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+      splitLevelClassName="overflow-hidden pb-0.5 sm:pb-3 md:pb-3"
       transition={{ type: "spring", damping: 30, stiffness: 400 }}
       rotationInterval={2000}
     />
+    </h1>
     </h1>
           <hr className="my-2" />
           <hr className="my-2" />

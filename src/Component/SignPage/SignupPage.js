@@ -2,15 +2,11 @@ import React, { useState, useCallback } from 'react';
 import { Container, Row, Col, Card, CardBody, CardTitle, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
-import api from './api'
 
 export default function SignupPage() {
   const [user, setUser] = useState({
-    name: "",
     email: "",
-    pass_word: "", // 注意這裡的命名與後端一致
-    contact_number: "",
-    address: "",
+    password: "", // 注意這裡的命名與後端一致
     user_identity: ""
 
   });
@@ -28,23 +24,18 @@ export default function SignupPage() {
     e.preventDefault();
     try {
       // 發送 POST 請求到後端 API
-      const response = await axios.post('http://localhost:3001/api/create_user ', user);
-      console.log('提交的資料:', user);
-      console.log('後端回應:', response.data);
+      const response = await axios.post('http://localhost:3001/api/create_user', user);
+      console.log('後端回應:', response.user);
       // 清空表單
       setUser({
-        name: "",
         email: "",
-        pass_word: "",
-        contact_number: "",
-        address: "",
+        password: "",
         user_identity: ""
       });
       alert('user signed up successfully');
-      window.location.href = '/login';
+      try { } catch (error) { }
+      navigate('/IndexPage'); //回到首頁
     } catch (error) {
-      alert(user.user_identity);
-
       console.error('建立使用者時發生錯誤:', error);
       alert('建立使用者失敗');
     }
@@ -60,16 +51,6 @@ export default function SignupPage() {
               <Form onSubmit={handleSubmit}>
                 <FormGroup>
                   <Input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={user.name}
-                    onChange={handleChange}
-                    placeholder="name"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Input
                     type="email"
                     name="email"
                     id="email"
@@ -80,22 +61,12 @@ export default function SignupPage() {
                 </FormGroup>
                 <FormGroup>
                   <Input
-                    type="text"
-                    name="contact_number"
-                    id="contact_number"
-                    value={user.contact_number}
+                    type="password"
+                    name="password"
+                    id="password"
+                    value={user.password}
                     onChange={handleChange}
-                    placeholder="contact_number"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Input
-                    type="text"
-                    name="address"
-                    id="address"
-                    value={user.address}
-                    onChange={handleChange}
-                    placeholder="address"
+                    placeholder="password"
                   />
                 </FormGroup>
                 <FormGroup>

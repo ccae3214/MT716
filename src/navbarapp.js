@@ -6,36 +6,28 @@ import api from './api';
 const Navbarapp = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [response, setResponse] = useState("");
-  const [err, setErr] = useState("");
-  const [profile, setProfile] = useState("userProfile");
-  const [employer, setEmployer] = useState("");
-
+  const user = localStorage.getItem('user')
   const navigate = useNavigate(); // Use the useNavigate hook for navigation
-
   const toggleNavbar = () => {
     setCollapsed(prevState => !prevState);
   };
 
-  const goTo = (route) => {
-    navigate(`/${route}`); // Navigate to the specified route
-  };
-
   const navlink = { color: '#337AB7' };
-  const login = { color: '#28A745' };
-  const logout = { color: '#DC3545' };
+  const sign_in = { color: '#28A745' };
+  const sign_out = { color: '#DC3545' };
   const navbar = { 'background-color': '#e3f2fd' };
 
   return (
     <div>
       <Navbar color="light" light expand="md" style={navbar} fixed="top" container="xl" >
         <NavbarBrand>
-          <NavLink onClick={() => goTo('IndexPage')} style={navlink}>Match Trend</NavLink>
+          <NavLink onClick={() => navigate('IndexPage')} style={navlink}>Match Trend</NavLink>
         </NavbarBrand>
         <NavbarToggler onClick={toggleNavbar} />
         <Collapse isOpen={collapsed} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink onClick={() => goTo('biodata')} style={navlink}>
+              <NavLink onClick={() => navigate('biodata')} style={navlink}>
                 Biodata
               </NavLink>
             </NavItem>
@@ -43,27 +35,27 @@ const Navbarapp = () => {
 
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink onClick={() => goTo('Students')} style={navlink}>
+              <NavLink onClick={() => navigate('Students')} style={navlink}>
                 Students
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={() => goTo('Processing')} style={navlink}>
+              <NavLink onClick={() => navigate('Processing')} style={navlink}>
                 Processing
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={() => goTo('Training')} style={navlink}>
+              <NavLink onClick={() => navigate('Training')} style={navlink}>
                 Training
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={() => goTo('Payment')} style={navlink}>
+              <NavLink onClick={() => navigate('Payment')} style={navlink}>
                 Payment
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={() => goTo('IntTest')} style={navlink}>
+              <NavLink onClick={() => navigate('IntTest')} style={navlink}>
                 IntTest
               </NavLink>
             </NavItem>
@@ -72,23 +64,25 @@ const Navbarapp = () => {
 
         <Nav navbar>
           <NavItem>
-            <NavLink onClick={() => goTo('UserPage')} style={navlink}>
-                UserProfile
+            <NavLink onClick={() => navigate('UserPage')} style={navlink}>
+              UserProfile
             </NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink style={logout}>Sign Out</NavLink>
-          </NavItem>
-          <NavItem style={login}>
-            <NavLink onClick={() => goTo('SigninPage')} style={login}>
-              Sign In
-            </NavLink>
-          </NavItem>
+          {user?
+            <NavItem>
+              <NavLink style={sign_out} onClick={() => { localStorage.removeItem('user'); navigate('SigninPage'); }}>Sign Out</NavLink>
+            </NavItem>
+            :<NavItem>
+              <NavLink onClick={() => navigate('SigninPage')} style={sign_in}>
+                Sign In
+              </NavLink>
+            </NavItem>}
         </Nav>
+
       </Navbar>
 
       {/* 子路由內容在這裡渲染 */}
-      <div 
+      <div
         style={{
           margin: 'auto',
           width: '50%',

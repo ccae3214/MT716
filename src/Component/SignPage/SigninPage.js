@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
 import { Button, Form, Label, Input } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 export default function SigninPage() {
-  const [date] = useState(new Date().toLocaleDateString());
-  const [notifys, setNotifys] = useState([]);
-  const [show, setShow] = useState(false);
-  const [notify, setNotify] = useState({});
-  const [user, setUser] = useState({ name: "", password: "" });
+  const [user, setUser] = useState({ email: "1@1", password: "1" });
 
   const navigate = useNavigate(); // Move useNavigate to the top level
 
-  const sign_in = () => {
-    // Add your sign in logic here
+  const sign_in = async (e) => {
+    try {
+      // 發送 post 請求到後端 API
+      const response = await axios.post('http://localhost:3001/api/sign_in ', user);
+      console.log('提交的資料:', user);
+      console.log('後端回應:', user);
+        localStorage.setItem('user', JSON.stringify(response));
+      navigate("/IndexPage");
+    } catch (error) {
+      console.error('登入使用者時發生錯誤:', error);
+    }
   };
+
 
   const sign_up = () => {
     navigate('/SignupPage'); // Use the navigate function here
@@ -52,7 +59,7 @@ export default function SigninPage() {
         <Label for="inputEmail" className="sr-only">Email</Label>
         <Input
           type="id"
-          id='name'
+          id='email'
           className="form-control"
           placeholder="email"
           required
@@ -73,10 +80,10 @@ export default function SigninPage() {
             <Input type="checkbox" value="remember-me" /> Remember me
           </Label>
         </div>
-        <Button color='success' onClick={sign_in} outline>Log in</Button>
+        <Button color='success' onClick={sign_in} outline>Sign In</Button>
         <p className="mt-5 mb-3 text-muted">not yet sign up?</p>
-        <Button color='danger' onClick={sign_up} outline>sign up</Button>
-        <p className="mt-5 mb-3 text-muted">© 2025</p>
+        <Button color='danger' onClick={sign_up} outline>Sign Up</Button>
+        <p className="mt-5 mb-3 text-muted">©2025</p>
       </Form>
     </div>
   );
