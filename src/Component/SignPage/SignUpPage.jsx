@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, CardBody, CardTitle, Form, FormGroup, Label,
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 
-export default function SignupPage() {
+export default function SignUpPage() {
   const [user, setUser] = useState({
     email: "",
     password: "", // 注意這裡的命名與後端一致

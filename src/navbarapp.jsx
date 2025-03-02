@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Nav, NavLink, NavbarBrand, NavbarToggler, NavItem, Collapse, Navbar } from 'reactstrap';
-import api from './api';
 
 const Navbarapp = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -21,19 +20,17 @@ const Navbarapp = () => {
     <div>
       <Navbar color="light" light expand="md" style={navbar} fixed="top" container="xl" >
         <NavbarBrand>
-          <NavLink onClick={() => navigate('IndexPage')} style={navlink}>Match Trend</NavLink>
+          <NavLink onClick={() => navigate('index')} style={navlink}>Match Trend</NavLink>
         </NavbarBrand>
         <NavbarToggler onClick={toggleNavbar} />
         <Collapse isOpen={collapsed} navbar>
+          {user?
           <Nav className="ml-auto" navbar>
             <NavItem>
               <NavLink onClick={() => navigate('biodata')} style={navlink}>
                 Biodata
               </NavLink>
             </NavItem>
-          </Nav>
-
-          <Nav className="ml-auto" navbar>
             <NavItem>
               <NavLink onClick={() => navigate('Students')} style={navlink}>
                 Students
@@ -60,20 +57,16 @@ const Navbarapp = () => {
               </NavLink>
             </NavItem>
           </Nav>
+          :""}
         </Collapse>
 
         <Nav navbar>
-          <NavItem>
-            <NavLink onClick={() => navigate('UserPage')} style={navlink}>
-              UserProfile
-            </NavLink>
-          </NavItem>
           {user?
             <NavItem>
-              <NavLink style={sign_out} onClick={() => { localStorage.removeItem('user'); navigate('SigninPage'); }}>Sign Out</NavLink>
+              <NavLink style={sign_out} onClick={() => { localStorage.removeItem('user'); navigate('signin'); }}>Sign Out</NavLink>
             </NavItem>
             :<NavItem>
-              <NavLink onClick={() => navigate('SigninPage')} style={sign_in}>
+              <NavLink onClick={() => navigate('signin')} style={sign_in}>
                 Sign In
               </NavLink>
             </NavItem>}

@@ -30,7 +30,7 @@ async function create_user(req, res) {
       .input('email', sql.VarChar, email)
       .query('SELECT * FROM users WHERE email = @email');
     // 檢查用戶是否存在
-    if (result.recordset.length >0) {
+    if (result.recordset.length > 0) {
       return res.status(409).json({ error: '電子郵件已經註冊過' });
     }
     const insertRequest = pool.request();
@@ -61,11 +61,11 @@ async function sign_in(req, res) {
     const pool = await initializePool();
     // 查詢用戶
     const request = pool.request();
-    const result = await request
+    const result =  await request
       .input('email', sql.NVarChar, email)
       .query('SELECT * FROM users WHERE email = @email');
     // 檢查用戶是否存在
-    if (result.recordset.length === 0) {
+    if (result.recordset.length ===0) {
       return res.status(401).json({ error: '電子郵件錯誤' });
     }
     const user = result.recordset[0];
@@ -81,7 +81,6 @@ async function sign_in(req, res) {
         id: user.id,
         name: user.name,
         email: user.email,
-        identity: user.user_identity,
       },
     });
   } catch (err) {

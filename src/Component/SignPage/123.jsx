@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Label, Input } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+import Card from 'reactstrap/lib/Card';
 import axios from 'axios'
 
 export default function SigninPage() {
   const [user, setUser] = useState({ email: "1@1", password: "1" });
-
-  const navigate = useNavigate(); // Move useNavigate to the top level
+  const navigate = useNavigate(); // 
+  // 檢查用戶是否已登入
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      // 如果 localStorage 中有用戶資訊，視為已登入，跳轉到 IndexPage
+      navigate('/indexPage');
+    }
+  }, [navigate]); // 依賴 navigate，確保路由功能可用
 
   const sign_in = async (e) => {
     try {
@@ -14,13 +22,12 @@ export default function SigninPage() {
       const response = await axios.post('http://localhost:3001/api/sign_in ', user);
       console.log('提交的資料:', user);
       console.log('後端回應:', user);
-        localStorage.setItem('user', JSON.stringify(response));
+      localStorage.setItem('user', JSON.stringify(response));
       navigate("/IndexPage");
     } catch (error) {
       console.error('登入使用者時發生錯誤:', error);
     }
   };
-
 
   const sign_up = () => {
     navigate('/SignupPage'); // Use the navigate function here
@@ -43,19 +50,15 @@ export default function SigninPage() {
 
   return (
     <div className="text-center">
+      <Card
+        style={{  margin: 'auto' }}
+      >
       <Form
         id='form'
         className="form-signin"
         onKeyDown={uniKeyCode}
       >
-        <img
-          className="mb-4"
-          src="./src/images/MTLOGO.png"
-          alt=""
-          width="150"
-          height="150"
-        />
-        <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <h1 className="h3 mb-3 font-weight-normal">Sign In</h1>
         <Label for="inputEmail" className="sr-only">Email</Label>
         <Input
           type="id"
@@ -85,6 +88,7 @@ export default function SigninPage() {
         <Button color='danger' onClick={sign_up} outline>Sign Up</Button>
         <p className="mt-5 mb-3 text-muted">©2025</p>
       </Form>
+      </Card>
     </div>
   );
 }

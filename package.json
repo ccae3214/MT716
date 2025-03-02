@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/roboto": "^5.2.1",
+    "@mui/material": "^6.4.6",
     "@react-spring/web": "^9.7.5",
     "acorn": "^8.14.0",
     "axios": "^0.24.0",
@@ -34,11 +38,14 @@
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
     "react-iframe": "^1.8.5",
     "react-router": "^7.2.0",
     "react-router-dom": "^7.2.0",
     "reactstrap": "^9.2.3",
-    "serve": "^14.2.4"
+    "serve": "^14.2.4",
+    "typescript": "^5.8.2",
+    "zustand": "^5.0.3"
   },
   "scripts": {
     "start": "npm-run-all --parallel server:start client:start",
