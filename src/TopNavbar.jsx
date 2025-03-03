@@ -15,24 +15,24 @@ import { useTheme } from '@mui/material/styles';
 import { useApp } from './store'; // 導入 useApp
 
 export default function TopNavbar() {
-  const { user, logout, mode, toggleMode, setMode } = useApp(); // 使用 useApp
+  const { user,setUser,sign_in, sign_out, mode, toggleMode, setMode } = useApp(); // 使用 useApp
   const theme = useTheme();
+  const navigate = useNavigate(); // 
 
   const handleThemeChange = (event) => {
     const newMode = event.target.value;
     setMode(newMode); // 設置模式
   };
-  const navigate = useNavigate(); // 
   // 檢查用戶是否已登入
   useEffect(() => {
     if (user.email) {
-      // 如果 localStorage 中有用戶資訊，視為已登入，跳轉到 IndexPage
+      // 如果 cookie 中有用戶資訊，視為已登入，跳轉到 Index
       navigate('/index');
     }
   }, [navigate]); // 依賴 navigate，確保路由功能可用
-  const handleLogout = () => {
-    logout();
-    alert('Logged out successfully');
+  const handlesign_out = () => {
+    sign_out();
+    navigate('/signin');
   };
 
   return (
@@ -66,14 +66,14 @@ export default function TopNavbar() {
           <Button
             variant="outlined"
             color="primary"
-            onClick={handleLogout}
+            onClick={handlesign_out}
             sx={{
               borderRadius: 28,
               textTransform: 'none',
               px: 2,
             }}
           >
-            Logout
+            sign_out
           </Button>
         ) : (
           <Button

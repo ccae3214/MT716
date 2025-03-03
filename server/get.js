@@ -1,6 +1,7 @@
 import config from './env/environment.js';
 import sql from 'mssql';
-import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken" // 用於生成和驗證 token
+import cookie from 'react-cookies'
 // 全局連接池
 let poolPromise;
 async function initializePool() {
@@ -8,44 +9,34 @@ async function initializePool() {
         poolPromise = sql.connect(config);
     }
     return poolPromise;
-}
-async function sign_in(req, res) {
+};
+
+async function verify_token(req, res) {
+    const token = cookie.load('token'); // 從 Cookie 獲取 token
+    const user = cookie.load('user')
+    const JWT_SECRET = "dbb289b8a5c7e25b027d915641ed5878cdd0d1861109cb1e25335d0764e16ada"; // 建議使用 .env 文件
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: "No token expired" });
+    }
     try {
-        const { email, password } = req.body;
-        // 檢查是否有提供 email 和 password
-        if (!email || !password) {
-            return res.status(400).json({ error: '請提供電子郵件和密碼' });
-        }
-        // 獲取連接池
-        const pool = await initializePool();
-        // 查詢用戶
-        const request = pool.request();
-        const result = await request
-            .input('email', sql.NVarChar, email)
-            .query('SELECT * FROM users WHERE email = @email');
-        // 檢查用戶是否存在
-        if (result.recordset.length === 0) {
-            return res.status(401).json({ error: '電子郵件或密碼錯誤' });
-        }
-        const user = result.recordset[0];
-        // 驗證密碼
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ error: '電子郵件或密碼錯誤' });
-        }
-        // 登入成功（這裡可以返回更多用戶資訊或 JWT Token）
-        res.status(200).json({
-            message: '登入成功',
-            user: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                identity: user.user_identity,
-            },
-        });
+        // 驗證 token
+        const decoded = jwt.verify(token, JWT_SECRET);
+        console.log('認證有效')
+        res.status(200).json({ success: true,user:user, message: "Token is valid" });
     } catch (err) {
-        console.error('登入失敗:', err);
-        res.status(500).json({ error: '登入時發生錯誤' });
+        console.error("Token verification error:", err);
+        console.log('無法取得認證')
+        res.status(500).json({ success: false, message: "server disconnect" });
     }
 };
-export { sign_in };
+async function sign_out(req, res) {
+    try {
+    cookie.remove('token', { path: '/' })
+    res.status(200).json({ success: true, message: "Logged out successfully" });
+} catch (err) {
+    console.error("Signout error:", err);
+    res.status(500).json({ success: false, message: "server disconnect" });
+}
+}
+export { verify_token, sign_out };

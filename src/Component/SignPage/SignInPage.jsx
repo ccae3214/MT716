@@ -7,16 +7,16 @@ import { useApp } from '../../store'; // 導入 useUser Hook
 
 export default function SignInPage() {
   const navigate = useNavigate();
-  const { user: globalUser, setUser } = useApp(); // 使用 useUser 獲取全域使用者狀態和 setUser 方法
-  const [localUser, setLocalUser] = useState({ email: '', password: '' }); // 本地表單狀態
+  const { user, setUser } = useApp(); // 使用 useUser 獲取全域使用者狀態和 setUser 方法
+  const [localUser, setLocalUser] = useState({ email: '1@1', password: '1' }); // 本地表單狀態
 
   // 檢查用戶是否已登入
   useEffect(() => {
-    if (globalUser.email) {
+    if (user.email) {
       // 如果全域使用者狀態中有 email，視為已登入，跳轉到 IndexPage
       navigate('/index');
     }
-  }, [globalUser, navigate]);
+  }, [user, navigate]);
 
   // 處理表單提交
   const handleSubmit = async (e) => {
@@ -24,7 +24,6 @@ export default function SignInPage() {
     try {
       // 發送 POST 請求到後端 API
       const response = await axios.post('http://localhost:3001/api/sign_in', localUser);
-      console.log('後端回應:', response.data);
       // 更新全域使用者狀態
       setUser(response.data.user);
     } catch (error) {

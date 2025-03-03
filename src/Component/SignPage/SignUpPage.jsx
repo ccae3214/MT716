@@ -1,43 +1,35 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, CardBody, CardTitle, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 
 export default function SignUpPage() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "", // 注意這裡的命名與後端一致
-    user_identity: ""
+  const [localUser, setlocalUser] = useState({
+    email: "1@1",
+    password: "1", // 注意這裡的命名與後端一致
+    user_identity: "TMA",
 
   });
-
+  const navigate = useNavigate();
   const saveToLocalStorage = useCallback(() => {
-    localStorage.setItem('user', JSON.stringify(user));
-  }, [user]);
+    localStorage.setItem('localUser', JSON.stringify(localUser));
+  }, [localUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser(prev => ({ ...prev, [name]: value }));
+    setlocalUser(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // 發送 POST 請求到後端 API
-      const response = await axios.post('http://localhost:3001/api/create_user', user);
-      console.log('後端回應:', response.user);
+      const response = await axios.post('http://localhost:3001/api/create_user', localUser);
       // 清空表單
-      setUser({
-        email: "",
-        password: "",
-        user_identity: ""
-      });
-      alert('user signed up successfully');
-      try { } catch (error) { }
-      navigate('/IndexPage'); //回到首頁
+      navigate('/signin');
     } catch (error) {
       console.error('建立使用者時發生錯誤:', error);
-      alert('建立使用者失敗');
     }
   };
 
@@ -54,7 +46,7 @@ export default function SignUpPage() {
                     type="email"
                     name="email"
                     id="email"
-                    value={user.email}
+                    value={localUser.email}
                     onChange={handleChange}
                     placeholder="email"
                   />
@@ -64,7 +56,7 @@ export default function SignUpPage() {
                     type="password"
                     name="password"
                     id="password"
-                    value={user.password}
+                    value={localUser.password}
                     onChange={handleChange}
                     placeholder="password"
                   />
@@ -75,7 +67,7 @@ export default function SignUpPage() {
                     type="select"
                     name="user_identity"
                     id="user_identity"
-                    value={user.user_identity}
+                    value={localUser.user_identity}
                     onChange={handleChange}
                     placeholder="user_identity"
                   >

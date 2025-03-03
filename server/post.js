@@ -1,7 +1,8 @@
 import config from './env/environment.js';
 import sql from 'mssql';
 import bcrypt from 'bcryptjs';
-
+import jwt from "jsonwebtoken" // 用於生成和驗證 token
+import cookie from 'react-cookies'
 // 全局連接池
 let poolPromise;
 
@@ -61,11 +62,11 @@ async function sign_in(req, res) {
     const pool = await initializePool();
     // 查詢用戶
     const request = pool.request();
-    const result =  await request
+    const result = await request
       .input('email', sql.NVarChar, email)
       .query('SELECT * FROM users WHERE email = @email');
     // 檢查用戶是否存在
-    if (result.recordset.length ===0) {
+    if (result.recordset.length === 0) {
       return res.status(401).json({ error: '電子郵件錯誤' });
     }
     const user = result.recordset[0];
@@ -74,18 +75,25 @@ async function sign_in(req, res) {
     if (!isPasswordValid) {
       return res.status(402).json({ error: '密碼錯誤' });
     }
+    // JWT 密鑰（應儲存在環境變數中）
+    const JWT_SECRET = "dbb289b8a5c7e25b027d915641ed5878cdd0d1861109cb1e25335d0764e16ada"; // 建議使用 .env 文件
+    // 生成 JWT token
+    const token = jwt.sign({ user: user.email }, JWT_SECRET, { expiresIn: "24h" });
     // 登入成功（這裡可以返回更多用戶資訊或 JWT Token）
+    const expires = new Date()
+   expires.setDate(Date.now() + 1000 * 60 * 60 * 24 * 14)
+    cookie.save('token', token, { path: '/',expires,httpOnly: true});
+    cookie.save('user', user, { path: '/' });///使用者密碼已加密過可直接存cookie沒關係
+
     res.status(200).json({
+      success: true,
       message: '登入成功',
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
+      user:user
     });
   } catch (err) {
     console.error('登入失敗:', err);
     res.status(500).json({ error: '登入時發生錯誤' });
   }
 };
+
 export { create_user, sign_in };

@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
 import { Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Navbarapp from './navbarapp'
 import TopNavbar from './TopNavbar'
 import IndexPage from './Component/IndexPage'
@@ -8,8 +7,8 @@ import SignInPage from './Component/SignPage/SignInPage'
 import SignUpPage from './Component/SignPage/SignUpPage'
 import HomePage from './Component/HomePage'
 import IntTest from './Component/IntTest'
-import { useApp,AppProvider } from './store'
-
+import {AppProvider } from './store'
+import tools from './tools'
 export const makeMainRoutes = () => (
   <BrowserRouter basename="/" >
     <AppProvider >

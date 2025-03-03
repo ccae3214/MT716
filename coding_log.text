@@ -116,3 +116,5 @@ history怎搞 搞整天 更新了套件版本 修了一些BUG
 轉職
 2/27 後端與資料庫資料傳輸時db加密密碼儲存
 3/02 改用material-ui 放棄reactstrapt
+3/03 material-ui with store provider combinated@ user local save需要變更，store開新的頁面狀態不會繼承,JWT TOKEN save in cookie httponly=ture only server side can use,
+up.已更新完成使用者全域狀態管理，使用cookie,JWT TOKEN

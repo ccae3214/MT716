@@ -44,6 +44,7 @@ export default class IndexPage extends Component {
   rootMargin="-50px"
   onLetterAnimationComplete={handleAnimationComplete}
 />
+</h1>
 
 <hr className="my-2" />
 <h1>
@@ -58,7 +59,6 @@ export default class IndexPage extends Component {
       transition={{ type: "spring", damping: 30, stiffness: 400 }}
       rotationInterval={2000}
     />
-    </h1>
     </h1>
           <hr className="my-2" />
           <hr className="my-2" />
