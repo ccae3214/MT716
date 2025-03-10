@@ -22,11 +22,11 @@ async function verify_token(req, res) {
     try {
         // 驗證 token
         const decoded = jwt.verify(token, JWT_SECRET);
-        console.log('認證有效')
+        ///console.log('認證有效')
         res.status(200).json({ success: true,user:user, message: "Token is valid" });
     } catch (err) {
         console.error("Token verification error:", err);
-        console.log('無法取得認證')
+        ///console.log('無法取得認證')
         res.status(500).json({ success: false, message: "server disconnect" });
     }
 };

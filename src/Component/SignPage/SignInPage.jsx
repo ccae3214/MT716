@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { Container, TextField, Button, Typography, Box } from "@mui/material";
 import axios from 'axios';
 import { useApp } from '../../store'; // 導入 useUser Hook
+import { useTheme } from '@mui/material/styles';
 
 export default function SignInPage() {
   const navigate = useNavigate();
   const { user, setUser } = useApp(); // 使用 useUser 獲取全域使用者狀態和 setUser 方法
   const [localUser, setLocalUser] = useState({ email: '1@1', password: '1' }); // 本地表單狀態
-
+  const theme = useTheme();
   // 檢查用戶是否已登入
   useEffect(() => {
     if (user.email) {
@@ -27,6 +28,7 @@ export default function SignInPage() {
       // 更新全域使用者狀態
       setUser(response.data.user);
     } catch (error) {
+      alert("sever no respon")
       console.error('登入使用者時發生錯誤:', error);
     }
   };
@@ -42,12 +44,11 @@ export default function SignInPage() {
 
   return (
     <Container
-      maxWidth="xs"
       sx={{
-        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: 'background.paper'
       }}
     >
       <Box
@@ -55,7 +56,8 @@ export default function SignInPage() {
           p: 3,
           width: "100%",
           maxWidth: 300,
-          bgcolor: "background.paper",
+          bgcolor: theme.palette.surface.main,
+          color: theme.palette.onSurface.main,
           borderRadius: 2,
           boxShadow: 3,
           display: "flex",
@@ -63,13 +65,14 @@ export default function SignInPage() {
           gap: 2,
         }}
       >
-        <Typography variant="h5" align="center" gutterBottom>
+        <Typography variant="h5" align="center" gutterBottom >
           Sign In
         </Typography>
         <Typography variant="body2" align="center" color="text.secondary">
           Enter your credentials
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box component="form" onSubmit={handleSubmit} 
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
             id="email"
             label="Email"

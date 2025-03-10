@@ -3,8 +3,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import axios from "axios";
 // 定義初始狀態
 const initialAppState = {
-  user:  { email: '', password: '' }, // 使用者狀態
-  mode:  'light', // 模式狀態，預設為日間模式
+  user: { email: '', password: '' }, // 使用者狀態
+  mode: 'light', // 模式狀態，預設為日間模式
 };
 
 // 定義 reducer 函數
@@ -38,38 +38,44 @@ export const AppProvider = ({ children }) => {
     () =>
       createTheme({
         palette: {
-          mode: state.mode, // 主題模式：light 或 dark，影響全局顏色
-          primary: { main: "#6750A4" }, // M3 主色（紫色）
-          secondary: { main: "#958DA5" }, // M3 輔色
+          mode: state.mode||'light', // 根據 state.mode 設置 light 或 dark 模式
+          primary: {
+            main: state.mode === 'light' ? '#000000' : '#FFFFFF', // 主色：light 為黑色，dark 為白色
+          },
+          secondary: {
+            main: state.mode === 'light' ? '#666666' : '#CCCCCC', // 輔色：light 為深灰色，dark 為淺灰色
+          },
           surface: {
-            main: state.mode === "light" ? "#F7F2FA" : "#1C2526", // M3 表面色
+            main: state.mode === 'light' ? '#FFFFFF' : '#000000', // 表面色：light 為白色，dark 為黑色
           },
           onSurface: {
-            main: state.mode === "light" ? "#1C2526" : "#E0E0E0", // M3 表面上的文字色
+            main: state.mode === 'light' ? '#000000' : '#FFFFFF', // 表面上的文字色：light 為黑色，dark 為白色
           },
           outline: {
-            main: state.mode === "light" ? "#79747E" : "#938F99", // M3 邊框色
+            main: state.mode === 'light' ? '#DDDDDD' : '#444444', // 邊框色：light 為淺灰色，dark 為深灰色
           },
           background: {
-            default: state.mode === "light" ? "#F7F2FA" : "#1C2526", // 全局背景色
-            paper: state.mode === "light" ? "#fff" : "#313033", // 紙張背景色（例如卡片）
+            default: state.mode === 'light' ? '#FFFFFF' : '#000000', // 全局背景色：light 為白色，dark 為黑色
+            paper: state.mode === 'light' ? '#FFFFFF' : '#1A1A1A', // 紙張背景色（例如卡片）：light 為白色，dark 為深灰色
           },
         },
-        shape: { borderRadius: 12 }, // M3 圓角設置
+        shape: {
+          borderRadius: 12, // M3 圓角設置
+        },
         typography: {
-          fontFamily: "Roboto, sans-serif", // M3 推薦字體
+          fontFamily: 'Roboto, sans-serif', // M3 推薦字體
           h6: { fontWeight: 500 }, // 標題字重
         },
         components: {
           // 自定義 AppBar 樣式，符合 M3 淺陰影
           MuiAppBar: {
             styleOverrides: {
-              root: { boxShadow: "0 1px 4px rgba(0, 0, 0, 0.12)" },
+              root: { boxShadow: '0 1px 4px rgba(0, 0, 0, 0.12)' },
             },
           },
           // 自定義 Button 樣式，移除陰影以符合 M3
           MuiButton: {
-            styleOverrides: { root: { boxShadow: "none" } },
+            styleOverrides: { root: { boxShadow: 'none' } },
           },
         },
       }),
@@ -91,11 +97,11 @@ export const AppProvider = ({ children }) => {
   const sign_in = async (localUser) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/sign_in",localUser,
+        "http://localhost:3001/api/sign_in", localUser,
         { withCredentials: true } // 包含 Cookie
       );
       if (response.data.success) {
-        dispatch({ type: "SET_USER", payload: response.data.user});
+        dispatch({ type: "SET_USER", payload: response.data.user });
         return true;
       } else {
         throw new Error(response.data.message || "signin failed");
@@ -124,8 +130,8 @@ export const AppProvider = ({ children }) => {
           withCredentials: true, // 包含 Cookie 
         });
         if (response.data.user) {
-          dispatch({ type: "SET_USER", payload: response.data.user});
-          console.log('email='+response.data.user.email)
+          dispatch({ type: "SET_USER", payload: response.data.user });
+          console.log('email=' + response.data.user.email)
         }
         if (!response.data.user) {
           dispatch({ type: "SIGN_OUT" });
