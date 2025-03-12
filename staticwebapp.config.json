@@ -6,7 +6,7 @@
         "get"
       ],
       "rewrite": "/",
-      "statusCode": 301
+      "statusCode": 200
     }
   ]
 }
