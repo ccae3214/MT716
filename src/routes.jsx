@@ -16,6 +16,7 @@ export const makeMainRoutes = () => (
         <TopNavbar />
         <Routes >
           <Route path="/" >
+          <Route path="*" element={<SignInPage />} />
             <Route index path="/index" element={<IndexPage />} />
             <Route path="/TmaPage" element={<TmaPage />} />
             <Route path="/home" element={<HomePage />} />
