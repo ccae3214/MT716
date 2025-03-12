@@ -6,7 +6,6 @@
         "get"
       ],
       "rewrite": "/",
-      "redirect": "/",
       "statusCode": 301
     }
   ]
