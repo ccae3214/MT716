@@ -19,12 +19,7 @@ export default function TopNavbar() {
   const theme = useTheme();
   const navigate = useNavigate(); // 
   // 檢查用戶是否已登入
-  useEffect(() => {
-    if (!user.email) {
-      // 如果全域使用者狀態中有 email，視為已登入，跳轉到 signin
-      navigate('/signin');
-    }
-  }, [user, navigate]);
+ 
   return (
     <AppBar position="fixed" elevation={1} sx={{
       bgcolor: theme.palette.surface.main || 'grey.100',
