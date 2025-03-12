@@ -19,7 +19,11 @@ export default function TopNavbar() {
   const theme = useTheme();
   const navigate = useNavigate(); // 
   // 檢查用戶是否已登入
- 
+
+const handelsidemenu=()=>{
+  togglesidemenu();
+  navigate('/TmaPage')
+}
   return (
     <AppBar position="fixed" elevation={1} sx={{
       bgcolor: theme.palette.surface.main || 'grey.100',
@@ -39,7 +43,7 @@ export default function TopNavbar() {
         </Typography>
         {user.email ?(
         <IconButton
-        onClick={togglesidemenu}// 點擊按鈕打開左菜單
+        onClick={handelsidemenu}// 點擊按鈕打開左菜單
        
         >
           <MenuIcon sx={{

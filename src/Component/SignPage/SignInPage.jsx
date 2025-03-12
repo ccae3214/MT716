@@ -14,12 +14,7 @@ export default function SignInPage() {
   const [localUser, setLocalUser] = useState({ email: '1@1', password: '1' }); // 本地表單狀態
   const theme = useTheme();
   // 檢查用戶是否已登入
-  useEffect(() => {
-    if (user.email) {
-      // 如果全域使用者狀態中有 email，視為已登入，跳轉到 IndexPage
-      navigate('/TmaPage');
-    }
-  }, [user, navigate]);
+
 
   // 處理表單提交
   const handleSubmit = async (e) => {
@@ -29,6 +24,7 @@ export default function SignInPage() {
       const response = await axios.post('http://localhost:3001/api/sign_in', localUser);
       // 更新全域使用者狀態
       setUser(response.data.user);
+      navigate('/TmaPage');
     } catch (error) {
       alert("sever no respon")
       console.error('登入使用者時發生錯誤:', error);
