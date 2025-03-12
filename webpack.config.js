@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
 
@@ -11,6 +11,7 @@ module.exports = (env, argv) => {
     output: {
       path: path.resolve(__dirname, 'build'),
       filename: 'bundle.[contenthash].js',
+      publicPath: '/', // Ensures React Router works with absolute paths
       clean: true,
     },
     devServer: {
@@ -53,6 +54,11 @@ module.exports = (env, argv) => {
         template: './public/index.html',
       }),
       ...(isProduction ? [new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })] : []),
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: 'staticwebapp.config.json', to: 'build' }, // Copy to output folder
+        ],
+      }),
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
