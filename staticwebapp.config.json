@@ -7,14 +7,7 @@
       ],
       "rewrite": "/",
       "redirect": "/",
-      "statusCode": 200,
-      "allowedRoles": [
-        "匿名",
-        "已驗證"
-      ],
-      "headers": {
-        "/*": ""
-      }
+      "statusCode": 200
     }
   ]
 }
