@@ -1,13 +1,1 @@
-{
-  "routes": [
-    {
-      "routes": [
-        {
-          "route": "/*",
-          "serve": "/",
-          "statusCode": 200
-        }
-      ]
-    }
-  ]
-}
+{}
