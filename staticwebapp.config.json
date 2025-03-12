@@ -1,20 +1,13 @@
 {
   "routes": [
     {
-      "route": "*",
-      "methods": [
-        "get",
-        "post",
-        "head",
-        "put",
-        "delete",
-        "connect",
-        "options",
-        "trace",
-        "patch"
-      ],
-      "redirect": "/",
-      "statusCode": 404
+      "routes": [
+        {
+          "route": "/*",
+          "serve": "/index.html",
+          "statusCode": 200
+        }
+      ]
     }
   ]
 }
