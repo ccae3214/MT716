@@ -6,13 +6,10 @@ const post = require('../post');
 const get = require('../get');
 ///get service
 //verifyjwttoken
-router.get('/verify_token', (req, res) => {
-  get.verify_token(req, res);  
+router.post('/verify_token', (req, res) => {
+  post.verify_token(req, res);  
 });
-// signout API（remove Cookie）
-router.get("/sign_out", (req, res) => {
-  get.sign_out(req, res);  
- });
+
 
 
 ///post service
@@ -20,7 +17,10 @@ router.get("/sign_out", (req, res) => {
 router.post('/sign_in', (req, res) => {
   post.sign_in(req, res);  
 });
-
+// signout API（remove Cookie）
+router.post("/sign_out", (req, res) => {
+  post.sign_out(req, res);  
+ });
 //create_user
 router.post('/create_user', (req, res) => {
   post.create_user(req, res);  

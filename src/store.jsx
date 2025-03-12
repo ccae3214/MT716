@@ -4,7 +4,9 @@ import axios from "axios";
 // 定義初始狀態
 const initialAppState = {
   user: { email: '', password: '' }, // 使用者狀態
-  mode: 'light', // 模式狀態，預設為日間模式
+  mode: 'dark', // 模式狀態，預設為日間模式
+  sidemenu: true,
+  selectedindex: 0,
 };
 
 // 定義 reducer 函數
@@ -13,12 +15,16 @@ const appReducer = (state, action) => {
     // 使用者相關的 action
     case 'SET_USER':
       return { ...state, user: action.payload };
+    case 'SET_SELECTEDINDEX':
+      return { ...state, selectedindex: action.payload };
     case 'SIGN_OUT':
       return { ...state, user: { email: null, password: null } };
 
     // 模式相關的 action
     case 'TOGGLE_MODE':
-      return { ...state, mode: state.mode === 'light' ? 'dark' : 'light' };
+      return { ...state, mode: state.mode == 'light' ? 'dark' : 'light' };
+    case 'TOGGLE_SIDEMENU':
+      return { ...state, sidemenu: !state.sidemenu };
     case 'SET_MODE':
       return { ...state, mode: action.payload };
 
@@ -38,7 +44,7 @@ export const AppProvider = ({ children }) => {
     () =>
       createTheme({
         palette: {
-          mode: state.mode||'light', // 根據 state.mode 設置 light 或 dark 模式
+          mode: state.mode || 'light', // 根據 state.mode 設置 light 或 dark 模式
           primary: {
             main: state.mode === 'light' ? '#000000' : '#FFFFFF', // 主色：light 為黑色，dark 為白色
           },
@@ -85,9 +91,16 @@ export const AppProvider = ({ children }) => {
   const setUser = (userData) => {
     dispatch({ type: 'SET_USER', payload: userData });
   };
+  // 更新選擇的側菜單路由
+  const setselectedindex = (index) => {
+    dispatch({ type: 'SET_SELECTEDINDEX', payload: index });
+  };
   // 切換主題模式
   const toggleMode = () => {
     dispatch({ type: 'TOGGLE_MODE' });
+  };
+  const togglesidemenu = () => {
+    dispatch({ type: 'TOGGLE_SIDEMENU' });
   };
 
   const setMode = (mode) => {
@@ -98,11 +111,9 @@ export const AppProvider = ({ children }) => {
     try {
       const response = await axios.post(
         "http://localhost:3001/api/sign_in", localUser,
-        { withCredentials: true } // 包含 Cookie
       );
       if (response.data.success) {
         dispatch({ type: "SET_USER", payload: response.data.user });
-        return true;
       } else {
         throw new Error(response.data.message || "signin failed");
       }
@@ -114,31 +125,37 @@ export const AppProvider = ({ children }) => {
   // 登出函數（使用 Axios）
   const sign_out = async () => {
     try {
-      await axios.get("http://localhost:3001/api/sign_out", {
-        withCredentials: true, // 包含 Cookie
-      });
-      dispatch({ type: "SIGN_OUT" });
+      const response = await axios.post(
+        "http://localhost:3001/api/sign_out",
+      );
+      if (response.data.success) {
+        dispatch({ type: "SET_USER", payload: response.data.user });
+        return true;
+      } else {
+        throw new Error(response.data.message || "signout failed");
+      }
     } catch (err) {
       console.error("Signout error:", err);
+      throw err.response?.data?.message || err.message || "An error occurred";
     }
   };
   // 啟動時驗證 token（使用 Axios）
   useEffect(() => {
     const verify_token = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/verify_token", {
-          withCredentials: true, // 包含 Cookie 
+        const response = await axios.post("http://localhost:3001/api/verify_token", {
         });
-        if (response.data.user) {
-          dispatch({ type: "SET_USER", payload: response.data.user });
-          console.log('email=' + response.data.user.email)
-        }
         if (!response.data.user) {
           dispatch({ type: "SIGN_OUT" });
         }
+        if (response.status == "200") {
+          console.log('email:  ' + response.data.user.email + "  already sign_in")
+          dispatch({ type: "SET_USER", payload: response.data.user });
+        }
+
       } catch (err) {
         console.log("Token verification error:", err);
-        dispatch({ type: "LOGOUT" });
+        dispatch({ type: "SIGNOUT" });
       }
     };
     if (!state.user.email) {
@@ -148,14 +165,18 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        theme,
         user: state.user,
         setUser,
+        selectedindex:state.selectedindex,
+        setselectedindex,
         sign_in,
         sign_out,
         mode: state.mode,
         toggleMode,
         setMode,
-        theme
+        sidemenu: state.sidemenu,
+        togglesidemenu,
       }}
     >
       <ThemeProvider theme={theme}>

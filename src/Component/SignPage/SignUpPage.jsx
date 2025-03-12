@@ -9,7 +9,6 @@ export default function SignUpPage() {
     email: "1@1",
     password: "1", // 注意這裡的命名與後端一致
     user_identity: "TMA",
-
   });
   const navigate = useNavigate();
   const saveToLocalStorage = useCallback(() => {

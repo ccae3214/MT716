@@ -5,6 +5,8 @@ import { Container, TextField, Button, Typography, Box } from "@mui/material";
 import axios from 'axios';
 import { useApp } from '../../store'; // 導入 useUser Hook
 import { useTheme } from '@mui/material/styles';
+import cookie from 'react-cookies'
+import CssBaseline from '@mui/material/CssBaseline';
 
 export default function SignInPage() {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ export default function SignInPage() {
   useEffect(() => {
     if (user.email) {
       // 如果全域使用者狀態中有 email，視為已登入，跳轉到 IndexPage
-      navigate('/index');
+      navigate('/TmaPage');
     }
   }, [user, navigate]);
 
@@ -43,67 +45,69 @@ export default function SignInPage() {
   };
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: 'background.paper'
-      }}
-    >
-      <Box
+    <React.Fragment>
+      <CssBaseline />
+      <Container
         sx={{
-          p: 3,
-          width: "100%",
-          maxWidth: 300,
-          bgcolor: theme.palette.surface.main,
-          color: theme.palette.onSurface.main,
-          borderRadius: 2,
-          boxShadow: 3,
+          mt: '64px', // 假設 AppBar 高度為 64px，根據實際情況調整
           display: "flex",
-          flexDirection: "column",
-          gap: 2,
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Typography variant="h5" align="center" gutterBottom >
-          Sign In
-        </Typography>
-        <Typography variant="body2" align="center" color="text.secondary">
-          Enter your credentials
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} 
-        sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <TextField
-            id="email"
-            label="Email"
-            type="email"
-            variant="outlined"
-            fullWidth
-            value={localUser.email}
-            onChange={handleOnChange}
-            placeholder="email@example.com"
-          />
-          <TextField
-            id="password"
-            label="Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            value={localUser.password}
-            onChange={handleOnChange}
-            placeholder="password"
-          />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+        <Box
+          sx={{
+            p: 3,
+            mt:10,
+            width: "100%",
+            maxWidth: 300,
+            borderRadius: 2,
+            boxShadow: 6,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <Typography variant="h5" align="center" gutterBottom >
             Sign In
-          </Button>
+          </Typography>
+          <Typography variant="body2" align="center" color="text.secondary">
+            Enter your credentials
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit}
+            sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              variant="outlined"
+              fullWidth
+              value={localUser.email}
+              onChange={handleOnChange}
+              placeholder="email@example.com"
+            />
+            <TextField
+              id="password"
+              label="Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={localUser.password}
+              onChange={handleOnChange}
+              placeholder="password"
+            />
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Sign In
+            </Button>
+          </Box>
+          <Typography variant="body2" align="center">
+            Don’t have an account?{" "}
+            <a href="/signup" style={{ color: "#1976d2" }}>
+              Sign up
+            </a>
+          </Typography>
         </Box>
-        <Typography variant="body2" align="center">
-          Don’t have an account?{" "}
-          <a href="/signup" style={{ color: "#1976d2" }}>
-            Sign up
-          </a>
-        </Typography>
-      </Box>
-    </Container>
+      </Container>
+    </React.Fragment>
   );
 }

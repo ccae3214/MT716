@@ -1,43 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  MenuItem,
-  FormControl,
-  InputLabel,
-} from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, MenuItem, FormControl, InputLabel, SvgIcon } from '@mui/material';
 import IconButton, { IconButtonOwnProps } from '@mui/material/IconButton';
+import ArticleIcon from '@mui/icons-material/Article';
+import MenuIcon from '@mui/icons-material/Menu';
 import DarkModeIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeIcon from '@mui/icons-material/LightModeRounded';
 import { useTheme } from '@mui/material/styles';
 import { useApp } from './store'; // 導入 useApp
-
+import cookie from 'react-cookies'
+function HomeIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </SvgIcon>
+  );
+}
 export default function TopNavbar() {
-  const { user, setUser, sign_in, sign_out, mode, toggleMode, setMode } = useApp(); // 使用 useApp
+  const { user, sign_out, mode, toggleMode,togglesidemenu} = useApp(); // 使用 useApp
   const theme = useTheme();
   const navigate = useNavigate(); // 
-
-  const handleThemeChange = (event) => {
-    const newMode = event.target.value;
-    setMode(newMode); // 設置模式
-  };
   // 檢查用戶是否已登入
   useEffect(() => {
-    if (user.email) {
-      // 如果 cookie 中有用戶資訊，視為已登入，跳轉到 Index
-      navigate('/index');
+    if (!user.email) {
+      // 如果全域使用者狀態中有 email，視為已登入，跳轉到 signin
+      navigate('/signin');
     }
-  }, [navigate]); // 依賴 navigate，確保路由功能可用
-  const handlesign_out = () => {
-    sign_out();
-    navigate('/signin');
-  };
-
+  }, [user, navigate]);
   return (
-    <AppBar position="static" elevation={1} sx={{
+    <AppBar position="fixed" elevation={1} sx={{
       bgcolor: theme.palette.surface.main || 'grey.100',
       color: theme.palette.onSurface.main || 'grey.900',
       borderRadius: '0 0 16px 16px',
@@ -45,19 +36,30 @@ export default function TopNavbar() {
     }}
     >
       <Toolbar sx={{ minHeight: 64, px: 3 }}>
+        <HomeIcon sx={{ fontSize: 40 }} 
+        onClick={() => navigate('/index')} //點擊按鈕會到主頁
+        /> 
         <Typography variant="h6" component="div" sx={{
-          flexGrow: 1, fontWeight: 500
+          flexGrow: 6, fontWeight: 500
         }}>
           MyApp
         </Typography>
+        {user.email ?(
+        <IconButton
+        onClick={togglesidemenu}// 點擊按鈕打開左菜單
+       
+        >
+          <MenuIcon sx={{
+          display: { xs: 'none', md: 'block' }}} />
+        </IconButton >):('')}
         {user.email ? (
-          <Button variant="outlined" color="primary" onClick={handlesign_out} sx={{
+          <Button variant="outlined" color="primary" onClick={sign_out} sx={{
             borderRadius: 28, textTransform: 'none', px: 2,
           }}>
             sign out
           </Button>
         ) : (
-          <Button variant="outlined" color="primary" href="/signin" sx={{
+          <Button variant="outlined" color="primary" onClick={() => navigate('/signin')} sx={{
             borderRadius: 28, textTransform: 'none', px: 2,
           }}>
             Sign In
