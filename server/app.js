@@ -43,11 +43,13 @@ app.get('*', (req, res) => {
 })
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found')
-  err.status = 404
-  next(err)
-})
+app.use((err, req, res, next) => {
+  if (err.status === 404) {
+    res.status(404).sendFile(path.join(__dirname, '../build', 'index.html'));
+  } else {
+    next(err);
+  }
+});
 
 // error handler
 app.use((err, req, res, next) => {
