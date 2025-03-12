@@ -64,8 +64,8 @@
   },
   "main": "./src/main.js",
   "host": "0.0.0.0",
-  "homepage": "http://localhost:3000",
-  "proxy": "http://localhost:3001",
+  "homepage": "https://wonderful-water-03cb44a00.4.azurestaticapps.net",
+  "proxy": "https://wonderful-water-03cb44a00.4.azurestaticapps.net/api",
   "browserslist": [
     ">0.2%",
     "not dead",

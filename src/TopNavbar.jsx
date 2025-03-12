@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, MenuItem, FormControl, InputLabel, SvgIcon } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, SvgIcon } from '@mui/material';
 import IconButton, { IconButtonOwnProps } from '@mui/material/IconButton';
-import ArticleIcon from '@mui/icons-material/Article';
 import MenuIcon from '@mui/icons-material/Menu';
 import DarkModeIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeIcon from '@mui/icons-material/LightModeRounded';
 import { useTheme } from '@mui/material/styles';
 import { useApp } from './store'; // 導入 useApp
-import cookie from 'react-cookies'
 function HomeIcon(props) {
   return (
     <SvgIcon {...props}>

@@ -120,3 +120,4 @@ history怎搞 搞整天 更新了套件版本 修了一些BUG
 up.已更新完成使用者身分全域狀態管理store setuser，使用cookie,JWT TOKEN，
 03/04*react-i18n有待更新，看之後要不要加進來
 03/10 網頁內容構思。
+03/10 CORS配置
