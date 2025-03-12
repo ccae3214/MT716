@@ -44,7 +44,7 @@ export const AppProvider = ({ children }) => {
     () =>
       createTheme({
         palette: {
-          mode: state.mode || 'light', // 根據 state.mode 設置 light 或 dark 模式
+          mode: state.mode , // 根據 state.mode 設置 light 或 dark 模式
           primary: {
             main: state.mode === 'light' ? '#000000' : '#FFFFFF', // 主色：light 為黑色，dark 為白色
           },

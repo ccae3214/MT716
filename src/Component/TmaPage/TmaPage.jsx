@@ -70,6 +70,7 @@ const data = [
       520, 410, 530, 520, 610, 530, 520, 610, 530, 420, 510, 430, 520, 510,
     ],
   },
+  
 ];
 export default function TmaPage() {
   const { sidemenu } = useApp();
@@ -97,7 +98,6 @@ export default function TmaPage() {
               mt: { xs: 10, md: 10 },
             }}
           >
-            <Maingrid />
             <Maingrid />
 
           </Stack>
@@ -177,7 +177,6 @@ function SideMenu() {
 }
 function Maingrid() {
   const theme = useTheme();
-
   return (
     <Box sx={{
       width: '100%', maxWidth: '100%',
