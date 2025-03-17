@@ -85,14 +85,14 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'mt716react' # 前端 App Service 名稱
-          slot-name: 'Production'
+          slot-name: 'production'
           package: ./build
 
   deploy-backend:
     runs-on: ubuntu-latest
     needs: build-backend
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write # 必要，用於 Azure JWT
@@ -117,5 +117,5 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'mt716node' # 後端 App Service 名稱
-          slot-name: 'Production'
+          slot-name: 'production'
           package: ./server

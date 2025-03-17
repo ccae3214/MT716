@@ -123,4 +123,5 @@ up.已更新完成使用者身分全域狀態管理store setuser，使用cookie,
 03/10 CORS配置
 03/12 處理完網頁部屬webpack打包build複製路徑及 azure setting.
 03/13 應該來做資料庫排列?首先處理學生課程內容?會員交流功能?
-03/17 部屬需要使用Azure Functions可讀取的環境變數!!! "api"folder || process.env.
+03/17 部屬static web需要額外新增使用Azure Functions可讀取的環境變數!!! "api"folder || process.env.
+03/17 部屬webapp 則是正常build api
