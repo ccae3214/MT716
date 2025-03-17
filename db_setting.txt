@@ -1,0 +1,4 @@
+user:{user_id ,email,password,user_identity,name,contact,address}
+course: {course_name,numbers_of_lesosn,teacher_name,lessons[L1,L2,L3]}
+lesson:{lesson_name,date(yyyy,mm,dd),time,teacher}
+grade:{user_name,Lesson_name,grade}

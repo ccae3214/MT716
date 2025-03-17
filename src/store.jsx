@@ -110,7 +110,7 @@ export const AppProvider = ({ children }) => {
   const sign_in = async (localUser) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/sign_in", localUser,
+        "sign_in", localUser,
       );
       if (response.data.success) {
         dispatch({ type: "SET_USER", payload: response.data.user });
@@ -126,7 +126,7 @@ export const AppProvider = ({ children }) => {
   const sign_out = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/sign_out",
+        "sign_out",
       );
       if (response.data.success) {
         dispatch({ type: "SET_USER", payload: response.data.user });

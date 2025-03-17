@@ -114,10 +114,13 @@ history怎搞 搞整天 更新了套件版本 修了一些BUG
 2/25 webpack fix path 
 2/26 start make signpage
 轉職
-2/27 後端與資料庫資料傳輸時db加密密碼儲存
+2/27 後端與資料庫資料傳輸時在後端加密密碼儲存(前後端資料傳輸依靠https協議保密，後端hash加密防止資料庫密碼外洩)
 3/02 改用material-ui 放棄reactstrapt
 3/03 material-ui with store provider combinated@ user local save需要變更，store開新的頁面狀態不會繼承,JWT TOKEN save in cookie httponly=ture only server side can use,
 up.已更新完成使用者身分全域狀態管理store setuser，使用cookie,JWT TOKEN，
 03/04*react-i18n有待更新，看之後要不要加進來
 03/10 網頁內容構思。
 03/10 CORS配置
+03/12 處理完網頁部屬webpack打包build複製路徑及 azure setting.
+03/13 應該來做資料庫排列?首先處理學生課程內容?會員交流功能?
+03/17 部屬需要使用Azure Functions可讀取的環境變數!!! "api"folder || process.env.

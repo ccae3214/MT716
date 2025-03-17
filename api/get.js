@@ -1,4 +1,4 @@
-import config from './env/environment.js';
+import config from './index.js';
 import sql from 'mssql';
 import jwt from "jsonwebtoken" // 用於生成和驗證 token
 import cookie from 'react-cookies'

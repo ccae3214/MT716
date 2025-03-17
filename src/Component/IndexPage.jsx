@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import Iframe from 'react-iframe'
-import RotatingText from './RotatingText'
-import SplitText from "./SplitText";
-/* this page is customsize indexＰage for show information to viewer ex:customer/manager/web designer */
 export default class IndexPage extends Component {
  
   render(){
@@ -21,44 +18,9 @@ export default class IndexPage extends Component {
     };
     return (
       <div >
-        <h1 >
-    <SplitText
-  text="WELCOME, MATCHTREN!"
-  className="text-2xl font-semibold text-center"
-  delay={150}
-  animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
-  animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
-  easing="easeOutCubic"
-  threshold={0.2}
-  rootMargin="-50px"
-  onLetterAnimationComplete={handleAnimationComplete}
-/>
-<SplitText
-  text="WE ARE TRAINNING & ASSESSMENT CENTER!"
-  className="text-2xl font-semibold text-center"
-  delay={150}
-  animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
-  animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
-  easing="easeOutCubic"
-  threshold={0.2}
-  rootMargin="-50px"
-  onLetterAnimationComplete={handleAnimationComplete}
-/>
-</h1>
-
 <hr className="my-2" />
 <h1>
-<RotatingText
-      texts={['TRAINNING!','ASSESSMENT!','MATCH JOB!']}
-      staggerFrom={"last"}
-      initial={{ y: "100%" }}
-      animate={{ y: 0 }}
-      exit={{ y: "-120%" }}
-      staggerDuration={0.025}
-      splitLevelClassName="overflow-hidden pb-0.5 sm:pb-3 md:pb-3"
-      transition={{ type: "spring", damping: 30, stiffness: 400 }}
-      rotationInterval={2000}
-    />
+
     </h1>
           <hr className="my-2" />
           <hr className="my-2" />
