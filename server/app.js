@@ -24,7 +24,7 @@ app.use(
   })
 );
 app.use(cors());
-
+app.use(cors({ origin: 'mt716-react-dtf4f3ecdxfgbxg5.japaneast-01.azurewebsites.net' }));
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

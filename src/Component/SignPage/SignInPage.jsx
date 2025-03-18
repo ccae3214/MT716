@@ -21,7 +21,7 @@ export default function SignInPage() {
     e.preventDefault(); // 阻止表單默認提交行為
     try {
       // 發送 POST 請求到後端 API
-      const response = await axios.post('api/sign_in', localUser);
+      const response = await axios.post('/sign_in', localUser);
       // 更新全域使用者狀態
       setUser(response.data.user);
       navigate('/TmaPage');

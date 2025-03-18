@@ -5,8 +5,8 @@
   },
   "routes": [
       {
-          "route": "/api/*",
-          "serve": "/api"
+          "route": "/*",
+          "serve": "/"
       }
   ]
 }
