@@ -36,8 +36,9 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANTID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
       - run: az account show --debug
-      - name: Deploy to Azure
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'MT716-REACT'  # 單一 App Service 名稱
+          app-name: MT716-REACT
+          slot-name: MT76-SUB
           package: ./build
