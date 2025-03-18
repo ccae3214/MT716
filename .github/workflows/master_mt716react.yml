@@ -1,10 +1,13 @@
-name: Build and Deploy to Azure
+name: Deploy to Azure on Pull Request
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
-  workflow_dispatch:
+      - main  # 當 Pull Request 目標為 main 分支時觸發
+
+permissions:
+  id-token: write  # 允許工作流程獲取 OIDC ID 令牌
+  contents: read   # 允許讀取代碼
 
 jobs:
   build-frontend:
@@ -16,15 +19,14 @@ jobs:
         with:
           node-version: '18.x'
       - name: Install and Build Frontend
-        working-directory: ./client
         run: |
           npm install
-          npm run build --if-present
+          npm run build
       - name: Upload Frontend Artifact
         uses: actions/upload-artifact@v4
         with:
           name: frontend-app
-          path: ./client/build
+          path: ./build
 
   build-backend:
     runs-on: windows-latest
@@ -55,14 +57,13 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENTID }}
-          tenant-id: ${{ secrets.AZURE_TENANTID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: Deploy Frontend to Azure
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'myapp-react'
+          app-name: 'MT716-REACT'
           package: ./build
 
   deploy-backend:
@@ -77,12 +78,11 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENTID }}
-          tenant-id: ${{ secrets.AZURE_TENANTID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: Deploy Backend to Azure
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'myapp-node'
+          app-name: 'MT716-NODE'
           package: ./server
