@@ -50,4 +50,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'MT716-REACT'  # 單一 App Service 名稱
-          package: ./deploy
+          package: ./build
