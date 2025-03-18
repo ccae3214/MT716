@@ -1,14 +1,22 @@
-import config from './index.js';
 import sql from 'mssql';
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken" // 用於生成和驗證 token
 import cookie from 'react-cookies'
 // 全局連接池
 let poolPromise;
-
+const dbConfig = {
+  user:"MT716",
+  password: "mtadmin716!",
+  server:"mtserver.database.windows.net",
+  database: "MTSQLDB",
+  options: {
+      encrypt: true,
+      trustServerCertificate: process.env.NODE_ENV === 'development'
+  }
+};
 async function initializePool() {
   if (!poolPromise) {
-    poolPromise = sql.connect(config);
+    poolPromise = sql.connect(dbConfig);
   }
   return poolPromise;
 }
@@ -58,6 +66,7 @@ async function sign_in(req, res) {
     if (!email || !password) {
       return res.status(400).json({ error: '請提供電子郵件和密碼' });
     }
+    console.log(123+dbConfig)
     // 獲取連接池
     const pool = await initializePool();
     // 查詢用戶

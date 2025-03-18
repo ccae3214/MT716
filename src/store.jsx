@@ -1,6 +1,8 @@
-import React, { useReducer, createContext, useContext, useState, useMemo, useEffect } from "react";
+import React, { useReducer, createContext, useContext, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 // 定義初始狀態
 const initialAppState = {
   user: { email: '', password: '' }, // 使用者狀態
@@ -38,6 +40,8 @@ const AppContext = createContext();
 
 // 創建 Provider 組件
 export const AppProvider = ({ children }) => {
+  const navigate = useNavigate();
+
   const [state, dispatch] = useReducer(appReducer, initialAppState);
 
   const theme = React.useMemo(
@@ -109,11 +113,11 @@ export const AppProvider = ({ children }) => {
   // 登入函數（使用 Axios）
   const sign_in = async (localUser) => {
     try {
-      const response = await axios.post(
-        "sign_in", localUser,
-      );
+      const response = await axios.post("api/sign_in", localUser,);
       if (response.data.success) {
         dispatch({ type: "SET_USER", payload: response.data.user });
+        navigate('TmaPage');
+
       } else {
         throw new Error(response.data.message || "signin failed");
       }
@@ -126,10 +130,11 @@ export const AppProvider = ({ children }) => {
   const sign_out = async () => {
     try {
       const response = await axios.post(
-        "sign_out",
+        "http://localhost:3001/api/sign_out",
       );
       if (response.data.success) {
         dispatch({ type: "SET_USER", payload: response.data.user });
+        navigate('sign_in');
         return true;
       } else {
         throw new Error(response.data.message || "signout failed");
@@ -143,10 +148,10 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const verify_token = async () => {
       try {
-        const response = await axios.post("http://localhost:3001/api/verify_token", {
-        });
+        const response = await axios.post("http://localhost:3001/api/verify_token");
         if (!response.data.user) {
           dispatch({ type: "SIGN_OUT" });
+          
         }
         if (response.status == "200") {
           console.log('email:  ' + response.data.user.email + "  already sign_in")

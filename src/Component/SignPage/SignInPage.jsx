@@ -1,25 +1,18 @@
 // src/SignInPage.jsx
-import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, {useState } from "react";
 import { Container, TextField, Button, Typography, Box } from "@mui/material";
-import axios from 'axios';
 import { useApp } from '../../store'; // 導入 useUser Hook
-import { useTheme } from '@mui/material/styles';
-import cookie from 'react-cookies'
 import CssBaseline from '@mui/material/CssBaseline';
 
 export default function SignInPage() {
-  const navigate = useNavigate();
-  const { user, setUser,sign_in } = useApp(); // 使用 useUser 獲取全域使用者狀態和 setUser 方法
+  const { sign_in } = useApp(); // 使用 useUser 獲取全域使用者狀態和 setUser 方法
   const [localUser, setLocalUser] = useState({ email: '1@1', password: '1' }); // 本地表單狀態
-  const theme = useTheme();
-  // 檢查用戶是否已登入
 
 
   // 處理表單提交
   const handleSubmit = async (e) => {
     e.preventDefault(); // 阻止表單默認提交行為
-    sign_in(localUser)
+    sign_in(localUser);
   };
 
   // 處理表單輸入變化
