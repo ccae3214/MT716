@@ -29,16 +29,6 @@ jobs:
           npm install
           npm run build
 
-      - name: Install Backend Dependencies
-        working-directory: ./server
-        run: npm install
-
-      - name: Prepare Deployment Package
-        run: |
-          mkdir -p deploy
-          cp -r build/* deploy/
-          cp -r server/* deploy/
-
       - name: Login to Azure
         uses: azure/login@v2
         with:
