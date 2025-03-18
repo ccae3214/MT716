@@ -10,83 +10,44 @@ on:
       - master
 
 permissions:
-  id-token: write  # 允許工作流程獲取 OIDC ID 令牌
-  contents: read   # 允許讀取代碼
+  id-token: write
+  contents: read
 
 jobs:
-  build-frontend:
-    runs-on: windows-latest
+  build-and-deploy:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
+
       - name: Install and Build Frontend
         run: |
-          npm install --force
-          npm run build --force
-      - name: Upload Frontend Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-app
-          path: ./build
+          npm install
+          npm run build
 
-  build-backend:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
       - name: Install Backend Dependencies
         working-directory: ./server
-        run: npm install --force
-      - name: Upload Backend Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-app
-          path: ./server
+        run: npm install
 
-  deploy-frontend:
-    runs-on: ubuntu-latest
-    needs: build-frontend
-    steps:
-      - name: Download Frontend Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-app
-          path: ./build
+      - name: Prepare Deployment Package
+        run: |
+          mkdir -p deploy
+          cp -r build/* deploy/
+          cp -r server/* deploy/
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENTID }}
           tenant-id: ${{ secrets.AZURE_TENANTID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
-      - name: Deploy Frontend to Azure
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'MT716-REACT'
-          package: ./build
 
-  deploy-backend:
-    runs-on: ubuntu-latest
-    needs: build-backend
-    steps:
-      - name: Download Backend Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: backend-app
-          path: ./server
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENTID }}
-          tenant-id: ${{ secrets.AZURE_TENANTID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
-      - name: Deploy Backend to Azure
+      - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'MT716-NODE'
-          package: ./server
+          app-name: 'MT716-REACT'  # 單一 App Service 名稱
+          package: ./deploy
