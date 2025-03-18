@@ -45,7 +45,7 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENTID }}
           tenant-id: ${{ secrets.AZURE_TENANTID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
-
+      - run: az account show --debug
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:

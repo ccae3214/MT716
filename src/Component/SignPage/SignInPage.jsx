@@ -10,7 +10,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 export default function SignInPage() {
   const navigate = useNavigate();
-  const { user, setUser } = useApp(); // 使用 useUser 獲取全域使用者狀態和 setUser 方法
+  const { user, setUser,sign_in } = useApp(); // 使用 useUser 獲取全域使用者狀態和 setUser 方法
   const [localUser, setLocalUser] = useState({ email: '1@1', password: '1' }); // 本地表單狀態
   const theme = useTheme();
   // 檢查用戶是否已登入
@@ -19,16 +19,7 @@ export default function SignInPage() {
   // 處理表單提交
   const handleSubmit = async (e) => {
     e.preventDefault(); // 阻止表單默認提交行為
-    try {
-      // 發送 POST 請求到後端 API
-      const response = await axios.post('/sign_in', localUser);
-      // 更新全域使用者狀態
-      setUser(response.data.user);
-      navigate('/TmaPage');
-    } catch (error) {
-      alert("sever no respon")
-      console.error('登入使用者時發生錯誤:', error);
-    }
+    sign_in(localUser)
   };
 
   // 處理表單輸入變化
