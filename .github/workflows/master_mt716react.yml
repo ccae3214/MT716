@@ -20,8 +20,8 @@ jobs:
           node-version: '18.x'
       - name: Install and Build Frontend
         run: |
-          npm install
-          npm run build
+          npm install --force
+          npm run build --force
       - name: Upload Frontend Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -38,7 +38,7 @@ jobs:
           node-version: '18.x'
       - name: Install Backend Dependencies
         working-directory: ./server
-        run: npm install
+        run: npm install --force
       - name: Upload Backend Artifact
         uses: actions/upload-artifact@v4
         with:
