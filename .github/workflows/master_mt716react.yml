@@ -1,9 +1,13 @@
 name: Deploy to Azure on Pull Request
 
 on:
-  pull_request:
+  push:
     branches:
-      - main  # 當 Pull Request 目標為 main 分支時觸發
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - master
 
 permissions:
   id-token: write  # 允許工作流程獲取 OIDC ID 令牌
