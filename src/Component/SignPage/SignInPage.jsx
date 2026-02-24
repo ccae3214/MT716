@@ -1,21 +1,31 @@
 // src/SignInPage.jsx
-import React, {useState } from "react";
-import { Container, TextField, Button, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import { Container, TextField, Button, Typography, Box, Card, CardContent, Snackbar, Alert } from "@mui/material";
 import { useApp } from '../../store'; // 導入 useUser Hook
 import CssBaseline from '@mui/material/CssBaseline';
+import SchoolIcon from '@mui/icons-material/School';
 
 export default function SignInPage() {
-  const { sign_in } = useApp(); // 使用 useUser 獲取全域使用者狀態和 setUser 方法
-  const [localUser, setLocalUser] = useState({ email: '1@1', password: '1' }); // 本地表單狀態
+  const { sign_in } = useApp();
+  const [localUser, setLocalUser] = useState({ email: '', password: '' }); // 本地表單狀態
+  const [errorMsg, setErrorMsg] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
-
-  // 處理表單提交
   const handleSubmit = async (e) => {
-    e.preventDefault(); // 阻止表單默認提交行為
-    sign_in(localUser);
+    e.preventDefault();
+    try {
+      await sign_in(localUser);
+    } catch (err) {
+      setErrorMsg(typeof err === 'string' ? err : "登入失敗");
+      setOpenSnackbar(true);
+    }
   };
 
-  // 處理表單輸入變化
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
+  };
+
   const handleOnChange = (event) => {
     const { id, value } = event.target;
     setLocalUser(prevUser => ({
@@ -27,67 +37,71 @@ export default function SignInPage() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container
-        sx={{
-          mt: '64px', // 假設 AppBar 高度為 64px，根據實際情況調整
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          sx={{
-            p: 3,
-            mt:10,
-            width: "100%",
-            maxWidth: 300,
-            borderRadius: 2,
-            boxShadow: 6,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          <Typography variant="h5" align="center" gutterBottom >
-            Sign In
-          </Typography>
-          <Typography variant="body2" align="center" color="text.secondary">
-            Enter your credentials
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit}
-            sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <TextField
-              id="email"
-              label="Email"
-              type="email"
-              variant="outlined"
-              fullWidth
-              value={localUser.email}
-              onChange={handleOnChange}
-              placeholder="email@example.com"
-            />
-            <TextField
-              id="password"
-              label="Password"
-              type="password"
-              variant="outlined"
-              fullWidth
-              value={localUser.password}
-              onChange={handleOnChange}
-              placeholder="password"
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Sign In
-            </Button>
-          </Box>
-          <Typography variant="body2" align="center">
-            Don’t have an account?{" "}
-            <a href="/signup" style={{ color: "#1976d2" }}>
-              Sign up
-            </a>
-          </Typography>
-        </Box>
-      </Container>
+      <Box sx={{
+        minHeight: '80vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)' // Modern gradient background
+      }}>
+        <Container maxWidth="xs" sx={{ mt: -8 }}>
+          <Card sx={{ borderRadius: 4, boxShadow: 6, p: 2 }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3 }}>
+                <SchoolIcon color="primary" sx={{ fontSize: 48, mb: 1 }} />
+                <Typography variant="h5" fontWeight="bold" align="center" gutterBottom>
+                  Welcome Back
+                </Typography>
+                <Typography variant="body2" color="text.secondary" align="center">
+                  登入您的 LMS 平台帳號
+                </Typography>
+              </Box>
+
+              <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+                <TextField
+                  id="email"
+                  label="Email"
+                  type="email"
+                  variant="outlined"
+                  fullWidth
+                  value={localUser.email}
+                  onChange={handleOnChange}
+                  placeholder="name@example.com"
+                />
+                <TextField
+                  id="password"
+                  label="Password"
+                  type="password"
+                  variant="outlined"
+                  fullWidth
+                  value={localUser.password}
+                  onChange={handleOnChange}
+                  placeholder="Your password"
+                />
+                <Button type="submit" variant="contained" color="primary" size="large" fullWidth sx={{ py: 1.5, borderRadius: 2, fontSize: '1.1rem' }}>
+                  Sign In (登入)
+                </Button>
+              </Box>
+
+              <Box sx={{ mt: 3, textAlign: 'center' }}>
+                <Typography variant="body1">
+                  Don’t have an account?{" "}
+                  <a href="/signup" style={{ color: "#1976d2", fontWeight: 'bold', textDecoration: 'none' }}>
+                    Sign up
+                  </a>
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Container>
+      </Box>
+
+      {/* 錯誤提示小視窗 */}
+      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%', borderRadius: 2 }}>
+          {errorMsg}
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }

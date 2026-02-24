@@ -1,5 +1,5 @@
 import config from './index.js';
-import sql from 'mssql';
+import sql from 'mssql/msnodesqlv8.js';
 import jwt from "jsonwebtoken" // 用於生成和驗證 token
 import cookie from 'react-cookies'
 // 全局連接池
@@ -12,4 +12,4 @@ async function initializePool() {
 };
 
 
-export {  };
+export { };

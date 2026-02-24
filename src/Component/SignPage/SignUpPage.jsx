@@ -1,19 +1,19 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, CardBody, CardTitle, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios'
+import { Container, TextField, Button, Typography, Box, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import axios from 'axios';
 
 export default function SignUpPage() {
   const [localUser, setlocalUser] = useState({
-    email: "1@1",
-    password: "1", // 注意這裡的命名與後端一致
-    user_identity: "TMA",
+    email: "",
+    password: "",
+    user_identity: "",
   });
+  const [errorMsg, setErrorMsg] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const navigate = useNavigate();
-  const saveToLocalStorage = useCallback(() => {
-    localStorage.setItem('localUser', JSON.stringify(localUser));
-  }, [localUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,80 +22,107 @@ export default function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!localUser.email || !localUser.password || !localUser.user_identity) {
+      setErrorMsg("請填寫所有欄位！");
+      setOpenSnackbar(true);
+      return;
+    }
     try {
-      // 發送 POST 請求到後端 API
-      const response = await axios.post('http://localhost:3001/api/create_user', localUser);
-      // 清空表單
+      // 發送 POST 請求到 API (使用相對路徑)
+      const response = await axios.post('/api/create_user', localUser);
       navigate('/signin');
     } catch (error) {
-      console.error('建立使用者時發生錯誤:', error);
+      setErrorMsg(error.response?.data?.error || error.message);
+      setOpenSnackbar(true);
     }
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
+  };
+
   return (
-    <Container className="mt-4">
-      <Row>
-        <Col md={{ size: 8, offset: 2 }}>
-          <Card>
-            <CardBody>
-              <CardTitle tag="h2">create account </CardTitle>
-              <Form onSubmit={handleSubmit}>
-                <FormGroup>
-                  <Input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={localUser.email}
-                    onChange={handleChange}
-                    placeholder="email"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Input
-                    type="password"
-                    name="password"
-                    id="password"
-                    value={localUser.password}
-                    onChange={handleChange}
-                    placeholder="password"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label>user_identity</Label>
-                  <Input
-                    type="select"
+    <React.Fragment>
+      <CssBaseline />
+      <Box sx={{
+        minHeight: '80vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)' // Modern gradient background
+      }}>
+        <Container maxWidth="xs" sx={{ mt: -8 }}>
+          <Card sx={{ borderRadius: 4, boxShadow: 6, p: 2 }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3 }}>
+                <PersonAddIcon color="secondary" sx={{ fontSize: 48, mb: 1 }} />
+                <Typography variant="h5" fontWeight="bold" align="center" gutterBottom>
+                  Create Account
+                </Typography>
+                <Typography variant="body2" color="text.secondary" align="center">
+                  加入 LMS 學習管理平台
+                </Typography>
+              </Box>
+
+              <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+                <TextField
+                  name="email"
+                  label="Email"
+                  type="email"
+                  variant="outlined"
+                  fullWidth
+                  value={localUser.email}
+                  onChange={handleChange}
+                  placeholder="name@example.com"
+                />
+                <TextField
+                  name="password"
+                  label="Password"
+                  type="password"
+                  variant="outlined"
+                  fullWidth
+                  value={localUser.password}
+                  onChange={handleChange}
+                  placeholder="Your password"
+                />
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel>User Identity (身分)</InputLabel>
+                  <Select
                     name="user_identity"
-                    id="user_identity"
                     value={localUser.user_identity}
                     onChange={handleChange}
-                    placeholder="user_identity"
+                    label="User Identity (身分)"
                   >
-                    <option>
-                      choose user_identity
-                    </option>
-                    <option>
-                      TMA
-                    </option>
-                    <option>
-                      PRA
-                    </option>
-                    <option>
-                      EMPOLYER
-                    </option>
-                    <option>
-                      APPLICANT
-                    </option>
-                  </Input>
-                </FormGroup>
-                <Button color="success" type="submit" className="mt-3" outline>
-                  submit
-                </Button>
-              </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+                    <MenuItem value="Teacher">Teacher (老師)</MenuItem>
+                    <MenuItem value="Student">Student (學生)</MenuItem>
+                  </Select>
+                </FormControl>
 
+                <Button type="submit" variant="contained" color="secondary" size="large" fullWidth sx={{ py: 1.5, borderRadius: 2, fontSize: '1.1rem' }}>
+                  Sign Up (註冊)
+                </Button>
+              </Box>
+
+              <Box sx={{ mt: 3, textAlign: 'center' }}>
+                <Typography variant="body1">
+                  Already have an account?{" "}
+                  <a href="/signin" style={{ color: "#9c27b0", fontWeight: 'bold', textDecoration: 'none' }}>
+                    Sign in
+                  </a>
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Container>
+      </Box>
+
+      {/* 錯誤提示小視窗 */}
+      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%', borderRadius: 2 }}>
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+    </React.Fragment>
+  );
+}

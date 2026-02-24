@@ -38,6 +38,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import { useApp } from '../../store'; // 導入 useApp
 import Lesson from './Lesson'
+import CourseManagement from './CourseManagement';
+import AssignTasks from './AssignTasks';
+import StudentCourses from './StudentCourses';
+import StudentTasks from './StudentTasks';
+import TeacherProgress from './TeacherProgress';
 
 const data = [
   {
@@ -70,11 +75,16 @@ const data = [
       520, 410, 530, 520, 610, 530, 520, 610, 530, 420, 510, 430, 520, 510,
     ],
   },
-  
+
 ];
 export default function TmaPage() {
-  const { sidemenu } = useApp();
+  const { user, sidemenu, selectedindex } = useApp();
   const theme = useTheme();
+
+  // 在這裡決定根據身分和選擇的 Index 要顯示哪個元件
+  const mainListItems = user?.user_identity === 'Teacher' ? teacherListItems : studentListItems;
+  const currentContent = pageComponents[mainListItems[selectedindex]?.text] || <div>選單內容建置中...</div>;
+
   ///DASHBOARD主畫面排版
   return (
     <React.Fragment>
@@ -98,7 +108,7 @@ export default function TmaPage() {
               mt: { xs: 10, md: 10 },
             }}
           >
-            <Maingrid />
+            <Maingrid currentContent={currentContent} />
 
           </Stack>
         </Box>
@@ -122,98 +132,33 @@ const Drawer = styled(MuiDrawer)({
 });
 
 function SideMenu() {
-  const { user, sidemenu, togglesidemenu, selectedindex } = useApp(); // 使用 useApp
-  const navigate = useNavigate(); // 
+  const { user, sidemenu, t } = useApp(); // 使用 useApp
+  const navigate = useNavigate();
   const theme = useTheme();
-  // 根據 selectedindex 選擇內容
-  const currentContent = pageComponents[mainListItems[selectedindex]?.text] || <div>Default Content</div>;
+
   return (
-    <Drawer
-      variant="persistent"
-      anchor="left"
-      open={sidemenu}
-      sx={{
-        display: { xs: 'none', md: 'block' },
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          mt: 'calc(var(--template-frame-height, 0px) + 4px)',
-          p: 1.5,
-        }}
-      >
-        {currentContent}
-      </Box>
+    <Drawer variant="persistent" anchor="left" open={sidemenu} sx={{ display: 'block' }}>
+      {/* 移除了原本顯示在左上方的 currentContent */}
       <Divider />
-      <Box
-        sx={{
-          overflow: 'auto',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      <Box sx={{ overflow: 'auto', height: '100%', display: 'flex', flexDirection: 'column' }}>
         <MenuContent />
         <CardAlert />
       </Box>
-      <Stack
-        direction="row"
-        sx={{
-          p: 2,
-          gap: 1,
-          alignItems: 'center',
-          borderTop: '1px solid',
-          borderColor: 'divider',
-        }}
-      >
-
+      <Stack direction="row" sx={{ p: 2, gap: 1, alignItems: 'center', borderTop: '1px solid', borderColor: 'divider' }}>
         <Button variant="contained" size="small" fullWidth>
-          contact teacher
+          {t('contactTeacher')}
         </Button>
       </Stack>
     </Drawer>
   );
 }
-function Maingrid() {
+function Maingrid({ currentContent }) {
   const theme = useTheme();
   return (
     <Box sx={{
       width: '100%', maxWidth: '100%',
     }}>
-      {/* cards */}
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Overview
-      </Typography>
-      <Grid
-        container
-        spacing={2}
-        columns={12}
-        sx={{ mb: (theme) => theme.spacing(2) }}
-      >
-        {data.map((card, index) => (
-          <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-            <Lesson {...card} />
-          </Grid>
-        ))}
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-        </Grid>
-      </Grid>
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Details
-      </Typography>
-      <Grid container spacing={2} columns={12}>
-        <Grid size={{ xs: 12, lg: 9 }}>
-        </Grid>
-        <Grid size={{ xs: 12, lg: 3 }}>
-          <Stack gap={2} direction={{ xs: 'column', sm: 'row', lg: 'column' }}>
-          </Stack>
-        </Grid>
-      </Grid>
+      {currentContent}
     </Box>
   );
 }
@@ -230,11 +175,15 @@ const ListItemAvatar = styled(MuiListItemAvatar)({
   marginRight: 12,
 });
 
-const mainListItems = [
-  { text: 'Lesson', icon: <SchoolIcon /> },
-  { text: 'Calendar', icon: <CalendarMonthIcon /> },
-  { text: 'Friends', icon: <EmojiPeopleIcon /> },
-  { text: 'Tasks', icon: <AssignmentRoundedIcon /> },
+const teacherListItems = [
+  { text: 'Course Management', icon: <SchoolIcon /> },
+  { text: 'Assign Tasks', icon: <AssignmentRoundedIcon /> },
+  { text: 'Student Progress', icon: <EmojiPeopleIcon /> },
+];
+const studentListItems = [
+  { text: 'My Courses', icon: <SchoolIcon /> },
+  { text: 'My Tasks', icon: <AssignmentRoundedIcon /> },
+  { text: 'Submit Report', icon: <CalendarMonthIcon /> },
 ];
 const secondaryListItems = [
   { text: 'Settings', icon: <SettingsRoundedIcon /> },
@@ -243,9 +192,24 @@ const secondaryListItems = [
 ];
 ///MenuContent
 function MenuContent() {
-  const { selectedindex, setselectedindex } = useApp();
+  const { user, selectedindex, setselectedindex, t } = useApp();
   const listItemRefs = useRef([]); // 用於存儲每個 ListItemButton 的 ref
-  const allItems = mainListItems; //
+  // 使用正式 key 對映到 pageComponents，表示文字則用 t() 翻譯
+  const teacherKeys = ['courseManagement', 'assignTasks', 'studentProgress'];
+  const studentKeys = ['myCourses', 'myTasks', 'submitReport'];
+  const teacherLabels = [
+    { key: 'Course Management', icon: <SchoolIcon /> },
+    { key: 'Assign Tasks', icon: <AssignmentRoundedIcon /> },
+    { key: 'Student Progress', icon: <EmojiPeopleIcon /> },
+  ];
+  const studentLabels = [
+    { key: 'My Courses', icon: <SchoolIcon /> },
+    { key: 'My Tasks', icon: <AssignmentRoundedIcon /> },
+    { key: 'Submit Report', icon: <CalendarMonthIcon /> },
+  ];
+  const tKeys = user?.user_identity === 'Teacher' ? teacherKeys : studentKeys;
+  const mainListItems = user?.user_identity === 'Teacher' ? teacherLabels : studentLabels;
+  const allItems = mainListItems;
   // 初始化 refs 陣列大小
   useEffect(() => {
     listItemRefs.current = listItemRefs.current.slice(0, allItems.length);
@@ -307,7 +271,7 @@ function MenuContent() {
               ref={(el) => (listItemRefs.current[index] = el)} // 設置 ref
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
+              <ListItemText primary={t(tKeys[index])} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -318,6 +282,7 @@ function MenuContent() {
 }
 ///CardAlert
 function CardAlert() {
+  const { t } = useApp();
   return (
     <Card variant="outlined" sx={{ m: 1.5, flexShrink: 0 }}>
       <CardContent>
@@ -328,7 +293,6 @@ function CardAlert() {
         <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
           learning step by step
         </Typography>
-
       </CardContent>
     </Card>
   );
@@ -408,8 +372,10 @@ function OptionsMenu() {
 }
 // 內容映射
 const pageComponents = {
-  Lesson: <div>Lesson </div>,
-  Calendar: <div>Calendar </div>,
-  Friends: <div>Friends </div>,
-  Tasks: <div>Tasks </div>,
+  'Course Management': <CourseManagement />,
+  'Assign Tasks': <AssignTasks />,
+  'Student Progress': <TeacherProgress />,
+  'My Courses': <StudentCourses />,
+  'My Tasks': <StudentTasks />,
+  'Submit Report': <div>Submit Report (Student) - 即將推出...</div>,
 };

@@ -1,14 +1,24 @@
 import React, { useReducer, createContext, useContext, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import axios from "axios";
+import translations from "./i18n";
 import { useNavigate } from 'react-router-dom';
 
 // 定義初始狀態
+// 從 localStorage 讀取之前儲存的登入資訊
+const savedUser = (() => {
+  try {
+    const raw = localStorage.getItem('lms_user');
+    return raw ? JSON.parse(raw) : { email: '', password: '' };
+  } catch { return { email: '', password: '' }; }
+})();
+
 const initialAppState = {
-  user: { email: '', password: '' }, // 使用者狀態
-  mode: 'dark', // 模式狀態，預設為日間模式
+  user: savedUser, // 載入儲存的登入狀態
+  mode: 'dark',
   sidemenu: true,
   selectedindex: 0,
+  lang: 'zh',
 };
 
 // 定義 reducer 函數
@@ -29,6 +39,8 @@ const appReducer = (state, action) => {
       return { ...state, sidemenu: !state.sidemenu };
     case 'SET_MODE':
       return { ...state, mode: action.payload };
+    case 'TOGGLE_LANG':
+      return { ...state, lang: state.lang === 'zh' ? 'en' : 'zh' };
 
     default:
       return state;
@@ -48,7 +60,7 @@ export const AppProvider = ({ children }) => {
     () =>
       createTheme({
         palette: {
-          mode: state.mode , // 根據 state.mode 設置 light 或 dark 模式
+          mode: state.mode, // 根據 state.mode 設置 light 或 dark 模式
           primary: {
             main: state.mode === 'light' ? '#000000' : '#FFFFFF', // 主色：light 為黑色，dark 為白色
           },
@@ -110,70 +122,64 @@ export const AppProvider = ({ children }) => {
   const setMode = (mode) => {
     dispatch({ type: 'SET_MODE', payload: mode });
   };
+
+  const toggleLang = () => {
+    dispatch({ type: 'TOGGLE_LANG' });
+  };
+
+  // 翻譯函式：傳入翻譯 key，回傳對應語言的文字
+  const t = (key) => translations[state.lang]?.[key] || key;
   // 登入函數（使用 Axios）
   const sign_in = async (localUser) => {
     try {
-      const response = await axios.post("api/sign_in", localUser,);
+      const response = await axios.post("/api/sign_in", localUser);
       if (response.data.success) {
-        dispatch({ type: "SET_USER", payload: response.data.user });
+        const userData = response.data.user;
+        // 將登入資訊儲存到 localStorage，方便重整頁面後復原
+        localStorage.setItem('lms_user', JSON.stringify(userData));
+        dispatch({ type: "SET_USER", payload: userData });
         navigate('TmaPage');
-
       } else {
         throw new Error(response.data.message || "signin failed");
       }
     } catch (err) {
       console.error("Signin error:", err);
-      throw err.response?.data?.message || err.message || "An error occurred";
+      throw err.response?.data?.error || err.response?.data?.message || err.message || "登入發生錯誤";
     }
   };
-  // 登出函數（使用 Axios）
+  // 登出函數
   const sign_out = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/sign_out",
-      );
-      if (response.data.success) {
-        dispatch({ type: "SET_USER", payload: response.data.user });
-        navigate('sign_in');
-        return true;
-      } else {
-        throw new Error(response.data.message || "signout failed");
-      }
+      await axios.post("/api/sign_out");
     } catch (err) {
       console.error("Signout error:", err);
-      throw err.response?.data?.message || err.message || "An error occurred";
+    } finally {
+      // 無論伺服器回應如何，客戶端一律清除狀態
+      localStorage.removeItem('lms_user');
+      dispatch({ type: "SET_USER", payload: { email: '', password: '' } });
+      navigate('/signin');
     }
   };
-  // 啟動時驗證 token（使用 Axios）
+  // App 啟動時：如果 localStorage 有資料則不需要再呼叫 API
   useEffect(() => {
-    const verify_token = async () => {
+    const savedRaw = localStorage.getItem('lms_user');
+    if (savedRaw) {
       try {
-        const response = await axios.post("http://localhost:3001/api/verify_token");
-        if (!response.data.user) {
-          dispatch({ type: "SIGN_OUT" });
-          
+        const saved = JSON.parse(savedRaw);
+        if (saved?.email) {
+          // 已有儲存的登入資訊，直接復原（initialAppState 已寫入，這裡不需再 dispatch）
+          console.log('從 localStorage 復原登入狀態:', saved.email);
         }
-        if (response.status == "200") {
-          console.log('email:  ' + response.data.user.email + "  already sign_in")
-          dispatch({ type: "SET_USER", payload: response.data.user });
-        }
-
-      } catch (err) {
-        console.log("Token verification error:", err);
-        dispatch({ type: "SIGNOUT" });
-      }
-    };
-    if (!state.user.email) {
-      verify_token();
+      } catch { }
     }
-  }, [state.user.email]);
+  }, []);
   return (
     <AppContext.Provider
       value={{
         theme,
         user: state.user,
         setUser,
-        selectedindex:state.selectedindex,
+        selectedindex: state.selectedindex,
         setselectedindex,
         sign_in,
         sign_out,
@@ -182,6 +188,9 @@ export const AppProvider = ({ children }) => {
         setMode,
         sidemenu: state.sidemenu,
         togglesidemenu,
+        lang: state.lang,
+        toggleLang,
+        t,
       }}
     >
       <ThemeProvider theme={theme}>
